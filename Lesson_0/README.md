@@ -47,7 +47,7 @@ To build OVMF execute:
 build --platform=OvmfPkg/OvmfPkgX64.dsc --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 ```
 
-If build is successful, result would be in the folder `Build/{Platform Name}/{TARGET}_{TOOL_CHAIN_TAG}/FV`. So in out case it would be:
+If build is successful, result would be in the folder `Build/{Platform Name}/{TARGET}_{TOOL_CHAIN_TAG}/FV`. So in our case it would be:
 ```
 $ ls -lh Build/OvmfX64/RELEASE_GCC5/FV/OVMF*
 -rw-r--r-- 1 kostr kostr 4.0M Jun 12 21:03 Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd
@@ -55,7 +55,7 @@ $ ls -lh Build/OvmfX64/RELEASE_GCC5/FV/OVMF*
 -rw-r--r-- 1 kostr kostr 528K Jun 12 21:03 Build/OvmfX64/RELEASE_GCC5/FV/OVMF_VARS.fd
 ```
 
-The OVMF firmware (a UEFI implementation for QEMU) has been split into two files:
+The OVMF firmware (a UEFI implementation for QEMU) is split into two files:
 - OVMF_CODE.fd contains the actual UEFI firmware,
 - OVMF_VARS.fd is a "template" used to emulate persistent NVRAM storage.
 
