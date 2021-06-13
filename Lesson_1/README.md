@@ -38,7 +38,9 @@ INF file can have several sections:
 
 But right now for our minimal example we're interested in the 3 of those:
 - Defines - this section contatins some basic module description. In this section:
+
 BASE_NAME - our app name
+
 FILE_GUID - as was said earlier UEFI uses GUID numbers for identification of the components. You could use free online GUID generator to get random GUID https://www.guidgenerator.com/ or simply use `uuidgen` command line utility:
 ```
 $ uuidgen
@@ -46,6 +48,7 @@ e7218aab-998e-4d88-af9b-9573a5bf90ea
 ```
 MODULE_TYPE - we want to build an application that can be run from the UEFI shell, so we use `UEFI_APPLICATION` here. UEFI application is like a simple program that you can run from shell. It is getting loaded to some memory address, executes and returns something, after that app memory would be freed again. For example other possible value here is UEFI_DRIVER - the difference is when you load a driver it keeps staying in memory even after its execution.
 Other values are listed here: https://edk2-docs.gitbook.io/edk-ii-inf-specification/appendix_f_module_types
+
 ENTRY_POINT - name of the main function in our *.c source file. As it was `UefiMain` this is the value that we write here.
 
 - Sources - source files for our edk2 module
