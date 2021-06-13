@@ -74,9 +74,10 @@ vi SimplestApp/SimplestApp.inf
 [LibraryClasses]
   UefiApplicationEntryPoint
 ```
+Full specification for the "Module Information (INF) File" can be found under https://edk2-docs.gitbook.io/edk-ii-inf-specification/
 
+After the creation of the INF file we need to include our app to some package so we could build it.
 
-After that we need to include our app to some package.
 We don't have our own package, so let's include it to `OvmfPkg/OvmfPkgX64.dsc` that we've compiled earlier.
 Add a path to our app *.inf file in the components section.
 ```
