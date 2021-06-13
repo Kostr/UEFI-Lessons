@@ -19,18 +19,18 @@ Then we need to create platform description file (DSC) for our newly created pac
 ```
 $ vi UefiLessonsPkg/UefiLessonsPkg.dsc
 [Defines]
-  PLATFORM_NAME                  = UefiLessonsPkg
+  DSC_SPECIFICATION              = 0x0001001C
   PLATFORM_GUID                  = 3db7270f-ffac-4139-90a4-0ae68f3f8167
   PLATFORM_VERSION               = 0.01
-  DSC_SPECIFICATION              = 0x00010006
-  OUTPUT_DIRECTORY               = Build/UefiLessonsPkg
+  PLATFORM_NAME                  = UefiLessonsPkg
+  SKUID_IDENTIFIER               = DEFAULT
   SUPPORTED_ARCHITECTURES        = X64
   BUILD_TARGETS                  = RELEASE
-  SKUID_IDENTIFIER               = DEFAULT
 
 [Components]
   UefiLessonsPkg/SimplestApp/SimplestApp.inf
 ```
+All the fileds under `Defines` section are mondatory.
 Full specification for the Platform Description (DSC) File can be found under https://edk2-docs.gitbook.io/edk-ii-dsc-specification/
 
 Let's try to build our SimplestApp module that is now in our own package:
@@ -58,11 +58,22 @@ $ grep UefiApplicationEntryPoint -r ./ --include=*.inf | grep LIBRARY_CLASS
 ./MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf:  LIBRARY_CLASS                  = UefiApplicationEntryPoint|UEFI_APPLICATION
 ```
 
-Therefore we need to add this strings to our *.dsc file:
+Therefore we need to add these strings to our *.dsc file:
 ```
 [LibraryClasses]
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
 ```
+Format of the record is
+```
+LibraryClassName|Path/To/LibInstanceName.inf
+```
+LibraryClass can have several potential realizations (instances), therefore we need to write both `LibraryClassName` and `LibraryInstanceName`.
+
+In the end this adds this string to the Makefile:
+```
+LIBS = $(LIBS) $(LIB_DIR)/$(LibInstanceName)
+```
+You can read more about `LibraryClasses` section under https://edk2-docs.gitbook.io/edk-ii-dsc-specification/2_dsc_overview/26_-libraryclasses-_section_processing
 
 Let's try to rebuild:
 ```

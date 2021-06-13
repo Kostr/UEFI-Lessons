@@ -1,13 +1,11 @@
 [Defines]
-  PLATFORM_NAME                  = UefiLessonsPkg
+  DSC_SPECIFICATION              = 0x0001001C
   PLATFORM_GUID                  = 3db7270f-ffac-4139-90a4-0ae68f3f8167
   PLATFORM_VERSION               = 0.01
-  DSC_SPECIFICATION              = 0x00010006
-  OUTPUT_DIRECTORY               = Build/UefiLessonsPkg
+  PLATFORM_NAME                  = UefiLessonsPkg
+  SKUID_IDENTIFIER               = DEFAULT
   SUPPORTED_ARCHITECTURES        = X64
   BUILD_TARGETS                  = RELEASE
-  SKUID_IDENTIFIER               = DEFAULT
-
 
 [LibraryClasses]
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
