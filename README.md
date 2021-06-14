@@ -1,4 +1,4 @@
-These series of lessons are intendend to get you started with UEFI programming with the help of TianoCore.
+These series of lessons are intendend to get you started with UEFI programming in Linux with the help of TianoCore.
 
 Lessons description:
 
