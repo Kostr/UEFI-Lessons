@@ -13,6 +13,7 @@ typedef struct {
   UINT64              Key;
 } IHANDLE;
 
+EFI_STATUS
 EFIAPI
 UefiMain (
   IN EFI_HANDLE        ImageHandle,
