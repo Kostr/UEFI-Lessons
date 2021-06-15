@@ -158,7 +158,7 @@ UefiMain (
 
 If we compile and run our app in OVMF (I hope at this time I don't need to repeat how to do it):
 ```
-FS0:\> ImageInfo.efi
+FS0:\> ImageHandle.efi
 h n d l
 Back Protocol Interface Link: 68D4320
 Forward Protocol Interface Link: 6891520

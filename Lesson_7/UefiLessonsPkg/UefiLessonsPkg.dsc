@@ -26,6 +26,6 @@
 [Components]
   UefiLessonsPkg/SimplestApp/SimplestApp.inf
   UefiLessonsPkg/HelloWorld/HelloWorld.inf
-  UefiLessonsPkg/ImageInfo/ImageInfo.inf
+  UefiLessonsPkg/ImageHandle/ImageHandle.inf
 
 

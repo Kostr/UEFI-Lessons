@@ -1,4 +1,4 @@
-Let's create `ImageInfo` app in our `UefiLessonsPkg`.
+Let's create `ImageHandle` app in our `UefiLessonsPkg`.
 
 First generate a random GUID.
 ```
@@ -8,17 +8,17 @@ b68d3472-70c7-4928-841b-6566032e0a23
 
 And then create *.inf and *.c file based on the code in our `HelloWorld` app:
 ```
-$ cat UefiLessonsPkg/ImageInfo/ImageInfo.inf
+$ cat UefiLessonsPkg/ImageHandle/ImageHandle.inf
 [Defines]
   INF_VERSION                    = 1.25
-  BASE_NAME                      = ImageInfo
+  BASE_NAME                      = ImageHandle
   FILE_GUID                      = b68d3472-70c7-4928-841b-6566032e0a23
   MODULE_TYPE                    = UEFI_APPLICATION
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = UefiMain
 
 [Sources]
-  ImageInfo.c
+  ImageHandle.c
 
 [Packages]
   MdePkg/MdePkg.dec
@@ -28,7 +28,7 @@ $ cat UefiLessonsPkg/ImageInfo/ImageInfo.inf
   UefiLib
 ```
 ```
-$ cat UefiLessonsPkg/ImageInfo/ImageInfo.c
+$ cat UefiLessonsPkg/ImageHandle/ImageHandle.c
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 
@@ -46,7 +46,7 @@ Add a newly created app to our `UefiLessonsPkg/UefiLessonsPkg.dsc` file:
 ```
 [Components]
   ...
-+ UefiLessonsPkg/ImageInfo/ImageInfo.inf
++ UefiLessonsPkg/ImageHandle/ImageHandle.inf
 ```
 
 Now let's get to work.
@@ -215,7 +215,7 @@ Don't blame me for redefinition of `IHANDLE` structure. These structures (IHANDL
 ```
 $ . edksetup.sh
 $ build
-$ cp Build/UefiLessonsPkg/RELEASE_GCC5/X64/ImageInfo.efi ~/UEFI_disk/
+$ cp Build/UefiLessonsPkg/RELEASE_GCC5/X64/ImageHandle.efi ~/UEFI_disk/
 $ qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
                      -drive format=raw,file=fat:rw:~/UEFI_disk \
                      -nographic \
@@ -235,7 +235,7 @@ Mapping table
           PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
 Press ESC in 4 seconds to skip startup.nsh or any other key to continue.
 Shell> fs0:
-FS0:\> ImageInfo.efi
+FS0:\> ImageHandle.efi
 Signature: h n d l
 ```
 
