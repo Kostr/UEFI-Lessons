@@ -10,4 +10,5 @@ Lessons description:
 - Lesson 5: Simplify build command with the help of files in the `Conf` folder
 - Lesson 6: Handle/Protocol databases internals - Part 1: Theory and raw access to an app ImageHandle
 - Lesson 7: Handle/Protocol databases internals - Part 2: Raw access to app protocols
+- Lesson 8: `HandleProtocol` API function. Information from the `ImageHandle` protocols
 
