@@ -208,7 +208,7 @@ UefiMain (
 
   return EFI_SUCCESS;
 }
-
+```
 
 Don't blame me for redefinition of `IHANDLE` structure. These structures (IHANDLE/PROTOCOL_ENTRY/PROTOCOL_INTERFACE) are private and not intended to be used outside of the `MdeModulePkg`. Even https://github.com/tianocore/edk2/blob/master/StandaloneMmPkg/Core/StandaloneMmCore.h redifines IHANDLE/PROTOCOL_ENTRY/PROTOCOL_INTERFACE.
 
