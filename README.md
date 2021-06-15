@@ -8,4 +8,5 @@ Lessons description:
 - Lesson 3: Create `HelloWorld` app with the help of SystemTable services
 - Lesson 4: Use edk2 libraries to simplify our `HelloWorld` app
 - Lesson 5: Simplify build command with the help of files in the `Conf` folder
+- Lesson 6: Handle/Protocol databases internals - Part 1: Theory and raw access to an app ImageHandle
 
