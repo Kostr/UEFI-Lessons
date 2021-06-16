@@ -12,3 +12,4 @@ Lessons description:
 - Lesson 7: Handle/Protocol databases internals - Part 2: Raw access to app protocols
 - Lesson 8: `HandleProtocol` API function. Information from the `ImageHandle` protocols
 - Lesson 9: Get ImageHandle protocols with the `ProtocolsPerHandle` API function
+- Lesson 10: `EFI_STATUS` type and `EFI_ERROR` macros
