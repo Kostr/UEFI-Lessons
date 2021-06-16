@@ -11,4 +11,4 @@ Lessons description:
 - Lesson 6: Handle/Protocol databases internals - Part 1: Theory and raw access to an app ImageHandle
 - Lesson 7: Handle/Protocol databases internals - Part 2: Raw access to app protocols
 - Lesson 8: `HandleProtocol` API function. Information from the `ImageHandle` protocols
-
+- Lesson 9: Get ImageHandle protocols with the `ProtocolsPerHandle` API function
