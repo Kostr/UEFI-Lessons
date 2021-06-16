@@ -13,3 +13,4 @@ Lessons description:
 - Lesson 8: `HandleProtocol` API function. Information from the `ImageHandle` protocols
 - Lesson 9: Get ImageHandle protocols with the `ProtocolsPerHandle` API function
 - Lesson 10: `EFI_STATUS` type and `EFI_ERROR` macros
+- Lesson 11: Get EFI memory map information
