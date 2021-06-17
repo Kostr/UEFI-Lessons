@@ -14,3 +14,5 @@ Lessons description:
 - Lesson 9: Get ImageHandle protocols with the `ProtocolsPerHandle` API function
 - Lesson 10: `EFI_STATUS` type and `EFI_ERROR` macros
 - Lesson 11: Get EFI memory map information
+- Lesson 12: `EFI_SHELL_PARAMETERS_PROTOCOL`. Transform our EFI memory map to the Linux kernel style
+
