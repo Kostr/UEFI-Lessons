@@ -58,9 +58,31 @@ ShellAppMain (
   IN CHAR16 **Argv
   );
 ```
+You can look at the source code of `ShellAppMain` at the https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.c
 
+If you look at the source you could see that istead of a `HandleProtocol` API that we've used:
+```
+Status = gBS->HandleProtocol(
+  ImageHandle,
+  &gEfiShellParametersProtocolGuid,
+  (VOID **) &ShellParameters
+);
+```
+it uses `OpenProtocol` API: (I've modified a code a little bit to make it comparable to our version)
+```
+Status = gBS->OpenProtocol(
+  ImageHandle,
+  &gEfiShellParametersProtocolGuid,
+  (VOID **)&ShellParameters,
+  ImageHandle,
+  NULL,
+  EFI_OPEN_PROTOCOL_GET_PROTOCOL
+);
+```
+According to the UEFI spec `HandleProtocol` API is outdated and `OpenProtocol` should be used instead.
+`OpenProtocol` API is a more general call that can cover more cases. It all would matter when you start develop UEFI drivers. You can read UEFI spec for more information. Right now just accept a fact that for the UEFI app these two calls are the same.
 
-To find the necessary `ShellCEntryLib` library class search as usual:
+Let's go back to our code. To find the necessary `ShellCEntryLib` library class search as usual:
 ```
 $ grep ShellCEntryLib -r ./ --include=*.inf | grep LIBRARY_CLASS
 ./ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.inf:  LIBRARY_CLASS                  = ShellCEntryLib|UEFI_APPLICATION UEFI_DRIVER
