@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = ImageInfo
+  FILE_GUID                      = b68d3472-70c7-4928-841b-6566032e0a23
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  ImageInfo.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[Protocols]
+  gEfiLoadedImageProtocolGuid
+  gEfiLoadedImageDevicePathProtocolGuid
+
