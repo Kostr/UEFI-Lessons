@@ -16,3 +16,5 @@ Lessons description:
 - Lesson 11: Get EFI memory map information
 - Lesson 12: `EFI_SHELL_PARAMETERS_PROTOCOL`. Transform our EFI memory map to the Linux kernel style
 - Lesson 13: `ShellAppMain` entry point
+- Lesson 14: Get all variable names and GUIDs with the `gRT->GetNextVariableName` API
+
