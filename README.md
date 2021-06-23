@@ -17,4 +17,5 @@ Lessons description:
 - Lesson 12: `EFI_SHELL_PARAMETERS_PROTOCOL`. Transform our EFI memory map to the Linux kernel style
 - Lesson 13: `ShellAppMain` entry point
 - Lesson 14: Get all variable names and GUIDs with the `gRT->GetNextVariableName` API
+- Lesson 15: Get and parse boot variables (BootOrder/BootCurrent/BootXXXX) with the `gRT->GetVariable` API
 
