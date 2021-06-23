@@ -235,6 +235,7 @@ OptionalData 		The remaining bytes in the load option descriptor are a binary da
 			starting offset of OptionalData from total size in bytes of the
 			EFI_LOAD_OPTION. 
 ```
+In edk2 it is defined in a file https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Uefi/UefiSpec.h
 
 Pay attention to the fact that some fields in this structure are commented:
 ```
