@@ -18,6 +18,6 @@ Lessons description:
 - Lesson 13: `ShellAppMain` entry point
 - Lesson 14: Get all variable names and GUIDs with the `gRT->GetNextVariableName` API
 - Lesson 15: Get and parse boot variables (BootOrder/BootCurrent/BootXXXX) with the `gRT->GetVariable` API
-- Lesson 16: Build our own boot option inside OVMF image similar to th UEFI shell app
+- Lesson 16: Build our own boot option inside OVMF image similar to the UEFI shell app
 - Lesson 17: Add `WaitForEvent` function to our boot option app to see its output on booting
 
