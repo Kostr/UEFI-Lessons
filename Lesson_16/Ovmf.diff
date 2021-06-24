@@ -1,0 +1,59 @@
+diff --git a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
+index b0e9742937..840e6afa16 100644
+--- a/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
++++ b/OvmfPkg/Library/PlatformBootManagerLib/BdsPlatform.c
+@@ -1535,6 +1535,13 @@ PlatformBootManagerAfterConsole (
+     &gUefiShellFileGuid, L"EFI Internal Shell", LOAD_OPTION_ACTIVE
+     );
+ 
++  //
++  // Register HelloWorld app
++  //
++  PlatformRegisterFvBootOption (
++    &gHelloWorldFileGuid, L"Hello World", LOAD_OPTION_ACTIVE
++    );
++
+   RemoveStaleFvFileOptions ();
+   SetBootOrderFromQemu ();
+ 
+diff --git a/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf b/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
+index e470b9a6a3..62ae7be761 100644
+--- a/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
++++ b/OvmfPkg/Library/PlatformBootManagerLib/PlatformBootManagerLib.inf
+@@ -33,6 +33,7 @@
+   OvmfPkg/OvmfPkg.dec
+   SecurityPkg/SecurityPkg.dec
+   ShellPkg/ShellPkg.dec
++  UefiLessonsPkg/UefiLessonsPkg.dec
+ 
+ [LibraryClasses]
+   BaseLib
+@@ -83,3 +84,4 @@
+   gEfiGlobalVariableGuid
+   gRootBridgesConnectedEventGroupGuid
+   gUefiShellFileGuid
++  gHelloWorldFileGuid
+diff --git a/OvmfPkg/OvmfPkgX64.dsc b/OvmfPkg/OvmfPkgX64.dsc
+index 0a237a9058..51eba5e225 100644
+--- a/OvmfPkg/OvmfPkgX64.dsc
++++ b/OvmfPkg/OvmfPkgX64.dsc
+@@ -951,6 +951,7 @@
+       gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
+       gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize|8000
+   }
++  UefiLessonsPkg/HelloWorld/HelloWorld.inf
+ 
+ !if $(SECURE_BOOT_ENABLE) == TRUE
+   SecurityPkg/VariableAuthenticated/SecureBootConfigDxe/SecureBootConfigDxe.inf
+diff --git a/OvmfPkg/OvmfPkgX64.fdf b/OvmfPkg/OvmfPkgX64.fdf
+index 5fa8c08958..ab4e021452 100644
+--- a/OvmfPkg/OvmfPkgX64.fdf
++++ b/OvmfPkg/OvmfPkgX64.fdf
+@@ -308,6 +308,7 @@ INF  ShellPkg/DynamicCommand/HttpDynamicCommand/HttpDynamicCommand.inf
+ INF  OvmfPkg/LinuxInitrdDynamicShellCommand/LinuxInitrdDynamicShellCommand.inf
+ !endif
+ INF  ShellPkg/Application/Shell/Shell.inf
++INF  UefiLessonsPkg/HelloWorld/HelloWorld.inf
+ 
+ INF MdeModulePkg/Logo/LogoDxe.inf
+ 

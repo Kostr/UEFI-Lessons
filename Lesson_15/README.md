@@ -356,46 +356,4 @@ PciRoot(0x0)/Pci(0x3,0x0)/MAC(525400123456,0x1)/IPv4(0.0.0.0)
 
 We are definitely in the UEFI shell, so the `BootCurrent`(="*") is placed correctly.
 
-If you want to know information about the printed GUIDs here it is:
-- `FILE_GUID = 7C04A583-9E3E-4f1c-AD65-E05268D0B4D1 # gUefiShellFileGuid`
-https://github.com/tianocore/edk2/blob/master/ShellPkg/Application/Shell/Shell.inf
-- `FILE_GUID = 462CAA21-7614-4503-836E-8AB6F4662331` - UiApp module is driver for BDS phase
-https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Application/UiApp/UiApp.inf
-
-
-As for the `7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1` it is a GUID for the firmware volume in our OVMF image.
-https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.fdf
-
-This *.fdf file lists what drivers/apps are placed in every volume in the image (this includes volumes for SEC, PEI or DXE stages): 
-```
-...
-
-[FV.SECFV]
-FvNameGuid         = 763BED0D-DE9F-48F5-81F1-3E90E1B1A015
-BlockSize          = 0x1000
-FvAlignment        = 16
-...
-INF <...>
-...
-
-[FV.PEIFV]
-FvNameGuid         = 6938079B-B503-4E3D-9D24-B28337A25806
-BlockSize          = 0x10000
-FvAlignment        = 16
-...
-INF <...>
-...
-
-[FV.DXEFV]
-FvForceRebase      = FALSE
-FvNameGuid         = 7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1        ### <---- this is a GUID from our output
-BlockSize          = 0x10000
-FvAlignment        = 16
-...
-INF  ShellPkg/Application/Shell/Shell.inf          <--- this apps are placed in the FV.DXEFV firmware volume
-...
-INF  MdeModulePkg/Application/UiApp/UiApp.inf
-```
-
-For the complete edk2 FDF file specification look at the https://edk2-docs.gitbook.io/edk-ii-fdf-specification/
 
