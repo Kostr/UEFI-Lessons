@@ -50,6 +50,8 @@ https://github.com/zhenghuadai/uefi-programming
 
 8) https://blog.csdn.net/luobing4365
 
+https://gitee.com/luobing4365/uefi-exolorer
+
 _______
 
 And for the Russian speakers:
