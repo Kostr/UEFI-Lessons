@@ -23,3 +23,37 @@ Lessons description:
 - Lesson 18: Handle input from user with the `ReadKeyStroke` function
 - Lesson 19: Boot option modification with the help of `bcfg` command
 
+______
+
+Usefull links:
+1) Beyond BIOS: Developing with the Unified Extensible Firmware Interface, Third Edition by Vincent Zimmer and Michael Rothman (https://www.amazon.com/Beyond-BIOS-Developing-Extensible-Interface/dp/1501514784)
+
+2) Harnessing the Uefi Shell: Moving The Platform Beyond Dos, Second Edition by Michael Rothman and Vincent Zimmer (https://www.amazon.com/Harnessing-UEFI-Shell-Moving-Platform/dp/1501514806)
+
+3) https://github.com/tianocore-training
+https://github.com/Laurie0131
+
+4) https://blog.fpmurphy.com/
+https://github.com/fpmurphy/UEFI-Utilities-2019
+
+5) https://github.com/andreiw/UefiToolsPkg
+
+_______
+
+Check these if you don't afraid of the Chinese language:
+
+6) Principles and Programming of UEFI, Dai Zhenghua
+(https://www.amazon.com/Combat-UEFI-Principles-Programming-Chinese/dp/B07W3GFLRM)
+https://github.com/zhenghuadai/uefi-programming
+
+7) http://www.lab-z.com/iof/
+
+8) https://blog.csdn.net/luobing4365
+
+_______
+
+And for the Russian speakers:
+
+9) https://habr.com/ru/users/CodeRush/posts/
+
+
