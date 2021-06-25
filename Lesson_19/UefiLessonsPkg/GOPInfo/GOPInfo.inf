@@ -1,0 +1,19 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = GOPInfo
+  FILE_GUID                      = 30f6fe85-328a-4d05-b154-58b54c335797
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  GOPInfo.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+

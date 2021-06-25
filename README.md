@@ -21,4 +21,5 @@ Lessons description:
 - Lesson 16: Build our own boot option inside OVMF image similar to the UEFI shell app
 - Lesson 17: Add `WaitForEvent` function to our boot option app to see its output on booting
 - Lesson 18: Handle input from user with the `ReadKeyStroke` function
+- Lesson 19: Boot option modification with the help of `bcfg` command
 
