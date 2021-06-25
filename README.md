@@ -20,4 +20,5 @@ Lessons description:
 - Lesson 15: Get and parse boot variables (BootOrder/BootCurrent/BootXXXX) with the `gRT->GetVariable` API
 - Lesson 16: Build our own boot option inside OVMF image similar to the UEFI shell app
 - Lesson 17: Add `WaitForEvent` function to our boot option app to see its output on booting
+- Lesson 18: Handle input from user with the `ReadKeyStroke` function
 
