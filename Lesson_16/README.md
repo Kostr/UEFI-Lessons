@@ -252,6 +252,35 @@ PciRoot(0x0)/Pci(0x3,0x0)/MAC(525400123456,0x1)/IPv4(0.0.0.0)
 
 Hooraay! Our boot option is present in the system.
 
+UEFI shell has a command `bcfg` to print boot variables. You can check that the data from our app is correct, if you execute `bcfg boot dump`:
+```
+Shell> bcfg boot dump
+Option: 00. Variable: Boot0000
+  Desc    - UiApp
+  DevPath - Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(462CAA21-7614-4503-836E-8AB6F4662331)
+  Optional- N
+Option: 01. Variable: Boot0001
+  Desc    - UEFI QEMU DVD-ROM QM00003
+  DevPath - PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
+  Optional- Y
+Option: 02. Variable: Boot0002
+  Desc    - UEFI QEMU HARDDISK QM00001
+  DevPath - PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
+  Optional- Y
+Shell>  03. Variable: Boot0003
+  Desc    - EFI Internal Shell
+  DevPath - Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(7C04A583-9E3E-4F1C-AD65-E05268D0B4D1)
+  Optional- N
+Option: 04. Variable: Boot0004
+  Desc    - Hello World
+  DevPath - Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(2E55FA38-F148-42D3-AF90-1BE247323E30)
+  Optional- N
+Option: 05. Variable: Boot0005
+  Desc    - UEFI PXEv4 (MAC:525400123456)
+  DevPath - PciRoot(0x0)/Pci(0x3,0x0)/MAC(525400123456,0x1)/IPv4(0.0.0.0)
+  Optional- Y
+```
+
 Just in case I've placed `Ovmf.diff` in this lesson folder that shows all the necessary changes.
 
 
