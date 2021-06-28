@@ -32,7 +32,7 @@ To use `FixedPcdGet32` in our code we need to add the necessary include:
 ```
 #include <Library/PcdLib.h>
 ```
-If you check out this file you'll see that `FixedPcdGet32` is simply a define statement:
+If you check out this file (https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Library/PcdLib.h) you'll see that `FixedPcdGet32` is simply a define statement:
 ```
 #define FixedPcdGet32(TokenName)            _PCD_VALUE_##TokenName
 ```
