@@ -1,0 +1,18 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = InteractiveApp
+  FILE_GUID                      = 1539451b-f300-41fa-a565-dde69c1bed66
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  InteractiveApp.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+

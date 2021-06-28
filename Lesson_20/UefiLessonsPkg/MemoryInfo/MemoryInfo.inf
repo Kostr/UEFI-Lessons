@@ -1,0 +1,21 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = MemoryInfo
+  FILE_GUID                      = d2ce1d65-603e-4b48-b3e1-fe65d5d0bca8
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  MemoryInfo.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[Protocols]
+  gEfiShellParametersProtocolGuid
+

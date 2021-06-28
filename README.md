@@ -22,6 +22,7 @@ Lessons description:
 - Lesson 17: Add `WaitForEvent` function to our boot option app to see its output on booting
 - Lesson 18: Handle input from user with the `ReadKeyStroke` function
 - Lesson 19: Boot option modification with the help of `bcfg` command
+- Lesson 20: Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
 
 ______
 
