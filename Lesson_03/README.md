@@ -132,7 +132,68 @@ UefiMain (
 
 The `L""` signifies that the string is composed from CHAR16 symbols, as was required in spec.
 
-Let's compile our edk2 module:
+As for `CHAR16` - UEFI uses special names like these for simple types. It is a proxy for a different type realization in different processor architectures.
+When we compile our code code for X64, our realization would be picked from a file https://github.com/tianocore/edk2/blob/master/MdePkg/Include/X64/ProcessorBind.h:
+```
+typedef unsigned short      CHAR16;
+```
+For example RISCV would define it like this (https://github.com/tianocore/edk2/blob/master/MdePkg/Include/RiscV64/ProcessorBind.h):
+```
+typedef unsigned short      CHAR16  __attribute__ ((aligned (2)));
+```
+
+All the simple types for X64:
+```
+  ///
+  /// 8-byte unsigned value
+  ///
+  typedef unsigned long long  UINT64;
+  ///
+  /// 8-byte signed value
+  ///
+  typedef long long           INT64;
+  ///
+  /// 4-byte unsigned value
+  ///
+  typedef unsigned int        UINT32;
+  ///
+  /// 4-byte signed value
+  ///
+  typedef int                 INT32;
+  ///
+  /// 2-byte unsigned value
+  ///
+  typedef unsigned short      UINT16;
+  ///
+  /// 2-byte Character.  Unless otherwise specified all strings are stored in the
+  /// UTF-16 encoding format as defined by Unicode 2.1 and ISO/IEC 10646 standards.
+  ///
+  typedef unsigned short      CHAR16;
+  ///
+  /// 2-byte signed value
+  ///
+  typedef short               INT16;
+  ///
+  /// Logical Boolean.  1-byte value containing 0 for FALSE or a 1 for TRUE.  Other
+  /// values are undefined.
+  ///
+  typedef unsigned char       BOOLEAN;
+  ///
+  /// 1-byte unsigned value
+  ///
+  typedef unsigned char       UINT8;
+  ///
+  /// 1-byte Character
+  ///
+  typedef char                CHAR8;
+  ///
+  /// 1-byte signed value
+  ///
+  typedef signed char         INT8;
+```
+
+
+Let's finally compile our edk2 module:
 ```
 $ build --platform=UefiLessonsPkg/UefiLessonsPkg.dsc \
         --module=UefiLessonsPkg/HelloWorld/HelloWorld.inf \
