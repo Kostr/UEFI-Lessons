@@ -23,6 +23,7 @@ Lessons description:
 - Lesson 18: Handle input from user with the `ReadKeyStroke` function
 - Lesson 19: Boot option modification with the help of `bcfg` command
 - Lesson 20: Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
+- Lesson 21: Override order for PCD variables
 
 ______
 
