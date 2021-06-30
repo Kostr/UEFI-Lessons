@@ -80,8 +80,29 @@ Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/PCDLesson/PCDLesson/DEBUG/A
 GLOBAL_REMOVE_IF_UNREFERENCED const UINT32 _gPcd_FixedAtBuild_PcdMyVar32 = _PCD_VALUE_PcdMyVar32;
 ```
 
+So in our case preprocessor expands code like this:
+```
+FixedPcdGet32(PcdMyVar32) -> _PCD_VALUE_PcdMyVar32 -> 42U
+```
+
 If you execute app code under OVMF:
 ```
 FS0:\> PCDLesson.efi
 PcdMyVar32=42
 ```
+
+There are multiple types of PCDs. `FixedAtBuild` PCD is only one of them. In our code we've used `FixedPcdGet` call to get PCD value, this call would only work if PCD is `FixedAtBuild`. However there is a generic `PcdGet` call that can be used to get a value of PCD regardless its type.
+https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Library/PcdLib.h:
+```
+#define PcdGet32(TokenName)                 _PCD_GET_MODE_32_##TokenName
+```
+
+In our case this would expand to:
+```
+PcdGet32(PcdMyVar32) -> _PCD_GET_MODE_32_PcdMyVar32 -> _gPcd_FixedAtBuild_PcdMyVar32
+```
+The latter one is a variable that is defined in a `AutoGen.c` file:
+```
+ GLOBAL_REMOVE_IF_UNREFERENCED const UINT32 _gPcd_FixedAtBuild_PcdMyVar32 = 42U;
+```
+So as you can see result would be the same. The difference is that `PcdGet` would work with other PCD types, that we would cover in the next lessons.
