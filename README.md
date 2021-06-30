@@ -28,6 +28,7 @@ Lessons description:
 - Lesson 23: PatchableInModule PCDs and how they can be changed via `GenPatchPcdTable`/`PatchPcdValue` utilities 
 - Lesson 24: Dynamic/DynamicEx PCDs
 - Lesson 25: More on PCDs
+- Lesson 26: Tables referenced in `EFI_CONFIGURATION_TABLE`
 
 ______
 
