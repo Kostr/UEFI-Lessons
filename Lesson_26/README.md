@@ -1,3 +1,15 @@
+As you remember the entry point for our UEFI programs is:
+
+```
+EFI_STATUS
+EFIAPI
+UefiMain (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+```
+
+The passed structure `EFI_SYSTEM_TABLE` looks like this according to UEFI specification:
 
 ```
 typedef struct {
