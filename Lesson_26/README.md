@@ -45,9 +45,8 @@ As for EFI_CONFIGURATION_TABLE type:
 EFI_CONFIGURATION_TABLE
 
 Summary:
-Contains a set of GUID/pointer pairs comprised of the ConfigurationTable field in the EFI System
-Table.
-Related Definitions
+Contains a set of GUID/pointer pairs comprised of the ConfigurationTable field in the EFI System Table.
+
 typedef struct{
  EFI_GUID VendorGuid;
  VOID *VendorTable;
