@@ -25,6 +25,7 @@ Lessons description:
 - Lesson 20: Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
 - Lesson 21: Override order for PCD variables
 - Lesson 22: Feature flag PCD and its comparision to BOOLEAN fixed at build PCD
+- Lesson 23: PatchableInModule PCDs and how they can be changed via `GenPatchPcdTable`/`PatchPcdValue` utilities 
 
 ______
 
