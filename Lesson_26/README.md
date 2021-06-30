@@ -54,7 +54,7 @@ typedef struct{
 
 ```
 
-Let's create a simple program `ShowTables` to look at tables available at OVMF:
+Let's create a simple program `ShowTables` to look at tables referenced by this structure in OVMF:
 ```
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
