@@ -24,6 +24,7 @@ Lessons description:
 - Lesson 19: Boot option modification with the help of `bcfg` command
 - Lesson 20: Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
 - Lesson 21: Override order for PCD variables
+- Lesson 22: Feature flag PCD and its comparision to BOOLEAN fixed at build PCD
 
 ______
 
