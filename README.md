@@ -26,6 +26,8 @@ Lessons description:
 - Lesson 21: Override order for PCD variables
 - Lesson 22: Feature flag PCD and its comparision to BOOLEAN fixed at build PCD
 - Lesson 23: PatchableInModule PCDs and how they can be changed via `GenPatchPcdTable`/`PatchPcdValue` utilities 
+- Lesson 24: Dynamic/DynamicEx PCDs
+- Lesson 25: More on PCDs
 
 ______
 
