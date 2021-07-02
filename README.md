@@ -29,6 +29,7 @@ Lessons description:
 - Lesson 24: Dynamic/DynamicEx PCDs
 - Lesson 25: More on PCDs
 - Lesson 26: Tables referenced in `EFI_CONFIGURATION_TABLE`
+- Lesson 27: Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
 
 ______
 
