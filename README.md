@@ -30,6 +30,7 @@ Lessons description:
 - Lesson 25: More on PCDs
 - Lesson 26: Tables referenced in `EFI_CONFIGURATION_TABLE`
 - Lesson 27: Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
+- Lesson 28: Get ACPI tables
 
 ______
 
