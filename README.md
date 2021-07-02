@@ -30,7 +30,8 @@ Lessons description:
 - Lesson 25: More on PCDs
 - Lesson 26: Tables referenced in `EFI_CONFIGURATION_TABLE`
 - Lesson 27: Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
-- Lesson 28: Get ACPI tables
+- Lesson 28: Get ACPI tables and save them to files with a help of `EFI_SHELL_PROTOCOL`
+- Lesson 29: Use `EFI_ACPI_SDT_PROTOCOL` and `ShellLib` to save a BMP image from the ACPI BGRT table
 
 ______
 
