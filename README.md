@@ -69,4 +69,22 @@ And for the Russian speakers:
 
 9) https://habr.com/ru/users/CodeRush/posts/
 
+# Specifications
 
+UEFI specifications (https://uefi.org/specifications):
+- [UEFI Specification](https://uefi.org/sites/default/files/resources/UEFI_Spec_2_9_2021_03_18.pdf)
+- [UEFI Platform Initialization Specification](https://uefi.org/sites/default/files/resources/PI_Spec_1_7_A_final_May1.pdf)
+- [UEFI Shell Specification](http://www.uefi.org/sites/default/files/resources/UEFI_Shell_2_2.pdf)
+
+EDK2 specifications (https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-Documentation#specifications):
+- [Build Specification](https://edk2-docs.gitbook.io/edk-ii-build-specification/)
+- [Platform Description (DSC) File Specification](https://edk2-docs.gitbook.io/edk-ii-dsc-specification/)
+- [Package Declaration (DEC) File Format Specification](https://edk2-docs.gitbook.io/edk-ii-dec-specification/)
+- [Module Information (INF) File Specification](https://edk2-docs.gitbook.io/edk-ii-inf-specification/)
+- [Flash Description (FDF) File Specification](https://edk2-docs.gitbook.io/edk-ii-fdf-specification/)
+- [Platform Configuration Database Infrastructure Description](https://edk2-docs.gitbook.io/edk-ii-pcd-specification/)
+- [Multi-String .UNI File Format Specification](https://edk2-docs.gitbook.io/edk-ii-uni-specification/)
+- [VFR Programming Language Specification](https://edk2-docs.gitbook.io/edk-ii-vfr-specification/)
+- [Driver Writer's Guide](https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/)
+- [Module Writer's Guide](https://edk2-docs.gitbook.io/edk-ii-module-writer-s-guide/)
+- [EDKII User Manual](https://github.com/tianocore-docs/Docs/raw/master/User_Docs/EDK_II_UserManual_0_7.pdf)
