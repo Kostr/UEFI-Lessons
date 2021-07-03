@@ -1,0 +1,35 @@
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = UefiLessonsPkg
+  PACKAGE_GUID                   = 7e7edbba-ca2c-4177-a3f0-d3371358773a
+  PACKAGE_VERSION                = 1.01
+
+[Includes]
+
+[LibraryClasses]
+
+[Guids]
+  # FILE_GUID as defined in UefiLessonsPkg/HelloWorld/HelloWorld.inf
+  gHelloWorldFileGuid            = {0x2e55fa38, 0xf148, 0x42d3, {0xaf, 0x90, 0x1b, 0xe2, 0x47, 0x32, 0x3e, 0x30}}
+  gUefiLessonsPkgTokenSpaceGuid = {0x150cab53, 0xad47, 0x4385, {0xb5, 0xdd, 0xbc, 0xfc, 0x76, 0xba, 0xca, 0xf0}}
+
+[Protocols]
+
+[PcdsFixedAtBuild]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32|42|UINT32|0x00000001
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_1|42|UINT32|0x00000002
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|42|UINT32|0x00000003
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVarBool|FALSE|BOOLEAN|0x00000004
+
+[PcdsPatchableInModule]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyPatchableVar32|0x31313131|UINT32|0x10000001
+
+[PcdsFeatureFlag]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyFeatureFlagVar|FALSE|BOOLEAN|0x20000001
+
+[PcdsDynamic]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32|0x38323232|UINT32|0x30000001
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32_1|42|UINT32|0x30000002
+
+[PcdsDynamicEx]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicExVar32|0x38333333|UINT32|0x40000001

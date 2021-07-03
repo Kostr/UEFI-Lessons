@@ -1,0 +1,18 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = ShowTables
+  FILE_GUID                      = e249532c-d41a-4bd9-a4a8-7fc143e703f2
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  ShowTables.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+

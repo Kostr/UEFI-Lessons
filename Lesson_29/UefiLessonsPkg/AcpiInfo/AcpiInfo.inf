@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = AcpiInfo
+  FILE_GUID                      = 18998798-69a2-4ab5-9ffc-a8ee2494b029
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  AcpiInfo.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[Guids]
+  gEfiAcpi20TableGuid
+
+[Protocols]
+  gEfiShellProtocolGuid
+

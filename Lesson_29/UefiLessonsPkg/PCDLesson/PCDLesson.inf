@@ -1,0 +1,39 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = PCDLesson
+  FILE_GUID                      = 8c1a6b71-0c4b-4497-aaad-07404edf142c
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  PCDLesson.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec  
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[FixedPcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32 
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_1|43 
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|43 
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyVarBool 
+
+[PatchPcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyPatchableVar32 
+
+[FeaturePcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyFeatureFlagVar
+
+[Pcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32_1
+
+[PcdEx]
+  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicExVar32
+
+
