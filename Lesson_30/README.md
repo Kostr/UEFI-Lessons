@@ -358,15 +358,15 @@ As with ACPI newer PCI specifications include the older ones:
 ```
 Pci.h > PciExpress50.h > PciExpress40.h > PciExpress31.h > PciExpress30.h > PciExpress21.h > Pci30.h > Pci23.h > Pci22.h
 ```
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress50.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress40.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress31.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress30.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress21.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci30.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci23.h
--https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci22.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress50.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress40.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress31.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress30.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/PciExpress21.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci30.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci23.h
+- https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Pci22.h
 
 
 For every possible PCI function we would try to read its common PCI configuration space header:
