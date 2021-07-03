@@ -32,6 +32,8 @@ Lessons description:
 - Lesson 27: Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
 - Lesson 28: Get ACPI tables and save them to files with a help of `EFI_SHELL_PROTOCOL`
 - Lesson 29: Use `EFI_ACPI_SDT_PROTOCOL` and `ShellLib` to save a BMP image from the ACPI BGRT table
+- Lesson 30: Find all PCI root bridges in the system with a help of `LocateHandleBuffer`/`OpenProtocol` functions and use
+`EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL` to get all PCI functions in the system.
 
 ______
 
