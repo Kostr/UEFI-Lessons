@@ -1,6 +1,6 @@
 In this lesson we would modify our `ListPCI` utility, so it would show us information about PCI Vendor and Device. Even `pci` command in UEFI shell doesn't show this information. It only shows us information about PCI class/subclass code. So our utility can be really usefull. Just in case you can check out sources for the `pci` command here:
--https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellDebug1CommandsLib/Pci.c
--https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellDebug1CommandsLib/Pci.h
+- https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellDebug1CommandsLib/Pci.c
+- https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellDebug1CommandsLib/Pci.h
 
 This lesson was inspired by `ShowPCIx` application by fpmurphy https://github.com/fpmurphy/UEFI-Utilities-2019/tree/master/MyApps/ShowPCIx
 Although this utility was taking too long time to do the parsing, so I've decided to rewrite it with a performance in mind.
