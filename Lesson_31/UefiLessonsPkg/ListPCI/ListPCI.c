@@ -20,12 +20,15 @@ VOID ToLowerASCII(CHAR8* Str, UINTN Size)
   }
 }
 
-EFI_STATUS FindPCIDevDescription(UINT16 VendorId,
-                                 UINT16 DeviceId,
-                                 CHAR16* VendorDesc,
-                                 CHAR16* DeviceDesc,
-                                 UINTN DescBufferSize)
+EFI_STATUS FindPCIDevDescription(IN UINT16 VendorId,
+                                 IN UINT16 DeviceId,
+                                 OUT CHAR16* VendorDesc,
+                                 OUT CHAR16* DeviceDesc,
+                                 IN UINTN DescBufferSize)
 {
+  BOOLEAN Vendor_found = FALSE;
+  BOOLEAN Device_found = FALSE;
+
   EFI_STATUS Status = ShellFileExists(L"pci.ids");
   if (EFI_ERROR(Status))
   {
@@ -70,8 +73,6 @@ EFI_STATUS FindPCIDevDescription(UINT16 VendorId,
   CHAR8 Buffer[BLOCK_READ_SIZE];
   UINTN Size;
   UINT64 FilePos = 0;
-  BOOLEAN Vendor_found = FALSE;
-  BOOLEAN Device_found = FALSE;
   while (TRUE)
   {
     Size = BLOCK_READ_SIZE;
@@ -88,7 +89,7 @@ EFI_STATUS FindPCIDevDescription(UINT16 VendorId,
         StrEnd=i;
         if (!Vendor_found){
           // 0123456         7
-          //\nXXXX  |<desc>|\n
+          //\nVVVV  |<desc>|\n
           if ((StrEnd - StrStart) > 7) {
             if ((Buffer[StrStart+1]==VendorStr[0]) &&
                 (Buffer[StrStart+2]==VendorStr[1]) &&
@@ -101,7 +102,7 @@ EFI_STATUS FindPCIDevDescription(UINT16 VendorId,
           }
         } else {
           // 0 1234567         8
-          //\n\tXXXX  |<desc>|\n
+          //\n\tDDDD  |<desc>|\n
           if ((StrEnd - StrStart) > 8) {
             if ((Buffer[StrStart+1]=='\t') &&
                 (Buffer[StrStart+2]==DeviceStr[0]) &&
@@ -111,7 +112,7 @@ EFI_STATUS FindPCIDevDescription(UINT16 VendorId,
               Buffer[StrEnd] = 0;
               UnicodeSPrintAsciiFormat(DeviceDesc, DescBufferSize, "%a", &Buffer[StrStart+1+1+4+2]);
               Device_found = TRUE;
-              break;
+              goto end;
             }
           }
         }
@@ -186,7 +187,7 @@ EFI_STATUS PrintRootBridge(EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL* PciRootBridgeIo)
             );
             if (!EFI_ERROR(Status)) {
               if (PCIConfHdr.VendorId != 0xffff) {
-                Print(L"\t%02x:%02x.%02x - Vendor:%04x, Device:%04x",
+                Print(L"  %02x:%02x.%02x - Vendor:%04x, Device:%04x",
                                                                         Bus,
                                                                         Device,
                                                                         Func,
@@ -207,7 +208,7 @@ EFI_STATUS PrintRootBridge(EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL* PciRootBridgeIo)
                 }
               }
             } else {
-              Print(L"\tError in PCI read: %r\n", Status);
+              Print(L"  Error in PCI read: %r\n", Status);
             }
           }
         }
