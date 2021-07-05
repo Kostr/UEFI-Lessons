@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = ListPCI
+  FILE_GUID                      = 07aceb78-97df-4e49-84a8-28997896e42a
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  ListPCI.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ShellPkg/ShellPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellLib
+
+[Protocols]
+  gEfiPciRootBridgeIoProtocolGuid
