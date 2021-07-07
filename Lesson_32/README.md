@@ -142,3 +142,166 @@ $ make bin-x86_64-efi/ipxe.efi 			# EFI app with all devices
 $ make bin-x86_64-efi/808610de.efirom		# EFI ROM vendev: 8086:10de
 $ make bin/808610de.rom                         # Legacy ROM vendev: 8086:10de
 ```
+
+# EfiRom
+
+```
+$ EfiRom -h
+Usage: EfiRom -f VendorId -i DeviceId [options] [file name<s>]
+
+Copyright (c) 2007 - 2018, Intel Corporation. All rights reserved.
+
+Options:
+  -o FileName, --output FileName
+            File will be created to store the output content.
+  -e EfiFileName
+            EFI PE32 image files.
+  -ec EfiFileName
+            EFI PE32 image files and will be compressed.
+  -b BinFileName
+            Legacy binary files.
+  -l ClassCode
+            Hex ClassCode in the PCI data structure header.
+  -r Rev    Hex Revision in the PCI data structure header.
+  -n        Not to automatically set the LAST bit in the last file.
+  -f VendorId
+            Hex PCI Vendor ID for the device OpROM, must be specified
+  -i DeviceId
+            One or more hex PCI Device IDs for the device OpROM, must be specified
+  -p, --pci23
+            Default layout meets PCI 3.0 specifications
+            specifying this flag will for a PCI 2.3 layout.
+  -d, --dump
+            Dump the headers of an existing option ROM image.
+  -v, --verbose
+            Turn on verbose output with informational messages.
+  --version Show program's version number and exit.
+  -h, --help
+            Show this help message and exit.
+  -q, --quiet
+            Disable all messages except FATAL ERRORS.
+  --debug [#,0-9]
+            Enable debug messages at level #.
+```
+Complete version of the manual is placed at https://github.com/tianocore/edk2/blob/master/BaseTools/UserManuals/EfiRom_Utility_Man_Page.rtf
+
+If you are interested in the source code: https://github.com/tianocore/edk2/tree/master/BaseTools/Source/C/EfiRom
+
+With this tool it is possible to:
+- dump Option ROM images
+- create ROM images from a EFI drivers and/or Legacy binary images
+
+https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/18_pci_driver_design_guidelines/readme.7
+https://edk2-docs.gitbook.io/edk-ii-basetools-user-guides/efirom
+
+
+
+# VGA rom
+
+SeaBIOS is an open-source legacy BIOS implementation that implements the standard BIOS calling interfaces that a typical x86 proprietary BIOS implements (https://github.com/coreboot/seabios).
+SeaVGABIOS is a sub-project of the SeaBIOS project - it is an open source implementation of a 16bit X86 VGA BIOS
+(https://github.com/coreboot/seabios/blob/master/docs/SeaVGABIOS.md). In other words it builds a Legacy Option ROM for a PCI graphic device.
+
+SeaBIOS uses Kconfig system for the build configuration. Main options for the VGA BIOS are placed under https://github.com/coreboot/seabios/blob/master/vgasrc/Kconfig In this file you can see that one of the options is a OptionROM with a Vendor/Device pair as `1234:1111`. Exactly the one that we saw at QEMU:
+```
+    config VGA_VID
+        depends on VGA_PCI
+        hex
+        prompt "PCI Vendor ID" if OVERRIDE_PCI_ID
+        default 0x1013 if VGA_CIRRUS
+        default 0x1002 if VGA_ATI
+        default 0x1234 if VGA_BOCHS_STDVGA
+        default 0x15ad if VGA_BOCHS_VMWARE
+        default 0x1b36 if VGA_BOCHS_QXL
+        default 0x1af4 if VGA_BOCHS_VIRTIO
+        default 0x100b if VGA_GEODEGX2
+        default 0x1022 if VGA_GEODELX
+        default 0x1234 if DISPLAY_BOCHS                 <--------------
+        default 0x0000
+        help
+            Vendor ID for the PCI ROM
+
+    config VGA_DID
+        depends on VGA_PCI
+        hex
+        prompt "PCI Vendor ID" if OVERRIDE_PCI_ID
+        default 0x00b8 if VGA_CIRRUS
+        default 0x5159 if VGA_ATI
+        default 0x1111 if VGA_BOCHS_STDVGA
+        default 0x0405 if VGA_BOCHS_VMWARE
+        default 0x0100 if VGA_BOCHS_QXL
+        default 0x1050 if VGA_BOCHS_VIRTIO
+        default 0x0030 if VGA_GEODEGX2
+        default 0x2081 if VGA_GEODELX
+        default 0x1111 if DISPLAY_BOCHS                 <---------------
+        default 0x0000
+        help
+            Device ID for the PCI ROM
+```
+If you wonder what is `DISPLAY_BOCHS`, here is a help for this option:
+```
+        config DISPLAY_BOCHS
+            depends on QEMU
+            bool "qemu bochs-display support"
+            select VGA_EMULATE_TEXT
+            help
+                Build support for the qemu bochs-display device, which
+                is basically qemu stdvga without the legacy vga
+                emulation, supporting only 16+32 bpp VESA video modes
+                in a linear framebuffer.  So this uses cbvga text mode
+                emulation.
+
+                The bochs-display device is available in qemu
+                v3.0+. The vgabios works with the qemu stdvga too (use
+                "qemu -device VGA,romfile=/path/to/vgabios.bin")".
+```
+
+Let's build this SeaBIOS VGA image. Install necessary packages, download SeaBIOS source and perfrorm build configuration:
+```
+$ sudo apt-get install python
+$ git clone https://github.com/coreboot/seabios.git
+$ cd seabios
+$ make menuconfig
+```
+In a menuconfig select:
+```
+VGA ROM ---> VGA Hardware Type (qemu bochs-display support)
+```
+After that execute:
+```
+$ make
+```
+
+After the build resulting VGA Option ROM would be at path `out/vgabios.bin`. As `EfiRom` expects ROM files to have a `*.rom` extension, create a copy of a file with such extension. After that execute `dump` command on this file:
+```
+$ cp out/vgabios.bin out/vgabios.rom
+$ EfiRom -d out/vgabios.rom
+Image 1 -- Offset 0x0
+  ROM header contents
+    Signature              0xAA55
+    PCIR offset            0x6E00
+    Signature               PCIR
+    Vendor ID               0x1234
+    Device ID               0x1111
+    Length                  0x0018
+    Revision                0x0000
+    DeviceListOffset        0x00
+    Class Code              0x030000
+    Image size              0x7000
+    Code revision:          0x0001
+    MaxRuntimeImageLength   0x00
+    ConfigUtilityCodeHeaderOffset 0x9066
+    DMTFCLPEntryPointOffset 0x9066
+    Indicator               0x80   (last image)
+    Code type               0x00
+```
+This is the info similar to the one that we saw with our utility on a working QEMU system. You can see that PCI vendor/device pair is set to `1234:1111`.
+
+# How QEMU gets these OptionROMs
+
+The main Makefile in QEMU responsible for OptionROM image creation is https://github.com/qemu/qemu/blob/master/roms/Makefile
+
+In this Makefile you can see how:
+- `seavgabios-%` target is used for the creation of a Legacy SeaVGABIOS OptionROM
+- `efi-rom-%` target is used for the creation of an OptionROM with both Legacy and UEFI iPXE code images (it even uses `EfiRom` utility from edk2 for this purpose)
+
