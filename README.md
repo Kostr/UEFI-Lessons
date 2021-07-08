@@ -35,6 +35,8 @@ Lessons description:
 - Lesson 30: Find all PCI root bridges in the system with a help of `LocateHandleBuffer`/`OpenProtocol` functions and use
 `EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL` to get all PCI functions in the system.
 - Lesson 31: Search `pci.ids` database to get PCI Vendor/Device information with a help of `ShellLib`/`PrintLib` functions
+- Lesson 32: Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
+- Lesson 33: Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
 
 ______
 
