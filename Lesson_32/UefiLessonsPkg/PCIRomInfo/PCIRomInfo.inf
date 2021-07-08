@@ -1,13 +1,13 @@
 [Defines]
   INF_VERSION                    = 1.25
-  BASE_NAME                      = DumpPCIroms
+  BASE_NAME                      = PCIRomInfo
   FILE_GUID                      = 76f1798f-533f-49a2-b94c-96ab3dfebea0
   MODULE_TYPE                    = UEFI_APPLICATION
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = UefiMain
 
 [Sources]
-  DumpPCIroms.c
+  PCIRomInfo.c
 
 [Packages]
   MdePkg/MdePkg.dec

@@ -213,7 +213,7 @@ After using `GetLocation` API we've used `Pci.Read` call to read PCI configurati
 
 If you'll build and execute our app now you would get the same list of PCI devices, that we've received with a `EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL`.
 ```
-FS0:\> DumpPCIroms.efi
+FS0:\> PCIRomInfo.efi
 00:00.00 - Vendor:8086, Device:1237
 00:01.00 - Vendor:8086, Device:7000
 00:01.01 - Vendor:8086, Device:7010
@@ -459,6 +459,7 @@ $ qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5
 
 If you execute our program now you would get:
 ```
+FS0:\> PCIRomInfo.efi
 00:02.00 - Vendor:1234, Device:1111:    Undefined, Undefined
 Has OptionROM at memory 6EA5018-6EAEA18
 ---Code Image 1---
@@ -494,6 +495,7 @@ $ qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5
 ```
 And execute our program again:
 ```
+FS0:\> PCIRomInfo.efi
 00:02.00 - Vendor:1234, Device:1111:    Undefined, Undefined
 Has OptionROM at memory 6EA5018-6EAEA18
 ---Code Image 1---
