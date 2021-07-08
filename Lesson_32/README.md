@@ -135,16 +135,13 @@ typedef struct {
 
 
 
-```
-$ git clone git://git.ipxe.org/ipxe.git
-$ cd ipxe/src
-$ make bin-x86_64-efi/ipxe.efi 			# EFI app with all devices
-$ make bin-x86_64-efi/808610de.efirom		# EFI ROM vendev: 8086:10de
-$ make bin/808610de.rom                         # Legacy ROM vendev: 8086:10de
-```
+https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/18_pci_driver_design_guidelines/readme.7
 
 # EfiRom
 
+In the next sections will be investigating OptionROM images with the help of BaseTools utility `EfiRom`. It is available in your path once you'll execute `. edksetup.sh` in edk2 folder.
+
+First take a look at `EfiRom` help:
 ```
 $ EfiRom -h
 Usage: EfiRom -f VendorId -i DeviceId [options] [file name<s>]
@@ -183,18 +180,180 @@ Options:
   --debug [#,0-9]
             Enable debug messages at level #.
 ```
-Complete version of the manual is placed at https://github.com/tianocore/edk2/blob/master/BaseTools/UserManuals/EfiRom_Utility_Man_Page.rtf
+Complete version of the manual for `EfiRom` is placed at https://github.com/tianocore/edk2/blob/master/BaseTools/UserManuals/EfiRom_Utility_Man_Page.rtf
 
 If you are interested in the source code: https://github.com/tianocore/edk2/tree/master/BaseTools/Source/C/EfiRom
 
 With this tool it is possible to:
 - dump Option ROM images
-- create ROM images from a EFI drivers and/or Legacy binary images
+- create Option ROM images from EFI drivers and/or Legacy binary images
 
-https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/18_pci_driver_design_guidelines/readme.7
-https://edk2-docs.gitbook.io/edk-ii-basetools-user-guides/efirom
+Also take a look at tianocore docs:
+- https://edk2-docs.gitbook.io/edk-ii-basetools-user-guides/efirom
+- https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/18_pci_driver_design_guidelines/readme.7/1871_efirom_utility
 
+# ipxe rom
 
+Preboot eXecution Environment (PXE) is a standard for booting to an image received via network (https://en.wikipedia.org/wiki/Preboot_Execution_Environment).
+
+To know how to use particular PCI network card for PXE boot, BIOS needs to know some network card internals. But BIOS is not an OS, it is not possible to have drivers for every PCI network card in it. Therefore this problem is solved via OptionROM firmware. PCI network card contains all the necessary code for PXE boot in itself. But not every card have such firmware in itself. In this case you can utilize iPXE project.
+
+iPXE is the open source network boot firmware (https://ipxe.org/). It provides a full PXE implementation enhanced with some additional features. It support various PCI network cards https://ipxe.org/appnote/hardware_drivers.
+
+iPXE can be compiled as EFI application or as EFI/Legacy OptionROM. You can read more about build targets at https://ipxe.org/appnote/buildtargets.
+
+Let's download iPXE:
+```
+git clone git://git.ipxe.org/ipxe.git
+cd ipxe/src
+```
+
+Now build some images:
+```
+$ sudo apt-get install liblzma-dev
+$ make bin-x86_64-efi/ipxe.efi 			# EFI app with all devices
+$ make bin-x86_64-efi/8086100e.efirom		# EFI ROM vendev: 8086:100e
+$ make bin/8086100e.rom                         # Legacy ROM vendev: 8086:100e
+```
+
+You can execute `ipxe.efi` directly from the UEFI shell. It is a simple UEFI application similar to the ones that we create in this series.
+
+Look at the https://github.com/ipxe/ipxe/blob/master/src/image/efi_image.c for source code investigation.
+
+`8086100e.rom` is a Legacy code image PCI Option ROM for `8086:100e` network card
+
+`8086100e.efirom` is an UEFI code image PCI Option ROM for `8086:100e` network card
+
+If you inspect the OptionROM images with `hexdump`, you'll see standard `AA55` and `PCIR` signatures in them.
+
+```
+$ hexdump bin/8086100e.rom -C -n 64
+00000000  55 aa 86 e9 a2 00 30 00  00 00 00 00 00 00 00 00  |U.....0.........|
+00000010  9c 00 00 00 00 00 84 00  1c 00 40 00 50 43 49 52  |..........@.PCIR|
+00000020  86 80 0e 10 bf 04 1c 00  03 00 00 02 86 00 01 00  |................|
+00000030  00 80 07 00 00 00 00 00  8d b4 00 00 8d b4 00 00  |................|
+00000040
+$ hexdump bin-x86_64-efi/8086100e.efirom -C -n 64
+00000000  55 aa d0 00 f1 0e 00 00  0b 00 64 86 01 00 00 00  |U.........d.....|
+00000010  00 00 00 00 00 00 38 00  1c 00 00 00 50 43 49 52  |......8.....PCIR|
+00000020  86 80 0e 10 00 00 18 00  00 00 00 02 d0 00 00 00  |................|
+00000030  03 80 00 00 87 00 00 00  0d 9e 01 00 00 d2 02 00  |................|
+00000040
+```
+
+We can even use `EfiRom` on them:
+```
+$ EfiRom -d bin/8086100e.rom
+Image 1 -- Offset 0x0
+  ROM header contents
+    Signature              0xAA55
+    PCIR offset            0x001C
+    Signature               PCIR
+    Vendor ID               0x8086
+    Device ID               0x100E
+    Length                  0x001C
+    Revision                0x0003
+    DeviceListOffset        0x4BF
+    Device list contents
+      0x100E
+    Class Code              0x020000
+    Image size              0x10C00
+    Code revision:          0x0001
+    MaxRuntimeImageLength   0x07
+    ConfigUtilityCodeHeaderOffset 0x00
+    DMTFCLPEntryPointOffset 0x00
+    Indicator               0x80   (last image)
+    Code type               0x00
+```
+If we execute `EfiRom` on a `bin-x86_64-efi/8086100e.efirom`, we would get an error:
+```
+$ EfiRom -d bin-x86_64-efi/8086100e.efirom
+EfiRom: ERROR 1002: No PciRom input file
+  No *.rom input file
+```
+The problem is that we `EfiRom` understands only files with `.rom` extension, so change it and use `EfiRom` again:
+```
+$ cp bin-x86_64-efi/8086100e.efirom bin-x86_64-efi/8086100e.rom
+$ EfiRom -d bin-x86_64-efi/8086100e.rom
+Image 1 -- Offset 0x0
+  ROM header contents
+    Signature              0xAA55
+    PCIR offset            0x001C
+    Signature               PCIR
+    Vendor ID               0x8086
+    Device ID               0x100E
+    Length                  0x0018
+    Revision                0x0000
+    DeviceListOffset        0x00
+    Class Code              0x020000
+    Image size              0x1A000
+    Code revision:          0x0000
+    MaxRuntimeImageLength   0x00
+    ConfigUtilityCodeHeaderOffset 0x87
+    DMTFCLPEntryPointOffset 0x00
+    Indicator               0x80   (last image)
+    Code type               0x03   (EFI image)
+  EFI ROM header contents
+    EFI Signature          0x0EF1
+    Compression Type       0x0001 (compressed)
+    Machine type           0x8664 (X64)
+    Subsystem              0x000B (EFI boot service driver)
+    EFI image offset       0x0038 (@0x38)
+```
+
+EfiRom can't currently combine Option ROM from the EFI ROM images. But it can use EFI PE32 image files as a source for EFI ROM images in the resulting Option ROM. So we have to compile another target:
+```
+$ make bin-x86_64-efi/8086100e.efidrv
+```
+Now we can create combined OptionROM image with both Legacy and EFI ROMs.
+```
+$ EfiRom -f 0x8086 -i 0x100e -b bin/8086100e.rom -ec bin-x86_64-efi/8086100e.efidrv -o bin/8086100e_optionrom.rom
+$ EfiRom -d bin/8086100e_optionrom.rom
+Image 1 -- Offset 0x0
+  ROM header contents
+    Signature              0xAA55
+    PCIR offset            0x001C
+    Signature               PCIR
+    Vendor ID               0x8086
+    Device ID               0x100E
+    Length                  0x001C
+    Revision                0x0003
+    DeviceListOffset        0x4BF
+    Device list contents
+      0x100E
+    Class Code              0x020000
+    Image size              0x10C00
+    Code revision:          0x0001
+    MaxRuntimeImageLength   0x07
+    ConfigUtilityCodeHeaderOffset 0x00
+    DMTFCLPEntryPointOffset 0x00
+    Indicator               0x00
+    Code type               0x00
+Image 2 -- Offset 0x10C00
+  ROM header contents
+    Signature              0xAA55
+    PCIR offset            0x001C
+    Signature               PCIR
+    Vendor ID               0x8086
+    Device ID               0x100E
+    Length                  0x001C
+    Revision                0x0003
+    DeviceListOffset        0x00
+    Class Code              0x000000
+    Image size              0x1A000
+    Code revision:          0x0000
+    MaxRuntimeImageLength   0x00
+    ConfigUtilityCodeHeaderOffset 0x00
+    DMTFCLPEntryPointOffset 0x00
+    Indicator               0x80   (last image)
+    Code type               0x03   (EFI image)
+  EFI ROM header contents
+    EFI Signature          0x0EF1
+    Compression Type       0x0001 (compressed)
+    Machine type           0x8664 (X64)
+    Subsystem              0x000B (EFI boot service driver)
+    EFI image offset       0x0038 (@0x10C38)
+```
 
 # VGA rom
 
@@ -296,6 +455,7 @@ Image 1 -- Offset 0x0
     Code type               0x00
 ```
 This is the info similar to the one that we saw with our utility on a working QEMU system. You can see that PCI vendor/device pair is set to `1234:1111`.
+
 
 # How QEMU gets these OptionROMs
 
