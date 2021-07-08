@@ -160,6 +160,124 @@ UINT64 PciConfigurationAddress(UINT8 Bus,
   return Address;
 }
 
+VOID PrintOptionROM(VOID *RomImage, UINT64 RomSize)
+{
+  Print(L"Has OptionROM at memory %p-%p\n", RomImage, (UINT8*)RomImage + RomSize);
+  PCI_EXPANSION_ROM_HEADER* RomHeader = (PCI_EXPANSION_ROM_HEADER*) RomImage;
+  UINTN RomImageIndex = 1;
+  while (TRUE)
+  {
+    if (RomHeader->Signature != PCI_EXPANSION_ROM_HEADER_SIGNATURE) {
+      Print(L"Error! OptionROM has a wrong signature\n");
+      return;
+    }
+    PCI_DATA_STRUCTURE* RomImage = (PCI_DATA_STRUCTURE*)((UINT8*)RomHeader + RomHeader->PcirOffset);
+    if ((((CHAR8)((RomImage->Signature >>  0) & 0xFF)) != 'P') &&
+        (((CHAR8)((RomImage->Signature >>  8) & 0xFF)) != 'C') &&
+        (((CHAR8)((RomImage->Signature >> 16) & 0xFF)) != 'I') &&
+        (((CHAR8)((RomImage->Signature >> 24) & 0xFF)) != 'R')) {
+      Print(L"Error! OptionROM image has wrong signature\n");
+      return;
+    }
+    Print(L"---Code Image %d---\n", RomImageIndex);
+    Print(L"Address: %p-%p\n", RomHeader, (UINT8*)RomHeader + (RomImage->ImageLength)*512);
+    Print(L"PCIR address: %p\n", RomImage);
+    Print(L"VendorId: %04x, DeviceId: %04x\n", RomImage->VendorId, RomImage->DeviceId);
+    Print(L"Type: ");
+    switch (RomImage->CodeType) {
+      case 0x00:
+        Print(L"IA-32, PC-AT compatible\n");
+        break;
+      case 0x01:
+        Print(L"Open Firmware standard for PCI\n");
+        break;
+      case 0x02:
+        Print(L"Hewlett-Packard PA RISC\n");
+        break;
+      case 0x03:
+        Print(L"EFI Image\n");
+        break;
+      default:
+        Print(L"Unknown\n");
+        break;
+    }
+    if (RomImage->CodeType == 0x03) {
+      EFI_PCI_EXPANSION_ROM_HEADER* EfiRomHeader =  (EFI_PCI_EXPANSION_ROM_HEADER*) RomHeader;
+      if (EfiRomHeader->EfiSignature == EFI_PCI_EXPANSION_ROM_HEADER_EFISIGNATURE) {
+        Print(L"Subsystem: ");
+        switch (EfiRomHeader->EfiSubsystem) {
+          case EFI_IMAGE_SUBSYSTEM_EFI_APPLICATION:
+            Print(L"EFI Application\n");
+            break;
+          case EFI_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER:
+            Print(L"EFI Boot Service Driver\n");
+            break;
+          case EFI_IMAGE_SUBSYSTEM_EFI_RUNTIME_DRIVER:
+            Print(L"EFI Runtime Driver\n");
+            break;
+          case EFI_IMAGE_SUBSYSTEM_SAL_RUNTIME_DRIVER:
+            Print(L"EFI SAL Runtime Driver\n");
+            break;
+          default:
+            Print(L"Unknown\n");
+            break;
+        }
+        Print(L"Machine type: ");
+        switch (EfiRomHeader->EfiMachineType) {
+          case IMAGE_FILE_MACHINE_I386:
+            Print(L"IA-32\n");
+            break;
+          case IMAGE_FILE_MACHINE_IA64:
+            Print(L"Itanium\n");
+            break;
+          case IMAGE_FILE_MACHINE_EBC:
+            Print(L"EFI Byte Code (EBC)\n");
+            break;
+          case IMAGE_FILE_MACHINE_X64:
+            Print(L"X64\n");
+            break;
+          case IMAGE_FILE_MACHINE_ARMTHUMB_MIXED:
+            Print(L"ARM\n");
+            break;
+          case IMAGE_FILE_MACHINE_ARM64:
+            Print(L"ARM 64-bit\n");
+            break;
+          case IMAGE_FILE_MACHINE_RISCV32:
+            Print(L"RISCV32\n");
+            break;
+          case IMAGE_FILE_MACHINE_RISCV64:
+            Print(L"RISCV64\n");
+            break;
+          case IMAGE_FILE_MACHINE_RISCV128:
+            Print(L"RISCV128\n");
+            break;
+          default:
+            Print(L"Unknown\n");
+            break;
+        }
+        switch (EfiRomHeader->CompressionType) {
+          case EFI_PCI_EXPANSION_ROM_HEADER_COMPRESSED:
+            Print(L"Compressed following the UEFI Compression Algorithm\n");
+            break;
+          case 0:
+            Print(L"Uncompressed\n");
+            break;
+          default:
+            Print(L"Unknown compression type\n");
+            break;
+        }
+      } else {
+        Print(L"EFI signature is incorrect!\n");
+      }
+    }
+    if ((RomImage->Indicator) & 0x80) {
+      break;
+    }
+    RomHeader = (PCI_EXPANSION_ROM_HEADER*)((UINT8*) RomHeader + (RomImage->ImageLength)*512);
+    RomImageIndex++;
+  }
+  Print(L"------------------\n");
+}
 
 EFI_STATUS PrintPCI(EFI_PCI_IO_PROTOCOL* PciIo)
 {
@@ -190,139 +308,25 @@ EFI_STATUS PrintPCI(EFI_PCI_IO_PROTOCOL* PciIo)
   }
 
   if (PciIo->RomSize) {
-
-  Print(L"%02x:%02x.%02x - Vendor:%04x, Device:%04x", BusNumber,
+    Print(L"%02x:%02x.%02x - Vendor:%04x, Device:%04x", BusNumber,
                                                         DeviceNumber,
                                                         FunctionNumber,
                                                         PCIConfHdr.VendorId,
                                                         PCIConfHdr.DeviceId);
 
-  CHAR16 VendorDesc[DESCRIPTOR_STR_MAX_SIZE];
-  CHAR16 DeviceDesc[DESCRIPTOR_STR_MAX_SIZE];
-  Status = FindPCIDevDescription(PCIConfHdr.VendorId,
-                                 PCIConfHdr.DeviceId,
-                                 VendorDesc,
-                                 DeviceDesc,
-                                 DESCRIPTOR_STR_MAX_SIZE);
-  if (!EFI_ERROR(Status)) {
-    Print(L":    %s, %s\n", VendorDesc, DeviceDesc);
-  } else {
-    Print(L"\n");
-  }
-    Print(L"Has OptionROM at memory %p-%p\n", PciIo->RomImage, (UINT8*)PciIo->RomImage + PciIo->RomSize);
-    PCI_EXPANSION_ROM_HEADER* RomHeader = (PCI_EXPANSION_ROM_HEADER*) PciIo->RomImage;
-    UINTN RomImageIndex = 1;
-    while (TRUE)
-   {
-    if (RomHeader->Signature != PCI_EXPANSION_ROM_HEADER_SIGNATURE) {
-      Print(L"Error! OptionROM has a wrong signature\n");
-      return Status;
+    CHAR16 VendorDesc[DESCRIPTOR_STR_MAX_SIZE];
+    CHAR16 DeviceDesc[DESCRIPTOR_STR_MAX_SIZE];
+    Status = FindPCIDevDescription(PCIConfHdr.VendorId,
+                                   PCIConfHdr.DeviceId,
+                                   VendorDesc,
+                                   DeviceDesc,
+                                   DESCRIPTOR_STR_MAX_SIZE);
+    if (!EFI_ERROR(Status)) {
+      Print(L":    %s, %s\n", VendorDesc, DeviceDesc);
+    } else {
+      Print(L"\n");
     }
-    PCI_DATA_STRUCTURE* RomImage = (PCI_DATA_STRUCTURE*)((UINT8*)RomHeader + RomHeader->PcirOffset);
-    if ((((CHAR8)((RomImage->Signature >>  0) & 0xFF)) != 'P') &&
-        (((CHAR8)((RomImage->Signature >>  8) & 0xFF)) != 'C') &&
-        (((CHAR8)((RomImage->Signature >> 16) & 0xFF)) != 'I') &&
-        (((CHAR8)((RomImage->Signature >> 24) & 0xFF)) != 'R')) {
-      Print(L"Error! OptionROM image has wrong signature\n");
-      return Status;
-    }
-    Print(L"---Code Image %d---\n", RomImageIndex);
-    Print(L"Address: %p-%p\n", RomHeader, (UINT8*)RomHeader + (RomImage->ImageLength)*512);
-    Print(L"VendorId: %04x, DeviceId: %04x\n", RomImage->VendorId, RomImage->DeviceId);
-    Print(L"Type: ");
-    switch (RomImage->CodeType) {
-      case 0x00:
-        Print(L"IA-32, PC-AT compatible\n");
-        break;
-      case 0x01:
-        Print(L"Open Firmware standard for PCI\n");
-        break;
-      case 0x02:
-        Print(L"Hewlett-Packard PA RISC\n");
-        break;
-      case 0x03:
-        Print(L"EFI Image\n");
-        break;
-      default:
-        Print(L"Unknown\n");
-        break;
-    }
-    if (RomImage->CodeType == 0x03) {
-      EFI_PCI_EXPANSION_ROM_HEADER* EfiRomHeader =  (EFI_PCI_EXPANSION_ROM_HEADER*) RomHeader;
-     if (EfiRomHeader->EfiSignature == EFI_PCI_EXPANSION_ROM_HEADER_EFISIGNATURE) {
-      Print(L"Subsystem: ");
-      switch (EfiRomHeader->EfiSubsystem) {
-        case EFI_IMAGE_SUBSYSTEM_EFI_APPLICATION:
-          Print(L"EFI Application\n");
-          break;
-        case EFI_IMAGE_SUBSYSTEM_EFI_BOOT_SERVICE_DRIVER:
-          Print(L"EFI Boot Service Driver\n");
-          break;
-        case EFI_IMAGE_SUBSYSTEM_EFI_RUNTIME_DRIVER:
-          Print(L"EFI Runtime Driver\n");
-          break;
-        case EFI_IMAGE_SUBSYSTEM_SAL_RUNTIME_DRIVER:
-          Print(L"EFI SAL Runtime Driver\n");
-          break;
-        default:
-          Print(L"Unknown\n");
-          break;
-      }
-      Print(L"Machine type: ");
-      switch (EfiRomHeader->EfiMachineType) {
-        case IMAGE_FILE_MACHINE_I386:
-          Print(L"IA-32\n");
-          break;
-        case IMAGE_FILE_MACHINE_IA64:
-          Print(L"Itanium\n");
-          break;
-        case IMAGE_FILE_MACHINE_EBC:
-          Print(L"EFI Byte Code (EBC)\n");
-          break;
-        case IMAGE_FILE_MACHINE_X64:
-          Print(L"X64\n");
-          break;
-        case IMAGE_FILE_MACHINE_ARMTHUMB_MIXED:
-          Print(L"ARM\n");
-          break;
-        case IMAGE_FILE_MACHINE_ARM64:
-          Print(L"ARM 64-bit\n");
-          break;
-        case IMAGE_FILE_MACHINE_RISCV32:
-          Print(L"RISCV32\n");
-          break;
-        case IMAGE_FILE_MACHINE_RISCV64:
-          Print(L"RISCV64\n");
-          break;
-        case IMAGE_FILE_MACHINE_RISCV128:
-          Print(L"RISCV128\n");
-          break;
-        default:
-          Print(L"Unknown\n");
-          break;
-      }
-      switch (EfiRomHeader->CompressionType) {
-        case EFI_PCI_EXPANSION_ROM_HEADER_COMPRESSED:
-          Print(L"Compressed following the UEFI Compression Algorithm\n");
-          break;
-        case 0:
-          Print(L"Uncompressed\n");
-          break;
-        default:
-          Print(L"Unknown compression type\n");
-          break;
-      }
-     } else {
-      Print(L"EFI signature is incorrect!\n");
-     }
-    }
-    if ((RomImage->Indicator) & 0x80) {
-      break;
-    }
-    RomHeader = (PCI_EXPANSION_ROM_HEADER*)((UINT8*) RomHeader + (RomImage->ImageLength)*512);
-    RomImageIndex++;
-   }
-   Print(L"------------------\n");
+    PrintOptionROM(PciIo->RomImage, PciIo->RomSize);
   }
   return Status;
 }
