@@ -326,7 +326,7 @@ In this Makefile you can see how:
 
 # Code images for different CPU architectures in OptionROM image
 
-In the intro I've mentioned that PCI device can have various code images for different CPU architectures.
+In the previous lesson I've mentioned that PCI device can have various code images for different CPU architectures.
 
 Check out this guide as an example https://www.workofard.com/2020/12/aarch64-option-roms-for-amd-gpus/
 
