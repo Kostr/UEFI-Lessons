@@ -38,6 +38,7 @@ Lessons description:
 - Lesson 32: Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
 - Lesson 33: Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
 - Lesson 34: Create a simple UEFI driver. Use `load`/`unload` UEFI shell commands to work with a driver image 
+- Lesson 35: Investigate ways how to add `acpiview` command functionality to your shell
 
 ______
 
