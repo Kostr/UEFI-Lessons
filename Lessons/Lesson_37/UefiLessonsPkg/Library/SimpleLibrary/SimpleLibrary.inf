@@ -1,0 +1,15 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SimpleLibrary
+  FILE_GUID                      = 826c8951-5bd2-4d72-a9d9-f7ab48684117
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SimpleLibrary | UEFI_APPLICATION
+
+[Sources]
+  SimpleLibrary.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+

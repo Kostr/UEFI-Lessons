@@ -1,0 +1,16 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SimpleLibraryWithConstructor
+  FILE_GUID                      = 96952c1e-86a6-4700-96b0-e7303ac3f92d
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SimpleLibrary | UEFI_APPLICATION
+  CONSTRUCTOR                    = SimpleLibraryConstructor
+
+[Sources]
+  SimpleLibraryWithConstructor.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
