@@ -37,6 +37,7 @@ Lessons description:
 - Lesson 31: Search `pci.ids` database to get PCI Vendor/Device information with a help of `ShellLib`/`PrintLib` functions
 - Lesson 32: Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
 - Lesson 33: Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
+- Lesson 34: Create a simple UEFI driver. Use `load`/`unload` UEFI shell commands to work with a driver image 
 
 ______
 

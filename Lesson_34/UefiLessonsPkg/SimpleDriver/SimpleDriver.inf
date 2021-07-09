@@ -1,0 +1,19 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SimpleDriver
+  FILE_GUID                      = 384aeb18-105d-4af1-bf17-5e349e8f4d4c
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = SimpleDriverEntryPoint
+  UNLOAD_IMAGE                   = SimpleDriverUnload
+
+[Sources]
+  SimpleDriver.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+
