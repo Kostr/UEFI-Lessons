@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SimpleClassUser
+  FILE_GUID                      = 466eed70-8def-44ea-9fb4-9012b266ec8c
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  SimpleClassUser.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
+[Protocols]
+  gSimpleClassProtocolGuid
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
