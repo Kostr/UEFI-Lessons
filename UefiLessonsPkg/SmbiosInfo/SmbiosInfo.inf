@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SmbiosInfo
+  FILE_GUID                      = 4a8836db-9e1d-4b7d-a785-f552340fba59
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  SmbiosInfo.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[Guids]
+  gEfiSmbiosTableGuid
+
+[Protocols]
+  gEfiSmbiosProtocolGuid
+
