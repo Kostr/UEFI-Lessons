@@ -41,6 +41,7 @@ Lessons description:
 - Lesson 35: Investigate ways how to add `acpiview` command functionality to your shell
 - Lesson 36: Create a simple library and use it in an app
 - Lesson 37: Library constructor and destructor. `NULL` libraries
+- Lesson 38: Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
 
 ______
 
