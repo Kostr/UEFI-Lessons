@@ -1,22 +1,22 @@
 [Defines]
   INF_VERSION                    = 1.25
-  BASE_NAME                      = ShowHii
-  FILE_GUID                      = 75a15862-aa04-47c2-a0ac-14a0a8bf5756
+  BASE_NAME                      = PCIRomInfo
+  FILE_GUID                      = 76f1798f-533f-49a2-b94c-96ab3dfebea0
   MODULE_TYPE                    = UEFI_APPLICATION
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = UefiMain
 
 [Sources]
-  ShowHii.c
+  PCIRomInfo.c
 
 [Packages]
   MdePkg/MdePkg.dec
+  ShellPkg/ShellPkg.dec
 
 [LibraryClasses]
   UefiApplicationEntryPoint
   UefiLib
+  ShellLib
 
 [Protocols]
-  gEfiHiiDatabaseProtocolGuid
-
-
+  gEfiPciIoProtocolGuid
