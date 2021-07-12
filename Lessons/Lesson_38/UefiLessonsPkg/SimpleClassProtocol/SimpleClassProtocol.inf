@@ -5,7 +5,7 @@
   MODULE_TYPE                    = UEFI_DRIVER
   VERSION_STRING                 = 1.0
   ENTRY_POINT                    = SimpleClassProtocolDriverEntryPoint
-#  UNLOAD_IMAGE                   = SimpleClassProtocolDriverUnload
+  UNLOAD_IMAGE                   = SimpleClassProtocolDriverUnload
 
 [Sources]
   SimpleClassProtocol.c
