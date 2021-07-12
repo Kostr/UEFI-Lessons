@@ -49,10 +49,12 @@
   #UefiLessonsPkg/TestGlyphs/TestGlyphs.inf
   #UefiLessonsPkg/ShowHii/ShowHii.inf
   UefiLessonsPkg/PCDLesson/PCDLesson.inf
+  UefiLessonsPkg/SmbiosInfo/SmbiosInfo.inf
   UefiLessonsPkg/ShowTables/ShowTables.inf
   UefiLessonsPkg/AcpiInfo/AcpiInfo.inf
   UefiLessonsPkg/SaveBGRT/SaveBGRT.inf
   UefiLessonsPkg/ListPCI/ListPCI.inf
+  UefiLessonsPkg/SimpleDriver/SimpleDriver.inf
   UefiLessonsPkg/PCIRomInfo/PCIRomInfo.inf
   UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
   UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
