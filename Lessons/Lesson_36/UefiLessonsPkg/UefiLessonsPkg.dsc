@@ -29,7 +29,9 @@
   HiiLib|MdeModulePkg/Library/UefiHiiLib/UefiHiiLib.inf
   SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
   UefiHiiServicesLib|MdeModulePkg/Library/UefiHiiServicesLib/UefiHiiServicesLib.inf
-  SimpleLibrary|UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
+  #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
+  #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
+  SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructorAndDestructor/SimpleLibraryWithConstructorAndDestructor.inf
 
 [Components]
   UefiLessonsPkg/SimplestApp/SimplestApp.inf
@@ -52,6 +54,7 @@
   UefiLessonsPkg/ListPCI/ListPCI.inf
   UefiLessonsPkg/PCIRomInfo/PCIRomInfo.inf
   UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
+  UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
   UefiLessonsPkg/SimpleLibraryUser/SimpleLibraryUser.inf
 
 [PcdsFixedAtBuild]

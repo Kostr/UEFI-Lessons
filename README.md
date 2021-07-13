@@ -38,9 +38,9 @@ Lessons description:
 - Lesson 32: Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
 - Lesson 33: Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
 - Lesson 34: Create a simple UEFI driver. Use `load`/`unload` UEFI shell commands to work with a driver image 
-- Lesson 35: Investigate ways how to add `acpiview` command functionality to your shell
-- Lesson 36: Create a simple library and use it in an app
-- Lesson 37: Library constructor and destructor. `NULL` libraries
+- Lesson 35: Create a simple library and use it in an app
+- Lesson 36: Library constructor and destructor. `NULL` libraries
+- Lesson 37: Investigate ways how to add `acpiview` command functionality to your shell
 - Lesson 38: Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
 
 ______

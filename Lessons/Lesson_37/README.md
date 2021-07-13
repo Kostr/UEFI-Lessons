@@ -1,176 +1,338 @@
-In this lesson we'll learn about library constructor and destructor.
-
-Create a new library module `UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf`:
+If you'll search through ShellPkg library (https://github.com/tianocore/edk2/tree/master/ShellPkg/Library) you can notice that there is a folder `UefiShellAcpiViewCommandLib` (https://github.com/tianocore/edk2/tree/master/ShellPkg/Library/UefiShellAcpiViewCommandLib).
+This folder provides a library for the support of in-shell `acpiview` command. If you check the INF file, you'll see
+https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellAcpiViewCommandLib/UefiShellAcpiViewCommandLib.inf:
 ```
-[Defines]
-  INF_VERSION                    = 1.25
-  BASE_NAME                      = SimpleLibraryWithConstructor
-  FILE_GUID                      = 96952c1e-86a6-4700-96b0-e7303ac3f92d
-  MODULE_TYPE                    = UEFI_APPLICATION
-  VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = SimpleLibrary | UEFI_APPLICATION
-  CONSTRUCTOR                    = SimpleLibraryConstructor                  <-------- 
-
-[Sources]
-  SimpleLibraryWithConstructor.c
-
-[Packages]
-  MdePkg/MdePkg.dec
-  UefiLessonsPkg/UefiLessonsPkg.dec
+# Provides Shell 'acpiview' command functions
 ```
-Here we've added `CONSTRUCTOR` statement with a name of constructor function. Let's add `Print` statement to it, to know when it is executed.
-
-`UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.c`:
+But if you try to execute `acpiview` in our current OVMF build, you'll notice that this command is not recognized:
 ```
-#include <Library/UefiLib.h>
-#include <Library/SimpleLibrary.h>
+FS0:\> acpiview
+'acpiview' is not recognized as an internal or external command, operable program, or script file.
+```
+We have 3 ways to use this 'acpiview' command functionality:
+- compile `acpiview` as a separate app and run it as an ordinary UEFI shell application
+- compile shell with 'acpiview' command in itself and run it under OVMF
+- update OVMF image with a shell that actually includes 'acpiview' command in itself
 
-UINTN Plus2(UINTN number) {
-  return number+2;
-}
+# Compile `acpiview` as a separate app
 
+I guess it is the most easy way.
+
+It is possible to perform such thing with a help of https://github.com/tianocore/edk2/tree/master/ShellPkg/Application/AcpiViewApp
+
+If you look at the source file, you'll see that it is pretty simple, the main function just makes a library call to `ShellCommandRunAcpiView` function:
+```
 EFI_STATUS
 EFIAPI
-SimpleLibraryConstructor(
-  IN EFI_HANDLE       ImageHandle,
-  IN EFI_SYSTEM_TABLE *SystemTable
-  )
-{
-  Print(L"Hello from library constructor!\n");
-  return EFI_SUCCESS;
-}
-```
-
-Now we don't need to create another app that would use our new lib, we can simply change library implementation in the `UefiLessonsPkg/UefiLessonsPkg.dsc` and our `SimpleLibraryUser` would be recompiled with our new library version:
-```
-[LibraryClasses]
-  ...
-  #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
-  SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
-```
-
-If you build our app and execute it under OVMF now you would get:
-```
-FS0:\> SimpleLibraryUser.efi
-Hello from library constructor!
-5
-```
-
-An example of a library that uses constructor would be `UefiBootServicesTableLib` library https://github.com/tianocore/edk2/blob/master/MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf. We've used it all over in our lessons, so let's take a look at it.
-
-As a matter of fact, constructor is the only thing that this library has.
-
-To understand how this library works take a look at its *.c and *.h files:
-
-https://github.com/tianocore/edk2/blob/master/MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.c
-```
-EFI_HANDLE         gImageHandle = NULL;
-EFI_SYSTEM_TABLE   *gST         = NULL;
-EFI_BOOT_SERVICES  *gBS         = NULL;
-
-EFI_STATUS
-EFIAPI
-UefiBootServicesTableLibConstructor (
+AcpiViewAppMain (
   IN EFI_HANDLE        ImageHandle,
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  gImageHandle = ImageHandle;
-  gST = SystemTable;
-  gBS = SystemTable->BootServices;
-
-  return EFI_SUCCESS;
+  return ShellCommandRunAcpiView (gImageHandle, SystemTable);
 }
 ```
-https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Library/UefiBootServicesTableLib.h:
+
+To build this application issue:
 ```
-extern EFI_HANDLE         gImageHandle;
-extern EFI_SYSTEM_TABLE   *gST;
-extern EFI_BOOT_SERVICES  *gBS;
+build --platform=ShellPkg/ShellPkg.dsc --module=ShellPkg/Application/AcpiViewApp/AcpiViewApp.inf --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 ```
 
-So as you can see this library just sets some global variables - shortcuts for the UEFI main parts. As the library constructors execute before the main app code, with this library you can access `gImageHandle`/`gST`/`gBS` anywhere in your app code from the very start.
+Copy image to the QEMU shared folder:
+```
+cp Build/Shell/RELEASE_GCC5/X64/AcpiViewApp.efi ~/UEFI_disk/
+```
 
-# DESTRUCTOR
+You can see application help with a:
+```
+FS0:\> AcpiViewApp.efi -?
+Display ACPI Table information.
 
-Similar we can create another version of a `SimpleLibrary` that would have both constructor and destructor.
+ACPIVIEWAPP.EFI [[-?] | [[[[-l] | [-s AcpiTable [-d]]] [-q] [-h]] [-r Spec]]]
 
-`UefiLessonsPkg/Library/SimpleLibraryWithConstructorAndDestructor/SimpleLibraryWithConstructorAndDestructor.inf`:
+
+  -l - Display list of installed ACPI Tables.
+  -s - Display only the specified AcpiTable type and only support single
+       invocation option.
+         AcpiTable    : The required ACPI Table type.
+  -d - Generate a binary file dump of the specified AcpiTable.
+  -q - Quiet. Suppress errors and warnings. Disables consistency checks.
+  -h - Enable colour highlighting.
+  -r - Validate that all required ACPI tables are installed
+         Spec  : Specification to validate against.
+                 For Arm, the possible values are:
+                   0 - Server Base Boot Requirements v1.0
+                   1 - Server Base Boot Requirements v1.1
+                   2 - Server Base Boot Requirements v1.2
+  -? - Show help.
+
+
+  This program is provided to allow examination of ACPI table values from the
+  UEFI Shell.  This can help with investigations, especially at that stage
+  where the tables are not enabling an OS to boot.
+  The program is not exhaustive, and only encapsulates detailed knowledge of a
+  limited number of table types.
+
+  Default behaviour is to display the content of all tables installed.
+  'Known' table types (listed in NOTES below) will be parsed and displayed
+  with descriptions and field values.  Where appropriate a degree of
+  consistency checking is done and errors may be reported in the output.
+  Other table types will be displayed as an array of Hexadecimal bytes.
+
+  To facilitate debugging, the -s and -d options can be used to generate a
+  binary file image of a table that can be copied elsewhere for investigation
+  using tools such as those provided by acpica.org.  This is especially
+  relevant for AML type tables like DSDT and SSDT.
+
+NOTES:
+  1. The AcpiTable parameter can match any installed table type.
+     Tables without specific handling will be displayed as a raw hex dump (or
+     dumped to a file if -d is used).
+  2. -s option supports to display the specified AcpiTable type that is present
+     in the system. For normal type AcpiTable, it would display the data of the
+     AcpiTable and AcpiTable header. The following type may contain header type
+     other than AcpiTable header. The actual header can refer to the ACPI spec
+     6.3
+     Extra A. Particular types:
+       APIC  - Multiple APIC Description Table (MADT)
+       BGRT  - Boot Graphics Resource Table
+       DBG2  - Debug Port Table 2
+       DSDT  - Differentiated System Description Table
+       FACP  - Fixed ACPI Description Table (FADT)
+       GTDT  - Generic Timer Description Table
+       IORT  - IO Remapping Table
+       MCFG  - Memory Mapped Config Space Base Address Description Table
+       PPTT  - Processor Properties Topology Table
+       RSDP  - Root System Description Pointer
+       SLIT  - System Locality Information Table
+       SPCR  - Serial Port Console Redirection Table
+       SRAT  - System Resource Affinity Table
+       SSDT  - Secondary SystemDescription Table
+       XSDT  - Extended System Description Table
+
+
+
+EXAMPLES:
+  * To display a list of the installed table types:
+    fs0:\> acpiviewapp.efi -l
+
+  * To parse and display a specific table type:
+    fs0:\> acpiviewapp.efi -s GTDT
+
+  * To save a binary dump of the contents of a table to a file
+    in the current working directory:
+    fs0:\> acpiviewapp.efi -s DSDT -d
+
+  * To display contents of all ACPI tables:
+    fs0:\> acpiviewapp.efi
+
+  * To check if all Server Base Boot Requirements (SBBR) v1.2 mandatory
+    ACPI tables are installed (Arm only):
+    fs0:\> acpiviewapp.efi -r 2
+```
+
+With this program you can list ACPI tables in system:
+```
+FS0:\> AcpiViewApp.efi -l
+
+Installed Table(s):
+           1. RSDP
+           2. XSDT
+           3. FACP
+           4. FACS
+           5. DSDT
+           6. APIC
+           7. HPET
+           8. BGRT
+```
+
+Show the content of any table:
+```
+FS0:\> AcpiViewApp.efi -s BGRT
+
+
+ --------------- BGRT Table ---------------
+
+Address  : 0x7B77000
+Length   : 56
+
+00000000 : 42 47 52 54 38 00 00 00 - 01 C5 49 4E 54 45 4C 20   BGRT8.....INTEL
+00000010 : 45 44 4B 32 20 20 20 20 - 02 00 00 00 20 20 20 20   EDK2    ....
+00000020 : 13 00 00 01 01 00 01 00 - 18 30 8B 06 00 00 00 00   .........0......
+00000030 : 2F 01 00 00 0F 01 00 00                             /.......
+
+Table Checksum : OK
+
+BGRT                                 :
+  Signature                          : BGRT
+  Length                             : 56
+  Revision                           : 1
+  Checksum                           : 0xC5
+  Oem ID                             : INTEL
+  Oem Table ID                       : EDK2
+  Oem Revision                       : 0x2
+  Creator ID                         :
+  Creator Revision                   : 0x1000013
+  Version                            : 0x1
+  Status                             : 0x1
+  Image Type                         : 0x0
+  Image Address                      : 0x68B3018
+  Image Offset X                     : 303
+  Image Offset Y                     : 271
+
+Table Statistics:
+        0 Error(s)
+        0 Warning(s)
+```
+
+Or dump any ACPI table:
+```
+FS0:\> acpiview -s APIC -d
+Dumping ACPI table to : .\APIC0000.bin ... DONE.
+```
+You can disassemble this image with `iasl -d <file>` like we did earlier.
+
+
+# Compile shell with 'acpiview' command in itself and run it under OVMF
+
+This case is a little bit crazy, we would be running a shell applicaion inside the shell application.
+
+I guess this is not the usual case, but it will help you to know how to compile the shell image that you can actually use in your projects.
+
+If you'll look at the https://github.com/tianocore/edk2/blob/master/ShellPkg/ShellPkg.dsc you'll see that if you build `ShellPkg`, you'll actually build two versions of the `Shell.inf`:
+- one would have general commands
+- another one would have all the commands
+```
+ShellPkg/Application/Shell/Shell.inf {
+  <PcdsFixedAtBuild>
+    gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
+  <LibraryClasses>
+    NULL|ShellPkg/Library/UefiShellLevel2CommandsLib/UefiShellLevel2CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellLevel1CommandsLib/UefiShellLevel1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellLevel3CommandsLib/UefiShellLevel3CommandsLib.inf
+fndef $(NO_SHELL_PROFILES)
+    NULL|ShellPkg/Library/UefiShellDriver1CommandsLib/UefiShellDriver1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellNetwork2CommandsLib/UefiShellNetwork2CommandsLib.inf
+ndif #$(NO_SHELL_PROFILES)
+}
+
+#
+# Build a second version of the shell with all commands integrated
+#
+ShellPkg/Application/Shell/Shell.inf {
+ <Defines>
+    FILE_GUID = EA4BB293-2D7F-4456-A681-1F22F42CD0BC
+  <PcdsFixedAtBuild>
+    gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
+  <LibraryClasses>
+    NULL|ShellPkg/Library/UefiShellLevel2CommandsLib/UefiShellLevel2CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellLevel1CommandsLib/UefiShellLevel1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellLevel3CommandsLib/UefiShellLevel3CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellDriver1CommandsLib/UefiShellDriver1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellNetwork2CommandsLib/UefiShellNetwork2CommandsLib.inf
+    NULL|ShellPkg/Library/UefiShellAcpiViewCommandLib/UefiShellAcpiViewCommandLib.inf         <------- acpiview is present in this Shell version
+}
+```
+
+In case you wonder how `UefiShellAcpiViewCommandLib.inf` registers new command take a look at its sources:
+
+https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellAcpiViewCommandLib/UefiShellAcpiViewCommandLib.inf
 ```
 [Defines]
-  INF_VERSION                    = 1.25
-  BASE_NAME                      = SimpleLibraryWithConstructorAndDestructor
-  FILE_GUID                      = 96952c1e-86a6-4700-96b0-e7303ac3f92d
+  INF_VERSION                    = 0x00010019
+  BASE_NAME                      = UefiShellAcpiViewCommandLib
+  FILE_GUID                      = FB5B305E-84F5-461F-940D-82D345757AFA
   MODULE_TYPE                    = UEFI_APPLICATION
   VERSION_STRING                 = 1.0
-  LIBRARY_CLASS                  = SimpleLibrary | UEFI_APPLICATION
-  CONSTRUCTOR                    = SimpleLibraryConstructor
-  DESTRUCTOR                     = SimpleLibraryDestructor                      <-----------
+  LIBRARY_CLASS                  = AcpiViewCommandLib|UEFI_APPLICATION UEFI_DRIVER
+  CONSTRUCTOR                    = UefiShellAcpiViewCommandLibConstructor
+  DESTRUCTOR                     = UefiShellAcpiViewCommandLibDestructor
 
-[Sources]
-  SimpleLibraryWithConstructorAndDestructor.c
-
-[Packages]
-  MdePkg/MdePkg.dec
-  UefiLessonsPkg/UefiLessonsPkg.dec
-```
-`UefiLessonsPkg/Library/SimpleLibraryWithConstructorAndDestructor/SimpleLibraryWithConstructorAndDestructor.c`:
-```
-#include <Library/UefiLib.h>
-#include <Library/SimpleLibrary.h>
-
-UINTN Plus2(UINTN number) {
-  return number+2;
-}
-
-EFI_STATUS
-EFIAPI
-SimpleLibraryConstructor(
-  IN EFI_HANDLE       ImageHandle,
-  IN EFI_SYSTEM_TABLE *SystemTable
-  )
-{
-  Print(L"Hello from library constructor!\n");
-  return EFI_SUCCESS;
-}
-
-EFI_STATUS
-EFIAPI
-SimpleLibraryDestructor(
-  IN EFI_HANDLE       ImageHandle,
-  IN EFI_SYSTEM_TABLE *SystemTable
-  )
-{
-  Print(L"Hello from library destructor!\n");
-  return EFI_SUCCESS;
-}
-```
-
-Don't forget to change the library backend in the `UefiLessonsPkg/UefiLessonsPkg.dsc`:
-```
-[LibraryClasses]
   ...
-  #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
-  #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
-  SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructorAndDestructor/SimpleLibraryWithConstructorAndDestructor.inf
+```
+https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellAcpiViewCommandLib/UefiShellAcpiViewCommandLib.c
+```
+EFI_STATUS
+EFIAPI
+UefiShellAcpiViewCommandLibConstructor (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+{
+ ...
+  // Install our Shell command handler
+  ShellCommandRegisterCommandName (
+    L"acpiview",
+    ShellCommandRunAcpiView,
+    ShellCommandGetManFileNameAcpiView,
+    0,
+    L"acpiview",
+    TRUE,
+    gShellAcpiViewHiiHandle,
+    STRING_TOKEN (STR_GET_HELP_ACPIVIEW)
+    );
+
+  return EFI_SUCCESS;
+}
+```
+It doesn't look too scary, so you can even try to add your command to the shell. Maybe will try that in later lessons.
+
+Now execute this command to build the Shell application:
+```
+build --platform=ShellPkg/ShellPkg.dsc --module=ShellPkg/Application/Shell/Shell.inf --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 ```
 
-Now our app would have print strings both at the beginning and in the end:
+After the build there would be two files in the build folder:
 ```
-FS0:\> SimpleLibraryUser.efi
-Hello from library constructor!
-5
-Hello from library destructor!
+$ ls Build/Shell/RELEASE_GCC5/X64/Shell*.efi
+Build/Shell/RELEASE_GCC5/X64/Shell_7C04A583-9E3E-4f1c-AD65-E05268D0B4D1.efi
+Build/Shell/RELEASE_GCC5/X64/Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi
 ```
 
+If you look closely to the code from the `ShellPkg/ShellPkg.dsc` that I've pasted earlier, you can notice that the image that we need is an image with a `EA4BB293-2D7F-4456-A681-1F22F42CD0BC` guid.
 
-As an example of a library with both CONSTRUCTOR and DESTRUCTOR take a look at the https://github.com/tianocore/edk2/blob/master/MdePkg/Library/UefiDebugLibConOut/DebugLibConstructor.c, it uses `CreateEvent` in a constructor, and closes it in a desctrutor with a `CloseEvent`.
+Copy it to the QEMU shared folder:
+```
+$ cp Build/Shell/RELEASE_GCC5/X64/Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi ~/UEFI_disk/
+```
+In your default shell there wouldn't be any `acpiview` command, but when as you'll move to the `Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi` this `acpiview` command would became present in the shell.
+```
+FS0:\> acpiview -l
+'acpiview' is not recognized as an internal or external command, operable program, or script file.
+FS0:\> Shell_EA4BB293-2D7F-4456-A681-1F22F42CD0BC.efi
+UEFI Interactive Shell v2.2
+EDK II
+UEFI v2.70 (EDK II, 0x00010000)
+Mapping table
+      FS0: Alias(s):HD0a1:;BLK1:
+          PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)/HD(1,MBR,0xBE1AFDFA,0x3F,0xFBFC1)
+     BLK0: Alias(s):
+          PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
+     BLK2: Alias(s):
+          PciRoot(0x0)/Pci(0x1,0x1)/Ata(0x0)
+Press ESC in 4 seconds to skip startup.nsh or any other key to continue.
+FS0:\> acpiview -l
 
+Installed Table(s):
+           1. RSDP
+           2. XSDT
+           3. FACP
+           4. FACS
+           5. DSDT
+           6. APIC
+           7. HPET
+           8. BGRT
+```
 
-# `NULL` library
+# Update OVMF image with a shell that actually includes 'acpiview' command in itself
 
-
-As you already know OVMF includes `Shell` app in itself. For its compilation OVMF package DSC file (https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.dsc) contains these strings:
+Correct `OvmfPkg/OvmfPkgX64.dsc`. You'll need to add `UefiShellAcpiViewCommandLib.inf` to the `Shell.inf` library classes:
 ```
 [Components]
   ...
@@ -184,44 +346,38 @@ As you already know OVMF includes `Shell` app in itself. For its compilation OVM
       NULL|ShellPkg/Library/UefiShellDebug1CommandsLib/UefiShellDebug1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellInstall1CommandsLib/UefiShellInstall1CommandsLib.inf
       NULL|ShellPkg/Library/UefiShellNetwork1CommandsLib/UefiShellNetwork1CommandsLib.inf
-      ...
+      NULL|ShellPkg/Library/UefiShellAcpiViewCommandLib/UefiShellAcpiViewCommandLib.inf          <-----------
+!if $(NETWORK_IP6_ENABLE) == TRUE
+      NULL|ShellPkg/Library/UefiShellNetwork2CommandsLib/UefiShellNetwork2CommandsLib.inf
+!endif
       HandleParsingLib|ShellPkg/Library/UefiHandleParsingLib/UefiHandleParsingLib.inf
       PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
       BcfgCommandLib|ShellPkg/Library/UefiShellBcfgCommandLib/UefiShellBcfgCommandLib.inf
 
-      ... 
+    <PcdsFixedAtBuild>
+      gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask|0xFF
+      gEfiShellPkgTokenSpaceGuid.PcdShellLibAutoInitialize|FALSE
+      gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize|8000
   }
 ```
 
-Here you can notice that some of the library classes have `NULL` class.
-
-`NULL` library classes are conceptually an "anonymous library". It enables one to statically link code into a module even if the module doesn't directly call functions in that library.
-
-It can be useful if we don't need to call library API in our app, but just need library constructor/destructor functions.
-
-If you'll take a look at the file https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellLevel1CommandsLib/UefiShellLevel1CommandsLib.c you'll see that this module constructor is used to add additional commands to the Shell:
+Rebuild OVMF:
 ```
-EFI_STATUS
-EFIAPI
-ShellLevel1CommandsLibConstructor (
-  IN EFI_HANDLE        ImageHandle,
-  IN EFI_SYSTEM_TABLE  *SystemTable
-  )
-{
- ...
-  ShellCommandRegisterCommandName(L"stall",  ShellCommandRunStall   , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_STALL) ));
-  ShellCommandRegisterCommandName(L"for",    ShellCommandRunFor     , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_FOR)   ));
-  ShellCommandRegisterCommandName(L"goto",   ShellCommandRunGoto    , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_GOTO)  ));
-  ShellCommandRegisterCommandName(L"if",     ShellCommandRunIf      , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_IF)    ));
-  ShellCommandRegisterCommandName(L"shift",  ShellCommandRunShift   , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_SHIFT) ));
-  ShellCommandRegisterCommandName(L"exit",   ShellCommandRunExit    , ShellCommandGetManFileNameLevel1, 1, L"", TRUE , gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_EXIT)  ));
-  ShellCommandRegisterCommandName(L"else",   ShellCommandRunElse    , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_ELSE)  ));
-  ShellCommandRegisterCommandName(L"endif",  ShellCommandRunEndIf   , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_ENDIF) ));
-  ShellCommandRegisterCommandName(L"endfor", ShellCommandRunEndFor  , ShellCommandGetManFileNameLevel1, 1, L"", FALSE, gShellLevel1HiiHandle, (EFI_STRING_ID)(PcdGet8(PcdShellSupportLevel) < 3 ? 0 : STRING_TOKEN(STR_GET_HELP_ENDFOR)));
-
-  return (EFI_SUCCESS);
+build --platform=OvmfPkg/OvmfPkgX64.dsc --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 ```
 
-This is an elegant way to split shell command support to different modules.
-With this functionality you can easily compile your image of `Shell` with a necessary commands support.
+You can test that this OVMF image has a shell that includes `acpiview` command in itself:
+```
+FS0:\> acpiview -l
+
+Installed Table(s):
+           1. RSDP
+           2. XSDT
+           3. FACP
+           4. FACS
+           5. DSDT
+           6. APIC
+           7. HPET
+           8. BGRT
+```
 
