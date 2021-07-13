@@ -101,8 +101,17 @@ Correct!
 FS0:\>
 ```
 
-With this app you can also look at how special keys are handled.
-This is the output from "PageUp" key:
+# Differences in keystroke handling with and without `-nographic` option in QEMU
+
+In our lessons we launch QEMU with a `-nographic` option:
+```
+qemu-system-x86_64 \
+  -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
+  -drive format=raw,file=fat:rw:~/UEFI_disk \
+  -nographic
+```
+
+With our app now you can observe how special keys are handled in this mode. For example this is the output from the "PageUp" key:
 ```
 ScanCode = 0017, UnicodeChar = 0000 ( )
 Wrong!
@@ -113,4 +122,32 @@ Wrong!
 ScanCode = 0000, UnicodeChar = 007E (~)
 Wrong!
 ```
+But according to the UEFI spec and edk2 header for the `SimpleTextIn` protocol (https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Protocol/SimpleTextIn.h) "PageUp" key should be displayed as a diferrent scan code, not as 4 symbols starting with the escape scan code:
+```
+#define SCAN_PAGE_UP    0x0009
+...
+#define SCAN_ESC        0x0017
+```
+
+The problem is in the `-nographic` QEMU option. With it QEMU transforms all special keys to escape sequences like it happens in any console terminal.
+
+If you want to see 'native' behaviour you should run QEMU in graphic mode:
+```
+qemu-system-x86_64 \
+  -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
+  -drive format=raw,file=fat:rw:~/UEFI_disk
+```
+If your system doesn't support native graphics, you can run QEMU with a VNC option. QEMU will create a VNC server on the port that you've provided, and you can connect to that port via VNC client app (like VNC viewer for example https://www.realvnc.com/en/connect/download/viewer/).
+
+This command would produce VNC server on a `127.0.0.1:1` address:
+```
+qemu-system-x86_64 \
+  -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
+  -drive format=raw,file=fat:rw:~/UEFI_disk \
+  -vnc :1
+```
+
+If you connect to QEMU launched with graphics you can observe that the "PageUp" press produces expected code:
+
+![PageUp](PageUp.png?raw=true "PageUp scan code on QEMU with graphics")
 
