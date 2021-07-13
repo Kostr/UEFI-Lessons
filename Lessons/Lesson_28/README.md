@@ -170,18 +170,69 @@ UINT64 offset = sizeof(EFI_ACPI_DESCRIPTION_HEADER);
 while (offset < XSDT->Length) {
   UINT64* table_address = (UINT64*)((UINT8*)XSDT + offset);
   EFI_ACPI_6_3_COMMON_HEADER* table = (EFI_ACPI_6_3_COMMON_HEADER*)(*table_address);
-  TableName[0] = (CHAR16)((table->Signature>> 0)&0xFF);
-  TableName[1] = (CHAR16)((table->Signature>> 8)&0xFF);
-  TableName[2] = (CHAR16)((table->Signature>>16)&0xFF);
-  TableName[3] = (CHAR16)((table->Signature>>24)&0xFF);
-  TableName[4] = 0;
 
-  Print(L"\t%s table is placed at address %p with length 0x%x\n",
-                                           TableName,
+  Print(L"\t%c%c%c%c table is placed at address %p with length 0x%x\n",
+                                           (CHAR8)((table->Signature>> 0)&0xFF),
+                                           (CHAR8)((table->Signature>> 8)&0xFF),
+                                           (CHAR8)((table->Signature>>16)&0xFF),
+                                           (CHAR8)((table->Signature>>24)&0xFF),
                                            table,
                                            table->Length);
   offset += sizeof(UINT64);
 }
+```
+
+There is one more thing that we need to check. Some ACPI tables can contatin pointers to another ACPI tables. For example Fixed ACPI Description Table (`FADT`) can contain pointers to `DSDT` and `FACS` tables.
+
+You can check `FADT` description in ACPI specification (https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#fixed-acpi-description-table-fadt).
+
+In edk2 there is a structure for `FADT` in the https://github.com/tianocore/edk2/blob/master/MdePkg/Include/IndustryStandard/Acpi63.h file:
+
+`EFI_ACPI_6_3_FIXED_ACPI_DESCRIPTION_TABtruct {
+  EFI_ACPI_DESCRIPTION_HEADER             Header;
+  UINT32                                  FirmwareCtrl;
+  UINT32                                  Dsdt;
+  ...
+} EFI_ACPI_6_3_FIXED_ACPI_DESCRIPTION_TABLE;
+
+`FirmwareCtrl` field contains pointer to the `FACS` table and `Dsdt` field contains pointer to the `DSDT` table.
+
+Let's write a `CheckSubtables` function that can check if the ACPI table is FADT and if it is look for its subtables: 
+```
+VOID CheckSubtables(EFI_ACPI_6_3_COMMON_HEADER* table)
+{
+  if (((CHAR8)((table->Signature >>  0) & 0xFF) == 'F') &&
+      ((CHAR8)((table->Signature >>  8) & 0xFF) == 'A') &&
+      ((CHAR8)((table->Signature >> 16) & 0xFF) == 'C') &&
+      ((CHAR8)((table->Signature >> 24) & 0xFF) == 'P')) {
+    EFI_ACPI_6_3_FIXED_ACPI_DESCRIPTION_TABLE* FADT = (EFI_ACPI_6_3_FIXED_ACPI_DESCRIPTION_TABLE*)table;
+
+    EFI_ACPI_6_3_COMMON_HEADER* DSDT = (EFI_ACPI_6_3_COMMON_HEADER*)(UINT64)(FADT->Dsdt);
+    if (((CHAR8)((DSDT->Signature >>  0) & 0xFF) == 'D') &&
+        ((CHAR8)((DSDT->Signature >>  8) & 0xFF) == 'S') &&
+        ((CHAR8)((DSDT->Signature >> 16) & 0xFF) == 'D') &&
+        ((CHAR8)((DSDT->Signature >> 24) & 0xFF) == 'T')) {
+      Print(L"\tDSDT table is placed at address %p with length 0x%x\n", DSDT, DSDT->Length);
+    } else {
+      Print(L"\tError! DSDT signature is not valid!\n");
+    }
+
+    EFI_ACPI_6_3_COMMON_HEADER* FACS = (EFI_ACPI_6_3_COMMON_HEADER*)(UINT64)(FADT->FirmwareCtrl);
+    if (((CHAR8)((FACS->Signature >>  0) & 0xFF) == 'F') &&
+        ((CHAR8)((FACS->Signature >>  8) & 0xFF) == 'A') &&
+        ((CHAR8)((FACS->Signature >> 16) & 0xFF) == 'C') &&
+        ((CHAR8)((FACS->Signature >> 24) & 0xFF) == 'S')) {
+      Print(L"\tFACS table is placed at address %p with length 0x%x\n", FACS, FACS->Length);
+    } else {
+      Print(L"\tError! FACS signature is not valid!\n");
+    }
+  }
+}
+```
+
+Call this funtion in our while loop right after the `Print` statement:
+```
+CheckSubtables(table);
 ```
 
 If you build our app and execute it under OVMF now you would get:
@@ -195,6 +246,8 @@ System description tables:
 
 Main ACPI tables:
         FACP table is placed at address 7B7A000 with length 0x74
+        DSDT table is placed at address 7B7B000 with length 0x140B
+        FACS table is placed at address 7BDD000 with length 0x40
         APIC table is placed at address 7B79000 with length 0x78
         HPET table is placed at address 7B78000 with length 0x38
         BGRT table is placed at address 7B77000 with length 0x38
@@ -202,6 +255,8 @@ Main ACPI tables:
 
 Pretty neat, our system has 4 ACPI data tables:
 - Fixed ACPI Description Table (`FACP`) - https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#fixed-acpi-description-table-fadt
+- Differentiated System Description Table (`DSDT`) - https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#differentiated-system-description-table-dsdt
+- Firmware ACPI Control Structure (`FACS`) - https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#firmware-acpi-control-structure-facs
 - Multiple APIC Description Table (`MADT`) - https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#multiple-apic-description-table-madt
 - IA-PC High Precision Event Timer Table (`HPET`) - http://www.intel.com/content/dam/www/public/us/en/documents/technical-specifications/software-developers-hpet-spec-1-0a.pdf - This one is not present in ACPI spec, but in a separate document from the page https://uefi.org/acpi
 - Boot Graphics Resource Table (`BGRT`) - https://uefi.org/specs/ACPI/6.4/05_ACPI_Software_Programming_Model/ACPI_Software_Programming_Model.html#boot-graphics-resource-table-bgrt
@@ -364,29 +419,68 @@ if (EFI_ERROR(Status)) {
 }
 ```
 
-Then use `EFI_SHELL_PROTOCOL` functions in our while loop to create files with ACPI table data. For every table we will create a file "<signature>.aml". We use `.aml` extension for our files because in ACPI language source files usually have *.asl/*.dsl extension (ACPI Source Language), and compiled files have *.aml extension (ACPI Machine Language):
+We would hide all save file functionality behind our custom `SaveACPITable` function. 
 ```
-CHAR16 FileName[9] = {0};
-StrCpyS(FileName, 9, TableName);
-StrCatS(FileName, 9, L".aml");
-Print(L"%s\n", FileName);
-SHELL_FILE_HANDLE FileHandle;
-Status = ShellProtocol->OpenFileByName(FileName,
-                                       &FileHandle,
-                                       EFI_FILE_MODE_CREATE | EFI_FILE_MODE_WRITE | EFI_FILE_MODE_READ);
+EFI_STATUS SaveACPITable(UINT32 Signature,  // table signature
+                         VOID* addr,        // table address
+                         UINTN size)        // table size
+```
+With it our main while loop would look like this:
+```
+while (offset < XSDT->Length) {
+  UINT64* table_address = (UINT64*)((UINT8*)XSDT + offset);
+  EFI_ACPI_6_3_COMMON_HEADER* table = (EFI_ACPI_6_3_COMMON_HEADER*)(*table_address);
+  Print(L"\t%c%c%c%c table is placed at address %p with length 0x%x\n",
+                                           (CHAR8)((table->Signature>> 0)&0xFF),
+                                           (CHAR8)((table->Signature>> 8)&0xFF),
+                                           (CHAR8)((table->Signature>>16)&0xFF),
+                                           (CHAR8)((table->Signature>>24)&0xFF),
+                                           table,
+                                           table->Length);
 
-if (!EFI_ERROR(Status)) {
-  UINTN size = table->Length;
-  Status = ShellProtocol->WriteFile(FileHandle, &size, (VOID*)table);
-  if (EFI_ERROR(Status)) {
-    Print(L"Error in WriteFile: %r\n", Status);
+  SaveACPITable(table->Signature, table, table->Length);
+
+  CheckSubtables(table);
+
+  offset += sizeof(UINT64);
+}
+```
+Also don't forget to add it to our `CheckSubtables` function to save `DSDT` and `FACS` tables as well.
+
+As we would be using `EFI_SHELL_PROTOCOL* ShellProtocol` in every call of our `SaveACPITable` function we can either pass it everywhere as a parameter, or move `ShellProtocol` to global variables. Let's use the second approach in our small program.
+
+Now it time to write this `SaveACPITable` function. It would save ACPI table data to the file "<signature>.aml". We use `.aml` extension for our files because in ACPI language source files usually have *.asl/*.dsl extension (ACPI Source Language), and compiled files have *.aml extension (ACPI Machine Language):
+```
+EFI_STATUS SaveACPITable(UINT32 Signature, VOID* addr, UINTN size) {
+  CHAR16 TableName[5];
+  TableName[0] = (CHAR16)((Signature>> 0)&0xFF);
+  TableName[1] = (CHAR16)((Signature>> 8)&0xFF);
+  TableName[2] = (CHAR16)((Signature>>16)&0xFF);
+  TableName[3] = (CHAR16)((Signature>>24)&0xFF);
+  TableName[4] = 0;
+
+  CHAR16 FileName[9] = {0};
+  StrCpyS(FileName, 9, TableName);
+  StrCatS(FileName, 9, L".aml");
+  SHELL_FILE_HANDLE FileHandle;
+  EFI_STATUS Status = ShellProtocol->OpenFileByName(FileName,
+                                                    &FileHandle,
+                                                    EFI_FILE_MODE_CREATE |
+                                                    EFI_FILE_MODE_WRITE |
+                                                    EFI_FILE_MODE_READ);
+  if (!EFI_ERROR(Status)) {
+    Status = ShellProtocol->WriteFile(FileHandle, &size, addr);
+    if (EFI_ERROR(Status)) {
+      Print(L"Error in WriteFile: %r\n", Status);
+    }
+    Status = ShellProtocol->CloseFile(FileHandle);
+    if (EFI_ERROR(Status)) {
+      Print(L"Error in CloseFile: %r\n", Status);
+    }
+  } else {
+    Print(L"Error in OpenFileByName: %r\n", Status);
   }
-  Status = ShellProtocol->CloseFile(FileHandle);
-  if (EFI_ERROR(Status)) {
-    Print(L"Error in CloseFile: %r\n", Status);
-  }
-} else {
-  Print(L"Error in OpenFileByName: %r\n", Status);
+  return Status;
 }
 ```
 
@@ -399,7 +493,9 @@ If you build our app and execute it under OVMF you would get 4 files in our `UEF
 $ ls -1 ~/UEFI_disk/*.aml
 /home/kostr/UEFI_disk/apic.aml
 /home/kostr/UEFI_disk/bgrt.aml
+/home/kostr/UEFI_disk/dsdt.aml
 /home/kostr/UEFI_disk/facp.aml
+/home/kostr/UEFI_disk/facs.aml
 /home/kostr/UEFI_disk/hpet.aml
 ```
 
@@ -416,25 +512,42 @@ Binary file appears to be a valid ACPI table, disassembling
 Input file /home/kostr/UEFI_disk/apic.aml, Length 0x78 (120) bytes
 ACPI: APIC 0x0000000000000000 000078 (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)
 Acpi Data Table [APIC] decoded
-Formatted output:  /home/kostr/UEFI_disk/apic.dsl - 4935 bytes
-File appears to be binary: found 32 non-ASCII characters, disassembling
+Formatted output:  /home/kostr/UEFI_disk/apic.dsl - 4939 bytes
+File appears to be binary: found 31 non-ASCII characters, disassembling
 Binary file appears to be a valid ACPI table, disassembling
 Input file /home/kostr/UEFI_disk/bgrt.aml, Length 0x38 (56) bytes
 ACPI: BGRT 0x0000000000000000 000038 (v01 INTEL  EDK2     00000002      01000013)
 Acpi Data Table [BGRT] decoded
-Formatted output:  /home/kostr/UEFI_disk/bgrt.dsl - 1628 bytes
+Formatted output:  /home/kostr/UEFI_disk/bgrt.dsl - 1632 bytes
+File appears to be binary: found 1630 non-ASCII characters, disassembling
+Binary file appears to be a valid ACPI table, disassembling
+Input file /home/kostr/UEFI_disk/dsdt.aml, Length 0x140B (5131) bytes
+ACPI: DSDT 0x0000000000000000 00140B (v01 BOCHS  BXPCDSDT 00000001 BXPC 00000001)
+Pass 1 parse of [DSDT]
+Pass 2 parse of [DSDT]
+Parsing Deferred Opcodes (Methods/Buffers/Packages/Regions)
+
+Parsing completed
+Disassembly completed
+ASL Output:    /home/kostr/UEFI_disk/dsdt.dsl - 43444 bytes
 File appears to be binary: found 91 non-ASCII characters, disassembling
 Binary file appears to be a valid ACPI table, disassembling
 Input file /home/kostr/UEFI_disk/facp.aml, Length 0x74 (116) bytes
 ACPI: FACP 0x0000000000000000 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)
 Acpi Data Table [FACP] decoded
-Formatted output:  /home/kostr/UEFI_disk/facp.dsl - 4892 bytes
+Formatted output:  /home/kostr/UEFI_disk/facp.dsl - 4896 bytes
+File appears to be binary: found 59 non-ASCII characters, disassembling
+Binary file appears to be a valid ACPI table, disassembling
+Input file /home/kostr/UEFI_disk/facs.aml, Length 0x40 (64) bytes
+ACPI: FACS 0x0000000000000000 000040
+Acpi Data Table [FACS] decoded
+Formatted output:  /home/kostr/UEFI_disk/facs.dsl - 1394 bytes
 File appears to be binary: found 33 non-ASCII characters, disassembling
 Binary file appears to be a valid ACPI table, disassembling
 Input file /home/kostr/UEFI_disk/hpet.aml, Length 0x38 (56) bytes
 ACPI: HPET 0x0000000000000000 000038 (v01 BOCHS  BXPCHPET 00000001 BXPC 00000001)
 Acpi Data Table [HPET] decoded
-Formatted output:  /home/kostr/UEFI_disk/hpet.dsl - 1887 bytes
+Formatted output:  /home/kostr/UEFI_disk/hpet.dsl - 1891 bytes
 ```
 
 Now you have *.dsl files in the same `UEFI_disk` shared folder.
