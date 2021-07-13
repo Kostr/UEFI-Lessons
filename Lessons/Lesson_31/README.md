@@ -505,3 +505,18 @@ PCI Root Bridge 2
 
 If you are interested check out this link to know more about all these QEMU parameters https://blogs.oracle.com/linux/post/a-study-of-the-linux-kernel-pci-subsystem-with-qemu
 
+# UTF-8
+
+In this lesson we've parsed `pci.ids` file as an ASCII file, but actually it is encoded in UTF-8.
+
+```
+$ file ~/UEFI_disk/pci.ids
+/home/kostr/UEFI_disk/pci.ids: UTF-8 Unicode text, with very long lines
+```
+
+But as `pci.ids` file consists mostly from ASCII symbols it was fine to treat it as an ASCII.
+
+We've used this simplification because it is hard to parse UTF-8 data in UEFI since it doesn't have any native support for this encoding.
+
+The only way to parse UTF-8 is to deserialize the UTF-8 to Unicode and then serialize that to UCS-2 (CHAR16). If you are really want to do it, you can utilize some conversion code from the terminal driver (https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/Console/TerminalDxe/Vtutf8.c).
+
