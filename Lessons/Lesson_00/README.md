@@ -10,6 +10,11 @@ This is how you install these packages in Ubuntu:
 $ sudo apt-get install -y nasm iasl uuid-dev python3
 ```
 
+Also it might be necessary to install `python3-distutils` package:
+```
+$ sudo apt-get install -y python3-distutils
+```
+
 Then it is necessary to clone edk2 repo and update all its submodules:
 ```
 $ git clone https://github.com/tianocore/edk2
