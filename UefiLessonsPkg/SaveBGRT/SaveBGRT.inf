@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SaveBGRT
+  FILE_GUID                      = efe33e23-b17c-42b2-9551-87546f215935
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  SaveBGRT.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ShellPkg/ShellPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellLib
+
+[Protocols]
+  gEfiAcpiSdtProtocolGuid
+
