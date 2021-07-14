@@ -2,48 +2,48 @@ These series of lessons are intendend to get you started with UEFI programming i
 
 Lessons description:
 
-- Lesson 00: Getting started guide for TianoCore. Compile OVMF and run it in QEMU
-- Lesson 01: Create a simplest app and run it in OVMF
-- Lesson 02: Create a simplest package
-- Lesson 03: Create `HelloWorld` app with the help of SystemTable services
-- Lesson 04: Use edk2 libraries to simplify our `HelloWorld` app
-- Lesson 05: Simplify build command with the help of files in the `Conf` folder
-- Lesson 06: Handle/Protocol databases internals - Part 1: Theory and raw access to an app ImageHandle
-- Lesson 07: Handle/Protocol databases internals - Part 2: Raw access to app protocols
-- Lesson 08: `HandleProtocol` API function. Information from the `ImageHandle` protocols
-- Lesson 09: Get ImageHandle protocols with the `ProtocolsPerHandle` API function
-- Lesson 10: `EFI_STATUS` type and `EFI_ERROR` macros
-- Lesson 11: Get EFI memory map information
-- Lesson 12: `EFI_SHELL_PARAMETERS_PROTOCOL`. Transform our EFI memory map to the Linux kernel style
-- Lesson 13: `ShellAppMain` entry point
-- Lesson 14: Get all variable names and GUIDs with the `gRT->GetNextVariableName` API
-- Lesson 15: Get and parse boot variables (BootOrder/BootCurrent/BootXXXX) with the `gRT->GetVariable` API
-- Lesson 16: Build our own boot option inside OVMF image similar to the UEFI shell app
-- Lesson 17: Add `WaitForEvent` function to our boot option app to see its output on booting
-- Lesson 18: Handle input from user with the `ReadKeyStroke` function
-- Lesson 19: Boot option modification with the help of `bcfg` command
-- Lesson 20: Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
-- Lesson 21: Override order for PCD variables
-- Lesson 22: Feature flag PCD and its comparision to BOOLEAN fixed at build PCD
-- Lesson 23: PatchableInModule PCDs and how they can be changed via `GenPatchPcdTable`/`PatchPcdValue` utilities 
-- Lesson 24: Dynamic/DynamicEx PCDs
-- Lesson 25: More on PCDs
-- Lesson 26: Tables referenced in `EFI_CONFIGURATION_TABLE`
-- Lesson 27: Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
-- Lesson 28: Get ACPI tables and save them to files with a help of `EFI_SHELL_PROTOCOL`
-- Lesson 29: Use `EFI_ACPI_SDT_PROTOCOL` and `ShellLib` to save a BMP image from the ACPI BGRT table
-- Lesson 30: Find all PCI root bridges in the system with a help of `LocateHandleBuffer`/`OpenProtocol` functions and use
+- [Lesson 00](Lessons/Lesson_00): Getting started guide for TianoCore. Compile OVMF and run it in QEMU
+- [Lesson 01](Lessons/Lesson_01): Create a simplest app and run it in OVMF
+- [Lesson 02](Lessons/Lesson_02): Create a simplest package
+- [Lesson 03](Lessons/Lesson_03): Create `HelloWorld` app with the help of SystemTable services
+- [Lesson 04](Lessons/Lesson_04): Use edk2 libraries to simplify our `HelloWorld` app
+- [Lesson 05](Lessons/Lesson_05): Simplify build command with the help of files in the `Conf` folder
+- [Lesson 06](Lessons/Lesson_06): Handle/Protocol databases internals - Part 1: Theory and raw access to an app ImageHandle
+- [Lesson 07](Lessons/Lesson_07): Handle/Protocol databases internals - Part 2: Raw access to app protocols
+- [Lesson 08](Lessons/Lesson_08): `HandleProtocol` API function. Information from the `ImageHandle` protocols
+- [Lesson 09](Lessons/Lesson_09): Get ImageHandle protocols with the `ProtocolsPerHandle` API function
+- [Lesson 10](Lessons/Lesson_10): `EFI_STATUS` type and `EFI_ERROR` macros
+- [Lesson 11](Lessons/Lesson_11): Get EFI memory map information
+- [Lesson 12](Lessons/Lesson_12): `EFI_SHELL_PARAMETERS_PROTOCOL`. Transform our EFI memory map to the Linux kernel style
+- [Lesson 13](Lessons/Lesson_13): `ShellAppMain` entry point
+- [Lesson 14](Lessons/Lesson_14): Get all variable names and GUIDs with the `gRT->GetNextVariableName` API
+- [Lesson 15](Lessons/Lesson_15): Get and parse boot variables (BootOrder/BootCurrent/BootXXXX) with the `gRT->GetVariable` API
+- [Lesson 16](Lessons/Lesson_16): Build our own boot option inside OVMF image similar to the UEFI shell app
+- [Lesson 17](Lessons/Lesson_17): Add `WaitForEvent` function to our boot option app to see its output on booting
+- [Lesson 18](Lessons/Lesson_18): Handle input from user with the `ReadKeyStroke` function
+- [Lesson 19](Lessons/Lesson_19): Boot option modification with the help of `bcfg` command
+- [Lesson 20](Lessons/Lesson_20): Intro to Platfrom Configuration Database (PCD). Declare and get simple fixed PCD
+- [Lesson 21](Lessons/Lesson_21): Override order for PCD variables
+- [Lesson 22](Lessons/Lesson_22): Feature flag PCD and its comparision to BOOLEAN fixed at build PCD
+- [Lesson 23](Lessons/Lesson_23): PatchableInModule PCDs and how they can be changed via `GenPatchPcdTable`/`PatchPcdValue` utilities 
+- [Lesson 24](Lessons/Lesson_24): Dynamic/DynamicEx PCDs
+- [Lesson 25](Lessons/Lesson_25): More on PCDs
+- [Lesson 26](Lessons/Lesson_26): Tables referenced in `EFI_CONFIGURATION_TABLE`
+- [Lesson 27](Lessons/Lesson_27): Get SMBIOS information with `dmem`/`EFI_SMBIOS_PROTOCOL`/`smbiosview`
+- [Lesson 28](Lessons/Lesson_28): Get ACPI tables and save them to files with a help of `EFI_SHELL_PROTOCOL`
+- [Lesson 29](Lessons/Lesson_29): Use `EFI_ACPI_SDT_PROTOCOL` and `ShellLib` to save a BMP image from the ACPI BGRT table
+- [Lesson 30](Lessons/Lesson_30): Find all PCI root bridges in the system with a help of `LocateHandleBuffer`/`OpenProtocol` functions and use
 `EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL` to get all PCI functions in the system.
-- Lesson 31: Search `pci.ids` database to get PCI Vendor/Device information with a help of `ShellLib`/`PrintLib` functions
-- Lesson 32: Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
-- Lesson 33: Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
-- Lesson 34: Create a simple UEFI driver. Use `load`/`unload` UEFI shell commands to work with a driver image 
-- Lesson 35: Create a simple library and use it in an app
-- Lesson 36: Library constructor and destructor. `NULL` libraries
-- Lesson 37: Investigate ways how to add `acpiview` command functionality to your shell
-- Lesson 38: Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
-- Lesson 39: Create a driver that adds hot key functionality with a help of `RegisterKeyNotify`/`UnregisterKeyNotify` functions
-- Lesson 40: `Key####` NVRAM variables
+- [Lesson 31](Lessons/Lesson_31): Search `pci.ids` database to get PCI Vendor/Device information with a help of `ShellLib`/`PrintLib` functions
+- [Lesson 32](Lessons/Lesson_32): Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
+- [Lesson 33](Lessons/Lesson_33): Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
+- [Lesson 34](Lessons/Lesson_34): Create a simple UEFI driver. Use `load`/`unload` UEFI shell commands to work with a driver image 
+- [Lesson 35](Lessons/Lesson_35): Create a simple library and use it in an app
+- [Lesson 36](Lessons/Lesson_36): Library constructor and destructor. `NULL` libraries
+- [Lesson 37](Lessons/Lesson_37): Investigate ways how to add `acpiview` command functionality to your shell
+- [Lesson 38](Lessons/Lesson_38): Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
+- [Lesson 39](Lessons/Lesson_39): Create a driver that adds hot key functionality with a help of `RegisterKeyNotify`/`UnregisterKeyNotify` functions
+- [Lesson 40](Lessons/Lesson_40): `Key####` NVRAM variables
 
 ______
 
