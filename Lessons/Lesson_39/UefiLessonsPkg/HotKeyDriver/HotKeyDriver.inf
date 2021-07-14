@@ -1,0 +1,22 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HotKeyDriver
+  FILE_GUID                      = da316635-c66f-477e-9df6-880d2d729f1b
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HotKeyDriverEntryPoint
+  UNLOAD_IMAGE                   = HotKeyDriverUnload
+  
+[Sources]
+  HotKeyDriver.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[Protocols]
+  gEfiSimpleTextInputExProtocolGuid
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+

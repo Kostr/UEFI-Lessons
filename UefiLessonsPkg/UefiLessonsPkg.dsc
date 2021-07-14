@@ -57,6 +57,7 @@
   UefiLessonsPkg/SimpleLibraryUser/SimpleLibraryUser.inf
   UefiLessonsPkg/SimpleClassProtocol/SimpleClassProtocol.inf
   UefiLessonsPkg/SimpleClassUser/SimpleClassUser.inf
+  UefiLessonsPkg/HotKeyDriver/HotKeyDriver.inf
 
 [PcdsFixedAtBuild]
   gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44

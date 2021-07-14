@@ -42,6 +42,7 @@ Lessons description:
 - Lesson 36: Library constructor and destructor. `NULL` libraries
 - Lesson 37: Investigate ways how to add `acpiview` command functionality to your shell
 - Lesson 38: Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
+- Lesson 39: Create a driver that adds hot key functionality with a help of `RegisterKeyNotify`/`UnregisterKeyNotify` functions
 
 ______
 
