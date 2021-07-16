@@ -412,7 +412,7 @@ Let's create a python app that would parse this file, create a `GUID:NAME` dicti
 from shutil import copyfile
 
 GUIDS_FILE_PATH = "Build/OvmfX64/DEBUG_GCC5/FV/Guid.xref"
-EXTRA_GUIDS_FILE_PATH = ""
+EXTRA_GUIDS_FILE_PATH = "Guid_extra.xref"
 LOG_IN_FILE_PATH = "debug.log"
 LOG_OUT_FILE_PATH = "debug_parsed.log"
 

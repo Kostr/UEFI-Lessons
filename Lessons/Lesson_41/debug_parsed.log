@@ -690,7 +690,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70A0518
 ProtectUefiImageCommon - 0x709F040
   - 0x0000000007024000 - 0x000000000000EE80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7032B60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7032B30
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7032B30
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7032B10
 InstallProtocolInterface: gEfiPciHotPlugRequestProtocolGuid 7032AF0
 Loading driver VirtioPciDeviceDxe
@@ -700,7 +700,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 709EA18
 ProtectUefiImageCommon - 0x709E0C0
   - 0x0000000007068000 - 0x0000000000002F80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 706AE20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 706AE00
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 706AE00
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 706ADE0
 Loading driver Virtio10
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 709E4C0
@@ -709,7 +709,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 709E798
 ProtectUefiImageCommon - 0x709E4C0
   - 0x0000000007063000 - 0x0000000000004B00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 70679A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7067980
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7067980
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7067960
 Loading driver VirtioBlkDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70620C0
@@ -718,7 +718,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7062A98
 ProtectUefiImageCommon - 0x70620C0
   - 0x000000000705E000 - 0x0000000000003500
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 70613C0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 70613A0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 70613A0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7061380
 Loading driver VirtioScsiDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7062540
@@ -727,7 +727,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7096018
 ProtectUefiImageCommon - 0x7062540
   - 0x000000000705A000 - 0x00000000000039C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 705D880
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 705D860
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 705D860
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 705D840
 Loading driver VirtioRngDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70960C0
@@ -736,7 +736,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7096A18
 ProtectUefiImageCommon - 0x70960C0
   - 0x0000000007057000 - 0x0000000000002F00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7059DA0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7059D80
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7059D80
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7059D60
 Loading driver PvScsiDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7096440
@@ -745,7 +745,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701FF98
 ProtectUefiImageCommon - 0x7096440
   - 0x0000000007020000 - 0x0000000000003440
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7023300
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 70232E0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 70232E0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 70232C0
 Loading driver MptScsiDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701F7C0
@@ -754,7 +754,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701F118
 ProtectUefiImageCommon - 0x701F7C0
   - 0x000000000701B000 - 0x0000000000003380
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 701E240
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 701E220
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 701E220
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 701E200
 Loading driver ConPlatformDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701A040
@@ -763,10 +763,10 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701F418
 ProtectUefiImageCommon - 0x701A040
   - 0x0000000007016000 - 0x0000000000003E80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7019C60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7019CD0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7019CD0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7019CB0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7019C20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7019CD0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7019CD0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7019CB0
 Loading driver ConSplitterDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701A3C0
@@ -775,19 +775,19 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701A698
 ProtectUefiImageCommon - 0x701A3C0
   - 0x0000000007006000 - 0x0000000000007240
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CF20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CEF0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 700CEF0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CED0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CEA0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CE70
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 700CE70
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CE50
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CE20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CDF0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 700CDF0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CDD0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CDA0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CD70
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 700CD70
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CD50
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CD20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CCF0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 700CCF0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CCD0
 InstallProtocolInterface: gEfiSimpleTextInProtocolGuid 700CB50
 InstallProtocolInterface: gEfiSimpleTextInputExProtocolGuid 700CB80
@@ -802,7 +802,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7097C98
 ProtectUefiImageCommon - 0x70970C0
   - 0x0000000007000000 - 0x0000000000005D80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7005B80
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7005B60
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 7005B60
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7005B40
 Loading driver TerminalDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7015040
@@ -811,7 +811,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7015D18
 ProtectUefiImageCommon - 0x7015040
   - 0x0000000006DF0000 - 0x0000000000007B40
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DF7960
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DF7930
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DF7930
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DF7910
 Loading driver QemuKernelLoaderFsDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7015440
@@ -835,7 +835,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7015898
 ProtectUefiImageCommon - 0x7015440
   - 0x0000000006DEB000 - 0x0000000000004800
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DEF680
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DEF650
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DEF650
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DEF630
 Loading driver PartitionDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7014040
@@ -844,7 +844,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7014E98
 ProtectUefiImageCommon - 0x7014040
   - 0x0000000006DE4000 - 0x0000000000006540
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DEA3E0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DEA3C0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DEA3C0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DEA3A0
 Loading driver EnglishDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70143C0
@@ -861,7 +861,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7013E98
 ProtectUefiImageCommon - 0x70131C0
   - 0x0000000006DDC000 - 0x0000000000003F00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DDFD60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DDFD40
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DDFD40
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DDFD20
 Loading driver ScsiDisk
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70135C0
@@ -870,7 +870,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7013518
 ProtectUefiImageCommon - 0x70135C0
   - 0x0000000006DC8000 - 0x0000000000009A00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DD18A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DD1870
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DD1870
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DD1850
 Loading driver SataController
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7012140
@@ -879,7 +879,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7012B18
 ProtectUefiImageCommon - 0x7012140
   - 0x0000000006DD8000 - 0x00000000000031C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DDB060
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DDB040
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DDB040
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DDB020
 Loading driver AtaAtapiPassThruDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7012540
@@ -888,7 +888,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700F018
 ProtectUefiImageCommon - 0x7012540
   - 0x0000000006DB2000 - 0x000000000000AFC0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DBCDC0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DBCD90
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DBCD90
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DBCD70
 Loading driver AtaBusDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 700F140
@@ -897,7 +897,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700FB18
 ProtectUefiImageCommon - 0x700F140
   - 0x0000000006DAB000 - 0x0000000000006380
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DB1180
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DB1150
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DB1150
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DB1130
 Loading driver NvmExpressDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 700F540
@@ -906,7 +906,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700EF98
 ProtectUefiImageCommon - 0x700F540
   - 0x0000000006DA1000 - 0x0000000000009A80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DAA8E0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DAA8C0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DAA8C0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DAA8A0
 InstallProtocolInterface: gEfiDriverSupportedEfiVersionProtocolGuid 6DAA890
 Loading driver SioBusDxe
@@ -916,7 +916,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700E698
 ProtectUefiImageCommon - 0x700E840
   - 0x0000000006DD4000 - 0x0000000000003180
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DD6FE0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DD6FC0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DD6FC0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DD6FA0
 Loading driver PciSioSerialDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFF040
@@ -925,7 +925,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFFD18
 ProtectUefiImageCommon - 0x6DFF040
   - 0x0000000006D9B000 - 0x0000000000006000
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DA0E40
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DA0E20
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6DA0E20
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DA0E00
 Loading driver Ps2KeyboardDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFF440
@@ -934,7 +934,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFFC18
 ProtectUefiImageCommon - 0x6DFF440
   - 0x0000000006D95000 - 0x0000000000005740
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D9A5A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D9A570
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D9A570
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D9A550
 Loading driver BootGraphicsResourceTableDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFE040
@@ -951,7 +951,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFE598
 ProtectUefiImageCommon - 0x6DFE6C0
   - 0x0000000006D81000 - 0x0000000000009BC0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D8AA40
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D8AA10
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D8AA10
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D8A9F0
 Loading driver UdfDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFDCC0
@@ -960,7 +960,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFDB98
 ProtectUefiImageCommon - 0x6DFDCC0
   - 0x0000000006D8E000 - 0x00000000000060C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D93F80
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D93F50
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D93F50
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D93F30
 Loading driver VirtioFsDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFD3C0
@@ -977,7 +977,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF9718
 ProtectUefiImageCommon - 0x6DF9CC0
   - 0x0000000006D79000 - 0x00000000000071C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D80040
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D80010
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D80010
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D7FFF0
 Loading driver VlanConfigDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF92C0
@@ -986,7 +986,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF8F18
 ProtectUefiImageCommon - 0x6DF92C0
   - 0x0000000006D66000 - 0x00000000000069C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D6C7E0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D6C7B0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D6C7B0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D6C790
 Loading driver MnpDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF81C0
@@ -995,7 +995,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF8A18
 ProtectUefiImageCommon - 0x6DF81C0
   - 0x0000000006D50000 - 0x000000000000A240
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D5A060
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D5A040
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D5A040
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D5A020
 Loading driver ArpDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF8640
@@ -1004,7 +1004,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE3018
 ProtectUefiImageCommon - 0x6DF8640
   - 0x0000000006D60000 - 0x0000000000005D00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D65BA0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D65B70
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D65B70
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D65B50
 Loading driver Dhcp4Dxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE30C0
@@ -1013,7 +1013,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE3918
 ProtectUefiImageCommon - 0x6DE30C0
   - 0x0000000006D3A000 - 0x000000000000A4C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D442A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D44270
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D44270
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D44250
 Loading driver Ip4Dxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE3540
@@ -1022,7 +1022,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE2E98
 ProtectUefiImageCommon - 0x6DE3540
   - 0x0000000006D12000 - 0x00000000000131C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D24E60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D24E40
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D24E40
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D24E20
 Loading driver Udp4Dxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE2140
@@ -1031,7 +1031,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE2718
 ProtectUefiImageCommon - 0x6DE2140
   - 0x0000000006D31000 - 0x0000000000008840
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D396A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D39680
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D39680
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D39660
 Loading driver Mtftp4Dxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE1B40
@@ -1040,7 +1040,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE1098
 ProtectUefiImageCommon - 0x6DE1B40
   - 0x0000000006D28000 - 0x0000000000009000
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D30E60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D30E40
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D30E40
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D30E20
 Loading driver TcpDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE1240
@@ -1049,10 +1049,10 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE1818
 ProtectUefiImageCommon - 0x6DE1240
   - 0x0000000006CEE000 - 0x0000000000011E40
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CFF9A0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CFFA50
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CFFA50
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CFFA30
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CFF960
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CFFA50
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CFFA50
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CFFA30
 Loading driver UefiPxeBcDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE07C0
@@ -1068,10 +1068,10 @@ QemuFwCfg interface (DMA) is supported.
 Select Item: 0x19
 Select Item: 0x19
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CECE60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CECF00
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CECF00
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CECEE0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CECE20
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CECF00
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CECF00
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CECEE0
 Loading driver IScsiDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DD3CC0
@@ -1080,10 +1080,10 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DD3098
 ProtectUefiImageCommon - 0x6DD3CC0
   - 0x0000000006CA0000 - 0x000000000001D580
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CBD060
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CBD0C0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CBD0C0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CBD0A0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CBD020
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CBD0C0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CBD0C0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CBD0A0
 InstallProtocolInterface: gEfiIScsiInitiatorNameProtocolGuid 6CBD010
 InstallProtocolInterface: gEfiDevicePathProtocolGuid 6CBD120
@@ -1096,7 +1096,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DD2498
 ProtectUefiImageCommon - 0x6DD2240
   - 0x0000000006D0C000 - 0x0000000000005440
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D11300
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D112D0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D112D0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D112B0
 Loading driver UhciDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC4CC0
@@ -1105,7 +1105,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC4B18
 ProtectUefiImageCommon - 0x6DC4CC0
   - 0x0000000006D05000 - 0x0000000000006E00
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D0BC60
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D0BC40
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6D0BC40
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D0BC20
 Loading driver EhciDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC46C0
@@ -1114,7 +1114,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC4A18
 ProtectUefiImageCommon - 0x6DC46C0
   - 0x0000000006CD3000 - 0x00000000000087C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CDB620
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CDB600
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CDB600
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CDB5E0
 Loading driver XhciDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC12C0
@@ -1123,7 +1123,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC1A98
 ProtectUefiImageCommon - 0x6DC12C0
   - 0x0000000006C93000 - 0x000000000000CB80
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C9F9E0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C9F9C0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6C9F9C0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C9F9A0
 Loading driver UsbBusDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC1540
@@ -1132,7 +1132,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC1898
 ProtectUefiImageCommon - 0x6DC1540
   - 0x0000000006CC9000 - 0x00000000000092C0
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CD2100
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CD20D0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CD20D0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CD20B0
 Loading driver UsbKbDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC02C0
@@ -1141,7 +1141,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC0A18
 ProtectUefiImageCommon - 0x6DC02C0
   - 0x0000000006CC2000 - 0x0000000000006340
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CC8160
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CC8130
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6CC8130
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CC8110
 Loading driver UsbMassStorageDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC0540
@@ -1150,7 +1150,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DBDD18
 ProtectUefiImageCommon - 0x6DC0540
   - 0x0000000006C8D000 - 0x0000000000005980
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C92820
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C927F0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6C927F0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C927D0
 Loading driver QemuVideoDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DBD2C0
@@ -1159,7 +1159,7 @@ InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DBDC98
 ProtectUefiImageCommon - 0x6DBD2C0
   - 0x0000000006C86000 - 0x0000000000006040
 InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C8BEE0
-InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C8BEC0
+InstallProtocolInterface: gEfiComponentNameProtocolGuid 6C8BEC0
 InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C8BEA0
 Loading driver VirtioGpuDxe
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6D8D040
@@ -1611,7 +1611,7 @@ Memory  Previous  Current    Next
   05    00000100  0000003C  00000100
   06    00000100  000000B1  00000100
 [Bds]Booting EFI Internal Shell
-[Bds] Expand Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(Shell) -> Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(Shell)
+[Bds] Expand Fv([FV.DXEFV])/FvFile(Shell) -> Fv([FV.DXEFV])/FvFile(Shell)
 InstallProtocolInterface: gEfiLoadedImageProtocolGuid 66A66C0
 Loading driver at 0x000064E4000 EntryPoint=0x0000652AC78 Shell.efi
 InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6D77798
