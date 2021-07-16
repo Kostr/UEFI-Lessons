@@ -371,7 +371,7 @@ tail -f debug.log
 ```
 to follow this file content runtime.
 
-I've included the profuced `debug.log` to the current folder.
+I've included the produced `debug.log` to the current folder.
 
 
 # Replace GUIDs in a log file
