@@ -1,0 +1,1622 @@
+SecCoreStartupWithStack(0xFFFCC000, 0x820000)
+Register PPI Notify: gEfiPeiSecurity2PpiGuid
+Install PPI: gEfiFirmwareFileSystem2Guid
+Install PPI: gEfiFirmwareFileSystem3Guid
+The 0th FV start address is 0x00000820000, size is 0x000E0000, handle is 0x820000
+Register PPI Notify: gEfiPeiFirmwareVolumeInfoPpiGuid
+Register PPI Notify: gEfiPeiFirmwareVolumeInfo2PpiGuid
+Install PPI: gEfiPeiLoadFilePpiGuid
+Install PPI: gEfiTemporaryRamSupportPpiGuid
+DiscoverPeimsAndOrderWithApriori(): Found 0x7 PEI FFS files in the 0th FV
+Loading PEIM PcdPeim
+Loading PEIM at 0x0000082B940 EntryPoint=0x0000082E9EA PcdPeim.efi
+Install PPI: gPcdPpiGuid
+Install PPI: gEfiPeiPcdPpiGuid
+Install PPI: gGetPcdInfoPpiGuid
+Install PPI: gEfiGetPcdInfoPpiGuid
+Register PPI Notify: gEfiEndOfPeiSignalPpiGuid
+Loading PEIM ReportStatusCodeRouterPei
+Loading PEIM at 0x00000830340 EntryPoint=0x00000831607 ReportStatusCodeRouterPei.efi
+Install PPI: gEfiPeiRscHandlerPpiGuid
+Install PPI: gEfiPeiStatusCodePpiGuid
+Loading PEIM StatusCodeHandlerPei
+Loading PEIM at 0x00000832240 EntryPoint=0x00000833341 StatusCodeHandlerPei.efi
+Loading PEIM PlatformPei
+Loading PEIM at 0x00000834040 EntryPoint=0x0000083946B PlatformPei.efi
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Platform PEIM Loaded
+CMOS:
+00: 21 00 36 00 18 00 06 16 07 21 26 02 00 80 00 00
+10: 50 00 F0 00 07 80 02 FF FF 2F 00 00 04 10 FF FF
+20: C8 00 04 3F 00 00 00 00 00 00 00 00 00 00 00 00
+30: FF FF 20 00 00 07 00 20 30 00 00 00 00 12 00 00
+40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Select Item: 0x19
+Select Item: 0x28
+S3 support was detected on QEMU
+Install PPI: gEfiPeiMasterBootModePpiGuid
+Select Item: 0x19
+Select Item: 0x25
+Select Item: 0x19
+Select Item: 0x19
+GetFirstNonAddress: Pci64Base=0x800000000 Pci64Size=0x800000000
+Select Item: 0x5
+MaxCpuCountInitialization: QEMU v2.7 reset bug: BootCpuCount=1 Present=0
+MaxCpuCountInitialization: BootCpuCount=0 mMaxCpuCount=1
+PublishPeiMemory: mPhysMemAddressWidth=36 PeiMemoryCap=65800 KB
+PeiInstallPeiMemory MemoryBegin 0x3F36000, MemoryLength 0x4042000
+QemuInitializeRam called
+Select Item: 0x19
+Select Item: 0x25
+Reserved variable store memory: 0x7EF4000; size: 528kb
+Platform PEI Firmware Volume Initialization
+Install PPI: gEfiPeiFirmwareVolumeInfoPpiGuid
+Notify: PPI Guid: gEfiPeiFirmwareVolumeInfoPpiGuid, Peim notify entry point: 825C08
+The 1th FV start address is 0x00000900000, size is 0x00C00000, handle is 0x900000
+Select Item: 0x19
+Register PPI Notify: gEfiPeiMpServicesPpiGuid
+Select Item: 0x19
+Temp Stack : BaseAddress=0x818000 Length=0x8000
+Temp Heap  : BaseAddress=0x810000 Length=0x8000
+Total temporary memory:    65536 bytes.
+  temporary memory stack ever used:       29560 bytes.
+  temporary memory heap used for HobList: 6608 bytes.
+  temporary memory heap occupied by memory pages: 0 bytes.
+Memory Allocation 0x0000000A 0x7F78000 - 0x7FFFFFF
+Memory Allocation 0x0000000A 0x810000 - 0x81FFFF
+Memory Allocation 0x0000000A 0x807000 - 0x807FFF
+Memory Allocation 0x0000000A 0x800000 - 0x805FFF
+Memory Allocation 0x0000000A 0x806000 - 0x806FFF
+Memory Allocation 0x00000006 0x7EF4000 - 0x7F77FFF
+Memory Allocation 0x0000000A 0x820000 - 0x8FFFFF
+Memory Allocation 0x00000004 0x900000 - 0x14FFFFF
+Old Stack size 32768, New stack size 131072
+Stack Hob: BaseAddress=0x3F36000 Length=0x20000
+Heap Offset = 0x3746000 Stack Offset = 0x3736000
+TemporaryRamMigration(0x810000, 0x3F4E000, 0x10000)
+Loading PEIM PeiCore
+Loading PEIM at 0x00007EE8000 EntryPoint=0x00007EEFD64 PeiCore.efi
+Reinstall PPI: gEfiFirmwareFileSystem2Guid
+Reinstall PPI: gEfiFirmwareFileSystem3Guid
+Reinstall PPI: gEfiPeiLoadFilePpiGuid
+Install PPI: gEfiPeiMemoryDiscoveredPpiGuid
+Loading PEIM DxeIpl
+Loading PEIM at 0x00007EE3000 EntryPoint=0x00007EE5EF7 DxeIpl.efi
+Install PPI: gEfiPeiDecompressPpiGuid
+Install PPI: gEfiDxeIplPpiGuid
+Loading PEIM S3Resume2Pei
+Loading PEIM at 0x00007EDF000 EntryPoint=0x00007EE12E6 S3Resume2Pei.efi
+Install PPI: gEfiPeiS3Resume2PpiGuid
+Loading PEIM CpuMpPei
+Loading PEIM at 0x00007ED3000 EntryPoint=0x00007EDB200 CpuMpPei.efi
+Register PPI Notify: gEfiPeiMemoryDiscoveredPpiGuid
+Notify: PPI Guid: gEfiPeiMemoryDiscoveredPpiGuid, Peim notify entry point: 7ED9889
+AP Loop Mode is 1
+GetMicrocodePatchInfoFromHob: Microcode patch cache HOB is not found.
+CPU[0000]: Microcode revision = 00000000, expected = 00000000
+Register PPI Notify: gEdkiiS3SmmInitDoneGuid
+Does not find any stored CPU BIST information from PPI!
+  APICID - 0x00000000, BIST - 0x00000000
+Install PPI: gEfiSecPlatformInformation2PpiGuid
+Install PPI: gEdkiiPeiMpServices2PpiGuid
+Install PPI: gEfiPeiMpServicesPpiGuid
+Notify: PPI Guid: gEfiPeiMpServicesPpiGuid, Peim notify entry point: 835FD3
+PlatformPei: ClearCacheOnMpServicesAvailable
+DiscoverPeimsAndOrderWithApriori(): Found 0x0 PEI FFS files in the 1th FV
+DXE IPL Entry
+Loading PEIM DxeCore
+Loading PEIM at 0x00007EA4000 EntryPoint=0x00007EAFC72 DxeCore.efi
+Loading DXE CORE at 0x00007EA4000 EntryPoint=0x00007EAFC72
+AddressBits=36 5LevelPaging=0 1GPage=0
+Pml5=1 Pml4=1 Pdp=64 TotalPage=66
+Install PPI: gEfiEndOfPeiSignalPpiGuid
+Notify: PPI Guid: gEfiEndOfPeiSignalPpiGuid, Peim notify entry point: 82D91E
+CoreInitializeMemoryServices:
+  BaseAddress - 0x3F59000 Length - 0x3CA7000 MinimalMemorySizeNeeded - 0x320000
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7EC6EA8
+ProtectUefiImageCommon - 0x7EC6EA8
+  - 0x0000000007EA4000 - 0x0000000000026000
+DxeMain: MemoryBaseAddress=0x3F59000 MemoryLength=0x3CA7000
+HOBLIST address in DXE = 0x78EA018
+Memory Allocation 0x0000000A 0x7F78000 - 0x7FFFFFF
+Memory Allocation 0x0000000A 0x810000 - 0x81FFFF
+Memory Allocation 0x0000000A 0x807000 - 0x807FFF
+Memory Allocation 0x0000000A 0x800000 - 0x805FFF
+Memory Allocation 0x0000000A 0x806000 - 0x806FFF
+Memory Allocation 0x00000006 0x7EF4000 - 0x7F77FFF
+Memory Allocation 0x0000000A 0x820000 - 0x8FFFFF
+Memory Allocation 0x00000004 0x900000 - 0x14FFFFF
+Memory Allocation 0x00000004 0x7E84000 - 0x7EA3FFF
+Memory Allocation 0x00000003 0x7EE8000 - 0x7EF3FFF
+Memory Allocation 0x00000003 0x7EE3000 - 0x7EE7FFF
+Memory Allocation 0x00000003 0x7EDF000 - 0x7EE2FFF
+Memory Allocation 0x00000003 0x7ED3000 - 0x7EDEFFF
+Memory Allocation 0x00000004 0x7ECA000 - 0x7ED2FFF
+Memory Allocation 0x00000003 0x7EA4000 - 0x7EC9FFF
+Memory Allocation 0x00000003 0x7EA4000 - 0x7EC9FFF
+Memory Allocation 0x00000004 0x7E84000 - 0x7EA3FFF
+Memory Allocation 0x00000004 0x7C00000 - 0x7DFFFFF
+Memory Allocation 0x00000007 0x7E00000 - 0x7E83FFF
+Memory Allocation 0x00000004 0x3F36000 - 0x3F55FFF
+FV Hob            0x900000 - 0x14FFFFF
+InstallProtocolInterface: gEfiDecompressProtocolGuid 7EC6070
+InstallProtocolInterface: gEfiFirmwareVolumeBlock2ProtocolGuid 78E6CB0
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 78E6D98
+InstallProtocolInterface: gEfiFirmwareVolume2ProtocolGuid 78E6630
+InstallProtocolInterface: EE4E5898-3914-4259-9D6E-DC7BD79403CF 7EC5D30
+Loading driver DevicePathDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75CE140
+Loading driver at 0x000075A6000 EntryPoint=0x000075ADD77 DevicePathDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75CE718
+ProtectUefiImageCommon - 0x75CE140
+  - 0x00000000075A6000 - 0x000000000000B240
+InstallProtocolInterface: gEfiDevicePathUtilitiesProtocolGuid 75B0F00
+InstallProtocolInterface: gEfiDevicePathToTextProtocolGuid 75B0EE0
+InstallProtocolInterface: gEfiDevicePathFromTextProtocolGuid 75B0EC0
+Loading driver PcdDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75BD1C0
+Loading driver at 0x000075A0000 EntryPoint=0x000075A3833 PcdDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75BDB98
+ProtectUefiImageCommon - 0x75BD1C0
+  - 0x00000000075A0000 - 0x0000000000005A80
+InstallProtocolInterface: gPcdProtocolGuid 75A5700
+InstallProtocolInterface: gEfiPcdProtocolGuid 75A5660
+InstallProtocolInterface: gGetPcdInfoProtocolGuid 75A5630
+InstallProtocolInterface: gEfiGetPcdInfoProtocolGuid 75A5610
+Loading driver AmdSevDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75BC4C0
+Loading driver at 0x000075B6000 EntryPoint=0x000075B79B7 AmdSevDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75BC718
+ProtectUefiImageCommon - 0x75BC4C0
+  - 0x00000000075B6000 - 0x0000000000002E80
+Error: Image at 000075B6000 start failed: Unsupported
+Loading driver FvbServicesRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75BC4C0
+Loading driver at 0x00007AE7000 EntryPoint=0x00007AE9C52 FvbServicesRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75BC918
+ProtectUefiImageCommon - 0x75BC4C0
+  - 0x0000000007AE7000 - 0x0000000000008000
+QEMU Flash: Attempting flash detection at FFC00010
+QemuFlashDetected => FD behaves as FLASH
+QemuFlashDetected => Yes
+Installing QEMU flash FVB
+InstallProtocolInterface: gEfiFirmwareVolumeBlock2ProtocolGuid 79EE8B0
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 75BBC18
+Loading driver ReportStatusCodeRouterRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75BB9C0
+Loading driver at 0x00007AE1000 EntryPoint=0x00007AE374D ReportStatusCodeRouterRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75BB218
+ProtectUefiImageCommon - 0x75BB9C0
+  - 0x0000000007AE1000 - 0x0000000000006000
+InstallProtocolInterface: gEfiRscHandlerProtocolGuid 7AE5060
+InstallProtocolInterface: gEfiStatusCodeRuntimeProtocolGuid 7AE5040
+Loading driver RuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 759F040
+Loading driver at 0x00007ADB000 EntryPoint=0x00007ADD4A8 RuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 759FE18
+ProtectUefiImageCommon - 0x759F040
+  - 0x0000000007ADB000 - 0x0000000000006000
+InstallProtocolInterface: gEfiRuntimeArchProtocolGuid 7ADF040
+Loading driver SecurityStubDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 759F3C0
+Loading driver at 0x000075B3000 EntryPoint=0x000075B4539 SecurityStubDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 759F718
+ProtectUefiImageCommon - 0x759F3C0
+  - 0x00000000075B3000 - 0x0000000000002B80
+InstallProtocolInterface: gEfiSecurity2ArchProtocolGuid 75B59E8
+InstallProtocolInterface: gEfiSecurityArchProtocolGuid 75B59E0
+InstallProtocolInterface: gEfiDeferredImageLoadProtocolGuid 75B59C0
+Loading driver EbcDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75B8940
+Loading driver at 0x00007593000 EntryPoint=0x00007595F70 EbcDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75B8718
+ProtectUefiImageCommon - 0x75B8940
+  - 0x0000000007593000 - 0x0000000000005E00
+InstallProtocolInterface: gEfiEbcProtocolGuid 75B8498
+InstallProtocolInterface: gEdkiiPeCoffImageEmulatorProtocolGuid 7598B60
+InstallProtocolInterface: gEfiDebugSupportProtocolGuid 75B7F18
+InstallProtocolInterface: gEfiEbcVmTestProtocolGuid 75B7B98
+Loading driver Legacy8259
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75B70C0
+Loading driver at 0x0000759B000 EntryPoint=0x0000759C2D5 Legacy8259.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75B7A18
+ProtectUefiImageCommon - 0x75B70C0
+  - 0x000000000759B000 - 0x0000000000001D80
+InstallProtocolInterface: gEfiLegacy8259ProtocolGuid 759CC00
+Loading driver CpuIo2Dxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75B7440
+Loading driver at 0x0000759D000 EntryPoint=0x0000759E406 CpuIo2Dxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75B6F18
+ProtectUefiImageCommon - 0x75B7440
+  - 0x000000000759D000 - 0x0000000000002000
+InstallProtocolInterface: gEfiCpuIo2ProtocolGuid 759EEC0
+Loading driver CpuDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 75B60C0
+Loading driver at 0x00007171000 EntryPoint=0x00007179EB1 CpuDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 75B6A18
+ProtectUefiImageCommon - 0x75B60C0
+  - 0x0000000007171000 - 0x0000000000010780
+Paging: added 512 pages to page table pool
+CurrentPagingContext:
+  MachineType   - 0x8664
+  PageTableBase - 0x7C01000
+  Attributes    - 0xC0000002
+InstallProtocolInterface: gEfiCpuArchProtocolGuid 71812A0
+MemoryProtectionCpuArchProtocolNotify:
+ProtectUefiImageCommon - 0x7EC6EA8
+  - 0x0000000007EA4000 - 0x0000000000026000
+ProtectUefiImageCommon - 0x75CE140
+  - 0x00000000075A6000 - 0x000000000000B240
+ProtectUefiImageCommon - 0x75BD1C0
+  - 0x00000000075A0000 - 0x0000000000005A80
+ProtectUefiImageCommon - 0x75BC4C0
+  - 0x0000000007AE7000 - 0x0000000000008000
+SetUefiImageMemoryAttributes - 0x0000000007AE7000 - 0x0000000000001000 (0x0000000000004000)
+SetUefiImageMemoryAttributes - 0x0000000007AE8000 - 0x0000000000005000 (0x0000000000020000)
+SetUefiImageMemoryAttributes - 0x0000000007AED000 - 0x0000000000002000 (0x0000000000004000)
+ProtectUefiImageCommon - 0x75BB9C0
+  - 0x0000000007AE1000 - 0x0000000000006000
+SetUefiImageMemoryAttributes - 0x0000000007AE1000 - 0x0000000000001000 (0x0000000000004000)
+SetUefiImageMemoryAttributes - 0x0000000007AE2000 - 0x0000000000003000 (0x0000000000020000)
+SetUefiImageMemoryAttributes - 0x0000000007AE5000 - 0x0000000000002000 (0x0000000000004000)
+ProtectUefiImageCommon - 0x759F040
+  - 0x0000000007ADB000 - 0x0000000000006000
+SetUefiImageMemoryAttributes - 0x0000000007ADB000 - 0x0000000000001000 (0x0000000000004000)
+SetUefiImageMemoryAttributes - 0x0000000007ADC000 - 0x0000000000003000 (0x0000000000020000)
+SetUefiImageMemoryAttributes - 0x0000000007ADF000 - 0x0000000000002000 (0x0000000000004000)
+ProtectUefiImageCommon - 0x759F3C0
+  - 0x00000000075B3000 - 0x0000000000002B80
+ProtectUefiImageCommon - 0x75B8940
+  - 0x0000000007593000 - 0x0000000000005E00
+ProtectUefiImageCommon - 0x75B70C0
+  - 0x000000000759B000 - 0x0000000000001D80
+ProtectUefiImageCommon - 0x75B7440
+  - 0x000000000759D000 - 0x0000000000002000
+ProtectUefiImageCommon - 0x75B60C0
+  - 0x0000000007171000 - 0x0000000000010780
+ConvertPages: failed to find range A0000 - FFFFF
+ConvertPages: failed to find range 80000000 - FBFFFFFF
+ConvertPages: failed to find range FEC00000 - FEC00FFF
+Failed to update capability: [8] 00000000FED00000 - 00000000FED003FF (C700000000000001 -> C700000000026001)
+ConvertPages: failed to find range FEE00000 - FEEFFFFF
+ConvertPages: failed to find range FFC00000 - FFFFFFFF
+AP Loop Mode is 1
+GetMicrocodePatchInfoFromHob: MicrocodeBase = 0x0, MicrocodeSize = 0x0
+CPU[0000]: Microcode revision = 00000000, expected = 00000000
+Detect CPU count: 1
+InstallProtocolInterface: gEfiMpServiceProtocolGuid 71814C0
+Loading driver IncompatiblePciDeviceSupportDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 718B0C0
+Loading driver at 0x00007187000 EntryPoint=0x0000718806E IncompatiblePciDeviceSupportDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 718B418
+ProtectUefiImageCommon - 0x718B0C0
+  - 0x0000000007187000 - 0x0000000000001F40
+InstallProtocolInterface: gEfiIncompatiblePciDeviceSupportProtocolGuid 7188E58
+Loading driver PciHotPlugInitDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 718A1C0
+Loading driver at 0x00007162000 EntryPoint=0x000071652EF PciHotPlugInitDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 718A018
+ProtectUefiImageCommon - 0x718A1C0
+  - 0x0000000007162000 - 0x0000000000004BC0
+InstallProtocolInterface: gEfiPciHotPlugInitProtocolGuid 7166AC0
+Loading driver ResetSystemRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 718A540
+Loading driver at 0x00007AD5000 EntryPoint=0x00007AD7742 ResetSystemRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7189F98
+ProtectUefiImageCommon - 0x718A540
+  - 0x0000000007AD5000 - 0x0000000000006000
+SetUefiImageMemoryAttributes - 0x0000000007AD5000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AD6000 - 0x0000000000003000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AD9000 - 0x0000000000002000 (0x0000000000004008)
+InstallProtocolInterface: gEfiResetArchProtocolGuid 0
+InstallProtocolInterface: gEfiResetNotificationProtocolGuid 7AD9108
+InstallProtocolInterface: gEdkiiPlatformSpecificResetFilterProtocolGuid 7AD90C8
+InstallProtocolInterface: gEdkiiPlatformSpecificResetHandlerProtocolGuid 7AD9088
+Loading driver Metronome
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7189240
+Loading driver at 0x00007183000 EntryPoint=0x00007183FE4 Metronome.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7189C18
+ProtectUefiImageCommon - 0x7189240
+  - 0x0000000007183000 - 0x0000000000001E40
+InstallProtocolInterface: gEfiMetronomeArchProtocolGuid 7184CD0
+Loading driver PrintDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7186CC0
+Loading driver at 0x0000715C000 EntryPoint=0x0000715D86E PrintDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7186A98
+ProtectUefiImageCommon - 0x7186CC0
+  - 0x000000000715C000 - 0x0000000000002880
+InstallProtocolInterface: gEfiPrint2ProtocolGuid 715E6E0
+InstallProtocolInterface: gEfiPrint2SProtocolGuid 715E680
+Loading driver HiiDatabase
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7186340
+Loading driver at 0x00007122000 EntryPoint=0x00007125826 HiiDatabase.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7185018
+ProtectUefiImageCommon - 0x7186340
+  - 0x0000000007122000 - 0x000000000001CFC0
+InstallProtocolInterface: gEfiHiiFontProtocolGuid 713EBA8
+InstallProtocolInterface: gEfiHiiStringProtocolGuid 713EC20
+InstallProtocolInterface: gEfiHiiDatabaseProtocolGuid 713EC48
+InstallProtocolInterface: gEfiHiiConfigRoutingProtocolGuid 713ECA0
+InstallProtocolInterface: gEfiConfigKeywordHandlerProtocolGuid 713ECD0
+InstallProtocolInterface: gEfiHiiImageProtocolGuid 713EBC8
+InstallProtocolInterface: gEfiHiiImageExProtocolGuid 713EBF0
+Loading driver NullMemoryTestDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71851C0
+Loading driver at 0x00007159000 EntryPoint=0x0000715A134 NullMemoryTestDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7185518
+ProtectUefiImageCommon - 0x71851C0
+  - 0x0000000007159000 - 0x00000000000020C0
+InstallProtocolInterface: gEfiGenericMemTestProtocolGuid 715AF20
+Loading driver AcpiTableDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71820C0
+Loading driver at 0x0000714B000 EntryPoint=0x0000714EC72 AcpiTableDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7182B18
+ProtectUefiImageCommon - 0x71820C0
+  - 0x000000000714B000 - 0x0000000000006CC0
+InstallProtocolInterface: gEfiAcpiTableProtocolGuid 7182420
+InstallProtocolInterface: gEfiAcpiSdtProtocolGuid 7182430
+Loading driver DpcDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7158040
+Loading driver at 0x00007156000 EntryPoint=0x00007157214 DpcDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7158D18
+ProtectUefiImageCommon - 0x7158040
+  - 0x0000000007156000 - 0x0000000000002000
+InstallProtocolInterface: gEfiDpcProtocolGuid 7157CD0
+Loading driver IoMmuDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7158440
+Loading driver at 0x00007147000 EntryPoint=0x000071494CB IoMmuDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7158C18
+ProtectUefiImageCommon - 0x7158440
+  - 0x0000000007147000 - 0x0000000000003B00
+InstallProtocolInterface: gIoMmuAbsentProtocolGuid 0
+Loading driver EmuVariableFvbRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7161B40
+Loading driver at 0x00007ACF000 EntryPoint=0x00007AD13C2 EmuVariableFvbRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7158818
+ProtectUefiImageCommon - 0x7161B40
+  - 0x0000000007ACF000 - 0x0000000000006000
+SetUefiImageMemoryAttributes - 0x0000000007ACF000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AD0000 - 0x0000000000003000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AD3000 - 0x0000000000002000 (0x0000000000004008)
+EMU Variable FVB Started
+Disabling EMU Variable FVB since flash variables appear to be supported.
+Error: Image at 00007ACF000 start failed: Aborted
+SetUefiImageMemoryAttributes - 0x0000000007ACF000 - 0x0000000000006000 (0x0000000000000008)
+Loading driver VariableRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7161B40
+Loading driver at 0x00007AC6000 EntryPoint=0x00007ACF08E VariableRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7161098
+ProtectUefiImageCommon - 0x7161B40
+  - 0x0000000007AC6000 - 0x000000000000F000
+SetUefiImageMemoryAttributes - 0x0000000007AC6000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AC7000 - 0x000000000000C000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AD3000 - 0x0000000000002000 (0x0000000000004008)
+VarCheckLibRegisterSetVariableCheckHandler - 0x7ACA263 Success
+Variable driver common space: 0x3FF9C 0x3FF9C 0x3FF9C
+Variable driver will work with auth variable format!
+InstallProtocolInterface: gEdkiiVariableLockProtocolGuid 7AD3470
+InstallProtocolInterface: gEdkiiVarCheckProtocolGuid 7AD3440
+InstallProtocolInterface: gEfiVariableArchProtocolGuid 0
+VarCheckLibRegisterSetVariableCheckHandler - 0x7AC8DAD Success
+InstallProtocolInterface: gEdkiiVariablePolicyProtocolGuid 7AD33C0
+Loading driver StatusCodeHandlerRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7160C40
+Loading driver at 0x00007AC1000 EntryPoint=0x00007AC2F48 StatusCodeHandlerRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7160B18
+ProtectUefiImageCommon - 0x7160C40
+  - 0x0000000007AC1000 - 0x0000000000005000
+SetUefiImageMemoryAttributes - 0x0000000007AC1000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AC2000 - 0x0000000000003000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AC5000 - 0x0000000000001000 (0x0000000000004008)
+Loading driver Timer
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7160440
+Loading driver at 0x00007152000 EntryPoint=0x00007153058 Timer.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 715F018
+ProtectUefiImageCommon - 0x7160440
+  - 0x0000000007152000 - 0x0000000000001D80
+InstallProtocolInterface: gEfiTimerArchProtocolGuid 7153C00
+Loading driver PciHostBridgeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 715F0C0
+Loading driver at 0x00007110000 EntryPoint=0x00007114D61 PciHostBridgeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 715FB98
+ProtectUefiImageCommon - 0x715F0C0
+  - 0x0000000007110000 - 0x0000000000008F80
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+PciHostBridgeUtilityInitRootBridge: populated root bus 0, with room for 255 subordinate bus(es)
+RootBridge: PciRoot(0x0)
+  Support/Attr: 70069 / 70069
+    DmaAbove4G: No
+NoExtConfSpace: Yes
+     AllocAttr: 3 (CombineMemPMem Mem64Decode)
+           Bus: 0 - FF Translation=0
+            Io: C000 - FFFF Translation=0
+           Mem: 80000000 - FBFFFFFF Translation=0
+    MemAbove4G: 800000000 - FFFFFFFFF Translation=0
+          PMem: FFFFFFFFFFFFFFFF - 0 Translation=0
+   PMemAbove4G: FFFFFFFFFFFFFFFF - 0 Translation=0
+InstallProtocolInterface: gEfiPciHostBridgeResourceAllocationProtocolGuid 715F4C0
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 715F918
+InstallProtocolInterface: gEfiPciRootBridgeIoProtocolGuid 71551F0
+Loading driver SetupBrowser
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7155440
+Loading driver at 0x000070DE000 EntryPoint=0x000070E076B SetupBrowser.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7155718
+ProtectUefiImageCommon - 0x7155440
+  - 0x00000000070DE000 - 0x0000000000018840
+InstallProtocolInterface: gEfiFormBrowser2ProtocolGuid 70F6370
+InstallProtocolInterface: gEdkiiFormBrowserEx2ProtocolGuid 70F63A0
+InstallProtocolInterface: gEdkiiFormBrowserExProtocolGuid 70F6380
+Loading driver SmbiosDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71542C0
+Loading driver at 0x0000711C000 EntryPoint=0x0000711F04C SmbiosDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7154B18
+ProtectUefiImageCommon - 0x71542C0
+  - 0x000000000711C000 - 0x0000000000005280
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x19
+Select Item: 0x26
+DetectSmbiosVersion: SMBIOS version from QEMU: 0x0208
+InstallProtocolInterface: gEfiSmbiosProtocolGuid 7121170
+Loading driver QemuFwCfgAcpiPlatform
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7146B40
+Loading driver at 0x00007109000 EntryPoint=0x0000710CFFD QemuFwCfgAcpiPlatform.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7154598
+ProtectUefiImageCommon - 0x7146B40
+  - 0x0000000007109000 - 0x00000000000062C0
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+AcpiPlatformEntryPoint: waiting for root bridges to be connected, registered callback
+Loading driver S3SaveStateDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7146140
+Loading driver at 0x00007102000 EntryPoint=0x00007106171 S3SaveStateDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7146398
+ProtectUefiImageCommon - 0x7146140
+  - 0x0000000007102000 - 0x0000000000006740
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x28
+InstallProtocolInterface: gEfiLockBoxProtocolGuid 0
+InstallProtocolInterface: gEfiS3SaveStateProtocolGuid 71084A0
+Loading driver tftpDynamicCommand
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71450C0
+Loading driver at 0x000070D3000 EntryPoint=0x000070D95F0 tftpDynamicCommand.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7146498
+InstallProtocolInterface: gEfiHiiPackageListProtocolGuid 70DB9B0
+ProtectUefiImageCommon - 0x71450C0
+  - 0x00000000070D3000 - 0x000000000000A500
+InstallProtocolInterface: gEfiShellDynamicCommandProtocolGuid 70DB5C0
+Loading driver httpDynamicCommand
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7142B40
+Loading driver at 0x000070B9000 EntryPoint=0x000070C0D6B httpDynamicCommand.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7142E18
+InstallProtocolInterface: gEfiHiiPackageListProtocolGuid 70C3770
+ProtectUefiImageCommon - 0x7142B40
+  - 0x00000000070B9000 - 0x000000000000CA00
+InstallProtocolInterface: gEfiShellDynamicCommandProtocolGuid 70C32C0
+Loading driver LinuxInitrdDynamicShellCommand
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71422C0
+Loading driver at 0x000070CB000 EntryPoint=0x000070CFF59 LinuxInitrdDynamicShellCommand.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 711B018
+InstallProtocolInterface: gEfiHiiPackageListProtocolGuid 70D1F70
+ProtectUefiImageCommon - 0x71422C0
+  - 0x00000000070CB000 - 0x0000000000007A80
+InstallProtocolInterface: gEfiShellDynamicCommandProtocolGuid 70D1C50
+Loading driver LogoDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 711AAC0
+Loading driver at 0x000070F8000 EntryPoint=0x000070F8EEF LogoDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 711AE18
+InstallProtocolInterface: gEfiHiiPackageListProtocolGuid 70F9AF0
+ProtectUefiImageCommon - 0x711AAC0
+  - 0x00000000070F8000 - 0x0000000000004A40
+InstallProtocolInterface: gEdkiiPlatformLogoProtocolGuid 70F9940
+Loading driver QemuRamfbDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 711B3C0
+Loading driver at 0x000070B4000 EntryPoint=0x000070B6671 QemuRamfbDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7119D98
+ProtectUefiImageCommon - 0x711B3C0
+  - 0x00000000070B4000 - 0x0000000000004580
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Error: Image at 000070B4000 start failed: Not Found
+Loading driver FaultTolerantWriteDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 711B3C0
+Loading driver at 0x000070AD000 EntryPoint=0x000070B0B2F FaultTolerantWriteDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7119E18
+ProtectUefiImageCommon - 0x711B3C0
+  - 0x00000000070AD000 - 0x0000000000005500
+Ftw: FtwWorkSpaceLba - 0x41, WorkBlockSize  - 0x1000, FtwWorkSpaceBase - 0x0
+Ftw: FtwSpareLba     - 0x42, SpareBlockSize - 0x1000
+Ftw: NumberOfWorkBlock - 0x1, FtwWorkBlockLba - 0x41
+Ftw: WorkSpaceLbaInSpare - 0x0, WorkSpaceBaseInSpare - 0x0
+Ftw: Remaining work space size - FE0
+InstallProtocolInterface: gEfiFaultTolerantWriteProtocolGuid 70C9028
+NOTICE - AuthVariableLibInitialize() returns Unsupported!
+Variable driver will continue to work without auth variable support!
+RecordSecureBootPolicyVarData GetVariable SecureBoot Status E
+InstallProtocolInterface: gEfiVariableWriteArchProtocolGuid 0
+Loading driver PcRtc
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 71197C0
+Loading driver at 0x00007ABB000 EntryPoint=0x00007ABE044 PcRtc.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7119518
+ProtectUefiImageCommon - 0x71197C0
+  - 0x0000000007ABB000 - 0x0000000000006000
+SetUefiImageMemoryAttributes - 0x0000000007ABB000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007ABC000 - 0x0000000000004000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AC0000 - 0x0000000000001000 (0x0000000000004008)
+InstallProtocolInterface: gEfiRealTimeClockArchProtocolGuid 0
+Loading driver WatchdogTimer
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70FD1C0
+Loading driver at 0x000070B7000 EntryPoint=0x000070B7FBE WatchdogTimer.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70FDA18
+ProtectUefiImageCommon - 0x70FD1C0
+  - 0x00000000070B7000 - 0x0000000000001E00
+InstallProtocolInterface: gEfiWatchdogTimerArchProtocolGuid 70B8C70
+Loading driver MonotonicCounterRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70F7B40
+Loading driver at 0x00007AB7000 EntryPoint=0x00007AB8D8F MonotonicCounterRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70F7098
+ProtectUefiImageCommon - 0x70F7B40
+  - 0x0000000007AB7000 - 0x0000000000004000
+SetUefiImageMemoryAttributes - 0x0000000007AB7000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AB8000 - 0x0000000000002000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007ABA000 - 0x0000000000001000 (0x0000000000004008)
+InstallProtocolInterface: gEfiMonotonicCounterArchProtocolGuid 0
+Loading driver CapsuleRuntimeDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70F72C0
+Loading driver at 0x00007AB3000 EntryPoint=0x00007AB4FE8 CapsuleRuntimeDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70C8F98
+ProtectUefiImageCommon - 0x70F72C0
+  - 0x0000000007AB3000 - 0x0000000000004000
+SetUefiImageMemoryAttributes - 0x0000000007AB3000 - 0x0000000000001000 (0x0000000000004008)
+SetUefiImageMemoryAttributes - 0x0000000007AB4000 - 0x0000000000002000 (0x0000000000020008)
+SetUefiImageMemoryAttributes - 0x0000000007AB6000 - 0x0000000000001000 (0x0000000000004008)
+InstallProtocolInterface: gEfiCapsuleArchProtocolGuid 0
+Loading driver DriverHealthManagerDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70C8840
+Loading driver at 0x000070A1000 EntryPoint=0x000070A4AC2 DriverHealthManagerDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70C8698
+ProtectUefiImageCommon - 0x70C8840
+  - 0x00000000070A1000 - 0x0000000000005D40
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 70A6AE0
+InstallProtocolInterface: gEfiHiiConfigAccessProtocolGuid 70A6AB0
+Loading driver BdsDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70C60C0
+Loading driver at 0x0000706B000 EntryPoint=0x0000707291F BdsDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70C6A98
+ProtectUefiImageCommon - 0x70C60C0
+  - 0x000000000706B000 - 0x000000000001A740
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+InstallProtocolInterface: gEfiBdsArchProtocolGuid 7084ED0
+Loading driver RamDiskDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70C7340
+Loading driver at 0x0000708B000 EntryPoint=0x00007091A22 RamDiskDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70C6798
+ProtectUefiImageCommon - 0x70C7340
+  - 0x000000000708B000 - 0x000000000000A780
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 70C6598
+InstallProtocolInterface: gEfiHiiConfigAccessProtocolGuid 70954F8
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 70953E0
+InstallProtocolInterface: gEfiHiiConfigAccessProtocolGuid 70B5430
+InstallProtocolInterface: gEfiRamDiskProtocolGuid 7095430
+InstallProtocolInterface: RamDiskDxe 70B5418
+Loading driver DisplayEngine
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70B4740
+Loading driver at 0x00007043000 EntryPoint=0x00007049339 DisplayEngine.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70B4A98
+ProtectUefiImageCommon - 0x70B4740
+  - 0x0000000007043000 - 0x0000000000013440
+InstallProtocolInterface: gEdkiiFormDisplayEngineProtocolGuid 70548D0
+InstallProtocolInterface: gEfiHiiPopupProtocolGuid 70548E8
+Loading driver SmbiosPlatformDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70AA140
+Loading driver at 0x0000709B000 EntryPoint=0x0000709C5CB SmbiosPlatformDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70AA398
+ProtectUefiImageCommon - 0x70AA140
+  - 0x000000000709B000 - 0x0000000000002A80
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x27
+SmbiosAdd: Smbios type 1 with size 0x53 is added to 32-bit table
+SmbiosCreateTable: Initialize 32-bit entry point structure
+SmbiosCreateTable() re-allocate SMBIOS 32-bit table
+SmbiosAdd: Smbios type 3 with size 0x2C is added to 32-bit table
+SmbiosAdd: Smbios type 4 with size 0x46 is added to 32-bit table
+SmbiosAdd: Smbios type 16 with size 0x19 is added to 32-bit table
+SmbiosAdd: Smbios type 17 with size 0x35 is added to 32-bit table
+SmbiosAdd: Smbios type 19 with size 0x21 is added to 32-bit table
+SmbiosAdd: Smbios type 32 with size 0xD is added to 32-bit table
+SmbiosAdd: Smbios type 0 with size 0x4A is added to 32-bit table
+Loading driver BootScriptExecutorDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70A7440
+Loading driver at 0x00007033000 EntryPoint=0x0000703C56E BootScriptExecutorDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70A7098
+ProtectUefiImageCommon - 0x70A7440
+  - 0x0000000007033000 - 0x000000000000F380
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x28
+Loading driver PlatformDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70A00C0
+Loading driver at 0x00007086000 EntryPoint=0x000070886D7 PlatformDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70A0D98
+ProtectUefiImageCommon - 0x70A00C0
+  - 0x0000000007086000 - 0x0000000000004600
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 708A440
+InstallProtocolInterface: gEfiHiiConfigAccessProtocolGuid 708A510
+Loading driver PciBusDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 709F040
+Loading driver at 0x00007024000 EntryPoint=0x00007026A70 PciBusDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 70A0518
+ProtectUefiImageCommon - 0x709F040
+  - 0x0000000007024000 - 0x000000000000EE80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7032B60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7032B30
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7032B10
+InstallProtocolInterface: gEfiPciHotPlugRequestProtocolGuid 7032AF0
+Loading driver VirtioPciDeviceDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 709E0C0
+Loading driver at 0x00007068000 EntryPoint=0x00007069C65 VirtioPciDeviceDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 709EA18
+ProtectUefiImageCommon - 0x709E0C0
+  - 0x0000000007068000 - 0x0000000000002F80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 706AE20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 706AE00
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 706ADE0
+Loading driver Virtio10
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 709E4C0
+Loading driver at 0x00007063000 EntryPoint=0x00007066346 Virtio10.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 709E798
+ProtectUefiImageCommon - 0x709E4C0
+  - 0x0000000007063000 - 0x0000000000004B00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 70679A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7067980
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7067960
+Loading driver VirtioBlkDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70620C0
+Loading driver at 0x0000705E000 EntryPoint=0x00007060230 VirtioBlkDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7062A98
+ProtectUefiImageCommon - 0x70620C0
+  - 0x000000000705E000 - 0x0000000000003500
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 70613C0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 70613A0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7061380
+Loading driver VirtioScsiDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7062540
+Loading driver at 0x0000705A000 EntryPoint=0x0000705C752 VirtioScsiDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7096018
+ProtectUefiImageCommon - 0x7062540
+  - 0x000000000705A000 - 0x00000000000039C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 705D880
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 705D860
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 705D840
+Loading driver VirtioRngDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70960C0
+Loading driver at 0x00007057000 EntryPoint=0x00007058D06 VirtioRngDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7096A18
+ProtectUefiImageCommon - 0x70960C0
+  - 0x0000000007057000 - 0x0000000000002F00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7059DA0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7059D80
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7059D60
+Loading driver PvScsiDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7096440
+Loading driver at 0x00007020000 EntryPoint=0x000070221D3 PvScsiDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701FF98
+ProtectUefiImageCommon - 0x7096440
+  - 0x0000000007020000 - 0x0000000000003440
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7023300
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 70232E0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 70232C0
+Loading driver MptScsiDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701F7C0
+Loading driver at 0x0000701B000 EntryPoint=0x0000701D0CC MptScsiDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701F118
+ProtectUefiImageCommon - 0x701F7C0
+  - 0x000000000701B000 - 0x0000000000003380
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 701E240
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 701E220
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 701E200
+Loading driver ConPlatformDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701A040
+Loading driver at 0x00007016000 EntryPoint=0x000070186A8 ConPlatformDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701F418
+ProtectUefiImageCommon - 0x701A040
+  - 0x0000000007016000 - 0x0000000000003E80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7019C60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7019CD0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7019CB0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7019C20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7019CD0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7019CB0
+Loading driver ConSplitterDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 701A3C0
+Loading driver at 0x00007006000 EntryPoint=0x0000700AF51 ConSplitterDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 701A698
+ProtectUefiImageCommon - 0x701A3C0
+  - 0x0000000007006000 - 0x0000000000007240
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CF20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CEF0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CED0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CEA0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CE70
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CE50
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CE20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CDF0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CDD0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CDA0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CD70
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CD50
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 700CD20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 700CCF0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 700CCD0
+InstallProtocolInterface: gEfiSimpleTextInProtocolGuid 700CB50
+InstallProtocolInterface: gEfiSimpleTextInputExProtocolGuid 700CB80
+InstallProtocolInterface: gEfiSimplePointerProtocolGuid 700CBF0
+InstallProtocolInterface: gEfiAbsolutePointerProtocolGuid 700CC48
+InstallProtocolInterface: gEfiSimpleTextOutProtocolGuid 700CF90
+InstallProtocolInterface: gEfiSimpleTextOutProtocolGuid 700C9F0
+Loading driver GraphicsConsoleDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70970C0
+Loading driver at 0x00007000000 EntryPoint=0x00007002FB7 GraphicsConsoleDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7097C98
+ProtectUefiImageCommon - 0x70970C0
+  - 0x0000000007000000 - 0x0000000000005D80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 7005B80
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 7005B60
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 7005B40
+Loading driver TerminalDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7015040
+Loading driver at 0x00006DF0000 EntryPoint=0x00006DF5900 TerminalDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7015D18
+ProtectUefiImageCommon - 0x7015040
+  - 0x0000000006DF0000 - 0x0000000000007B40
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DF7960
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DF7930
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DF7910
+Loading driver QemuKernelLoaderFsDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7015440
+Loading driver at 0x00006DF8000 EntryPoint=0x00006DFA086 QemuKernelLoaderFsDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7015698
+ProtectUefiImageCommon - 0x7015440
+  - 0x0000000006DF8000 - 0x0000000000003D80
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x17
+Select Item: 0x8
+Select Item: 0xB
+Error: Image at 00006DF8000 start failed: Not Found
+Loading driver DiskIoDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7015440
+Loading driver at 0x00006DEB000 EntryPoint=0x00006DEDF2B DiskIoDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7015898
+ProtectUefiImageCommon - 0x7015440
+  - 0x0000000006DEB000 - 0x0000000000004800
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DEF680
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DEF650
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DEF630
+Loading driver PartitionDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7014040
+Loading driver at 0x00006DE4000 EntryPoint=0x00006DE8ABD PartitionDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7014E98
+ProtectUefiImageCommon - 0x7014040
+  - 0x0000000006DE4000 - 0x0000000000006540
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DEA3E0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DEA3C0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DEA3A0
+Loading driver EnglishDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70143C0
+Loading driver at 0x00006DFA000 EntryPoint=0x00006DFB19E EnglishDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7014698
+ProtectUefiImageCommon - 0x70143C0
+  - 0x0000000006DFA000 - 0x00000000000020C0
+InstallProtocolInterface: gEfiUnicodeCollationProtocolGuid 6DFBC20
+InstallProtocolInterface: gEfiUnicodeCollation2ProtocolGuid 6DFBBC0
+Loading driver ScsiBus
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70131C0
+Loading driver at 0x00006DDC000 EntryPoint=0x00006DDEA9E ScsiBus.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7013E98
+ProtectUefiImageCommon - 0x70131C0
+  - 0x0000000006DDC000 - 0x0000000000003F00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DDFD60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DDFD40
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DDFD20
+Loading driver ScsiDisk
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 70135C0
+Loading driver at 0x00006DC8000 EntryPoint=0x00006DCFF9B ScsiDisk.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7013518
+ProtectUefiImageCommon - 0x70135C0
+  - 0x0000000006DC8000 - 0x0000000000009A00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DD18A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DD1870
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DD1850
+Loading driver SataController
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7012140
+Loading driver at 0x00006DD8000 EntryPoint=0x00006DD9DF0 SataController.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 7012B18
+ProtectUefiImageCommon - 0x7012140
+  - 0x0000000006DD8000 - 0x00000000000031C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DDB060
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DDB040
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DDB020
+Loading driver AtaAtapiPassThruDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 7012540
+Loading driver at 0x00006DB2000 EntryPoint=0x00006DBA6D8 AtaAtapiPassThruDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700F018
+ProtectUefiImageCommon - 0x7012540
+  - 0x0000000006DB2000 - 0x000000000000AFC0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DBCDC0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DBCD90
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DBCD70
+Loading driver AtaBusDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 700F140
+Loading driver at 0x00006DAB000 EntryPoint=0x00006DAF3DD AtaBusDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700FB18
+ProtectUefiImageCommon - 0x700F140
+  - 0x0000000006DAB000 - 0x0000000000006380
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DB1180
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DB1150
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DB1130
+Loading driver NvmExpressDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 700F540
+Loading driver at 0x00006DA1000 EntryPoint=0x00006DA8362 NvmExpressDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700EF98
+ProtectUefiImageCommon - 0x700F540
+  - 0x0000000006DA1000 - 0x0000000000009A80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DAA8E0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DAA8C0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DAA8A0
+InstallProtocolInterface: gEfiDriverSupportedEfiVersionProtocolGuid 6DAA890
+Loading driver SioBusDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 700E840
+Loading driver at 0x00006DD4000 EntryPoint=0x00006DD5DC4 SioBusDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 700E698
+ProtectUefiImageCommon - 0x700E840
+  - 0x0000000006DD4000 - 0x0000000000003180
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DD6FE0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DD6FC0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DD6FA0
+Loading driver PciSioSerialDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFF040
+Loading driver at 0x00006D9B000 EntryPoint=0x00006D9F59B PciSioSerialDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFFD18
+ProtectUefiImageCommon - 0x6DFF040
+  - 0x0000000006D9B000 - 0x0000000000006000
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6DA0E40
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6DA0E20
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6DA0E00
+Loading driver Ps2KeyboardDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFF440
+Loading driver at 0x00006D95000 EntryPoint=0x00006D98B06 Ps2KeyboardDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFFC18
+ProtectUefiImageCommon - 0x6DFF440
+  - 0x0000000006D95000 - 0x0000000000005740
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D9A5A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D9A570
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D9A550
+Loading driver BootGraphicsResourceTableDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFE040
+Loading driver at 0x00006DC5000 EntryPoint=0x00006DC65A1 BootGraphicsResourceTableDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFEF18
+ProtectUefiImageCommon - 0x6DFE040
+  - 0x0000000006DC5000 - 0x0000000000002880
+InstallProtocolInterface: gEfiBootLogoProtocolGuid 6DC7650
+InstallProtocolInterface: gEdkiiBootLogo2ProtocolGuid 6DC7630
+Loading driver Fat
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFE6C0
+Loading driver at 0x00006D81000 EntryPoint=0x00006D88AD2 Fat.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFE598
+ProtectUefiImageCommon - 0x6DFE6C0
+  - 0x0000000006D81000 - 0x0000000000009BC0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D8AA40
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D8AA10
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D8A9F0
+Loading driver UdfDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFDCC0
+Loading driver at 0x00006D8E000 EntryPoint=0x00006D928B1 UdfDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFDB98
+ProtectUefiImageCommon - 0x6DFDCC0
+  - 0x0000000006D8E000 - 0x00000000000060C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D93F80
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D93F50
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D93F30
+Loading driver VirtioFsDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DFD3C0
+Loading driver at 0x00006D6D000 EntryPoint=0x00006D73EA2 VirtioFsDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DFD198
+ProtectUefiImageCommon - 0x6DFD3C0
+  - 0x0000000006D6D000 - 0x0000000000009180
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D76080
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D76050
+Loading driver SnpDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF9CC0
+Loading driver at 0x00006D79000 EntryPoint=0x00006D7E0AD SnpDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF9718
+ProtectUefiImageCommon - 0x6DF9CC0
+  - 0x0000000006D79000 - 0x00000000000071C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D80040
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D80010
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D7FFF0
+Loading driver VlanConfigDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF92C0
+Loading driver at 0x00006D66000 EntryPoint=0x00006D6A3EA VlanConfigDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF8F18
+ProtectUefiImageCommon - 0x6DF92C0
+  - 0x0000000006D66000 - 0x00000000000069C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D6C7E0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D6C7B0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D6C790
+Loading driver MnpDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF81C0
+Loading driver at 0x00006D50000 EntryPoint=0x00006D574FD MnpDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DF8A18
+ProtectUefiImageCommon - 0x6DF81C0
+  - 0x0000000006D50000 - 0x000000000000A240
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D5A060
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D5A040
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D5A020
+Loading driver ArpDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DF8640
+Loading driver at 0x00006D60000 EntryPoint=0x00006D640BA ArpDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE3018
+ProtectUefiImageCommon - 0x6DF8640
+  - 0x0000000006D60000 - 0x0000000000005D00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D65BA0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D65B70
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D65B50
+Loading driver Dhcp4Dxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE30C0
+Loading driver at 0x00006D3A000 EntryPoint=0x00006D416C4 Dhcp4Dxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE3918
+ProtectUefiImageCommon - 0x6DE30C0
+  - 0x0000000006D3A000 - 0x000000000000A4C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D442A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D44270
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D44250
+Loading driver Ip4Dxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE3540
+Loading driver at 0x00006D12000 EntryPoint=0x00006D14662 Ip4Dxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE2E98
+ProtectUefiImageCommon - 0x6DE3540
+  - 0x0000000006D12000 - 0x00000000000131C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D24E60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D24E40
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D24E20
+Loading driver Udp4Dxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE2140
+Loading driver at 0x00006D31000 EntryPoint=0x00006D37560 Udp4Dxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE2718
+ProtectUefiImageCommon - 0x6DE2140
+  - 0x0000000006D31000 - 0x0000000000008840
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D396A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D39680
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D39660
+Loading driver Mtftp4Dxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE1B40
+Loading driver at 0x00006D28000 EntryPoint=0x00006D2EE5A Mtftp4Dxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE1098
+ProtectUefiImageCommon - 0x6DE1B40
+  - 0x0000000006D28000 - 0x0000000000009000
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D30E60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D30E40
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D30E20
+Loading driver TcpDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE1240
+Loading driver at 0x00006CEE000 EntryPoint=0x00006CF0E3A TcpDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE1818
+ProtectUefiImageCommon - 0x6DE1240
+  - 0x0000000006CEE000 - 0x0000000000011E40
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CFF9A0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CFFA50
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CFFA30
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CFF960
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CFFA50
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CFFA30
+Loading driver UefiPxeBcDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DE07C0
+Loading driver at 0x00006CDC000 EntryPoint=0x00006CE2735 UefiPxeBcDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DE0698
+ProtectUefiImageCommon - 0x6DE07C0
+  - 0x0000000006CDC000 - 0x0000000000011340
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x19
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CECE60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CECF00
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CECEE0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CECE20
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CECF00
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CECEE0
+Loading driver IScsiDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DD3CC0
+Loading driver at 0x00006CA0000 EntryPoint=0x00006CA7191 IScsiDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DD3098
+ProtectUefiImageCommon - 0x6DD3CC0
+  - 0x0000000006CA0000 - 0x000000000001D580
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CBD060
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CBD0C0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CBD0A0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CBD020
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CBD0C0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CBD0A0
+InstallProtocolInterface: gEfiIScsiInitiatorNameProtocolGuid 6CBD010
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6CBD120
+InstallProtocolInterface: gEfiHiiConfigAccessProtocolGuid 6DD3828
+InstallProtocolInterface: gEfiAuthenticationInfoProtocolGuid 6CBCFF0
+Loading driver VirtioNetDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DD2240
+Loading driver at 0x00006D0C000 EntryPoint=0x00006D0FB7C VirtioNetDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DD2498
+ProtectUefiImageCommon - 0x6DD2240
+  - 0x0000000006D0C000 - 0x0000000000005440
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D11300
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D112D0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D112B0
+Loading driver UhciDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC4CC0
+Loading driver at 0x00006D05000 EntryPoint=0x00006D0A1EE UhciDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC4B18
+ProtectUefiImageCommon - 0x6DC4CC0
+  - 0x0000000006D05000 - 0x0000000000006E00
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6D0BC60
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6D0BC40
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6D0BC20
+Loading driver EhciDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC46C0
+Loading driver at 0x00006CD3000 EntryPoint=0x00006CD933A EhciDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC4A18
+ProtectUefiImageCommon - 0x6DC46C0
+  - 0x0000000006CD3000 - 0x00000000000087C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CDB620
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CDB600
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CDB5E0
+Loading driver XhciDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC12C0
+Loading driver at 0x00006C93000 EntryPoint=0x00006C9C906 XhciDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC1A98
+ProtectUefiImageCommon - 0x6DC12C0
+  - 0x0000000006C93000 - 0x000000000000CB80
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C9F9E0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C9F9C0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C9F9A0
+Loading driver UsbBusDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC1540
+Loading driver at 0x00006CC9000 EntryPoint=0x00006CCF6D6 UsbBusDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC1898
+ProtectUefiImageCommon - 0x6DC1540
+  - 0x0000000006CC9000 - 0x00000000000092C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CD2100
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CD20D0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CD20B0
+Loading driver UsbKbDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC02C0
+Loading driver at 0x00006CC2000 EntryPoint=0x00006CC6112 UsbKbDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DC0A18
+ProtectUefiImageCommon - 0x6DC02C0
+  - 0x0000000006CC2000 - 0x0000000000006340
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6CC8160
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6CC8130
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6CC8110
+Loading driver UsbMassStorageDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DC0540
+Loading driver at 0x00006C8D000 EntryPoint=0x00006C90C76 UsbMassStorageDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DBDD18
+ProtectUefiImageCommon - 0x6DC0540
+  - 0x0000000006C8D000 - 0x0000000000005980
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C92820
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C927F0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C927D0
+Loading driver QemuVideoDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6DBD2C0
+Loading driver at 0x00006C86000 EntryPoint=0x00006C89B36 QemuVideoDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6DBDC98
+ProtectUefiImageCommon - 0x6DBD2C0
+  - 0x0000000006C86000 - 0x0000000000006040
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C8BEE0
+InstallProtocolInterface: 107A772C-D5E1-11D4-9A46-0090273FC14D 6C8BEC0
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C8BEA0
+Loading driver VirtioGpuDxe
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 6D8D040
+Loading driver at 0x00006C80000 EntryPoint=0x00006C83C3C VirtioGpuDxe.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6D8DB98
+ProtectUefiImageCommon - 0x6D8D040
+  - 0x0000000006C80000 - 0x00000000000057C0
+InstallProtocolInterface: gEfiDriverBindingProtocolGuid 6C85660
+InstallProtocolInterface: gEfiComponentName2ProtocolGuid 6C85640
+[Bds] Entry...
+[BdsDxe] Locate Variable Lock protocol - Success
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid PlatformLangCodes
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid LangCodes
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid BootOptionSupport
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid HwErrRecSupport
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid OsIndicationsSupported
+Variable Driver Auto Update Lang, Lang:eng, PlatformLang:en Status: Success
+!!! DEPRECATED INTERFACE !!! VariableLockRequestToLock() will go away soon!
+!!! DEPRECATED INTERFACE !!! Please move to use Variable Policy!
+!!! DEPRECATED INTERFACE !!! Variable: gEfiGlobalVariableGuid PlatformRecovery0000
+PlatformBootManagerBeforeConsole
+Registered NotifyDevPath Event
+PCI Bus First Scanning
+PciBus: Discovered PCI @ [00|00|00]
+
+PciBus: Discovered PCI @ [00|01|00]
+
+PciBus: Discovered PCI @ [00|01|01]
+   BAR[4]: Type =   Io32; Alignment = 0xF;	Length = 0x10;	Offset = 0x20
+
+PciBus: Discovered PCI @ [00|01|03]
+
+PciBus: Discovered PCI @ [00|02|00]
+   BAR[0]: Type = PMem32; Alignment = 0xFFFFFF;	Length = 0x1000000;	Offset = 0x10
+   BAR[2]: Type =  Mem32; Alignment = 0xFFF;	Length = 0x1000;	Offset = 0x18
+
+PCI Bus Second Scanning
+PciBus: Discovered PCI @ [00|00|00]
+
+PciBus: Discovered PCI @ [00|01|00]
+
+PciBus: Discovered PCI @ [00|01|01]
+   BAR[4]: Type =   Io32; Alignment = 0xF;	Length = 0x10;	Offset = 0x20
+
+PciBus: Discovered PCI @ [00|01|03]
+
+PciBus: Discovered PCI @ [00|02|00]
+   BAR[0]: Type = PMem32; Alignment = 0xFFFFFF;	Length = 0x1000000;	Offset = 0x10
+   BAR[2]: Type =  Mem32; Alignment = 0xFFF;	Length = 0x1000;	Offset = 0x18
+
+PciBus: Discovered PCI @ [00|00|00]
+
+PciBus: Discovered PCI @ [00|01|00]
+
+PciBus: Discovered PCI @ [00|01|01]
+   BAR[4]: Type =   Io32; Alignment = 0xF;	Length = 0x10;	Offset = 0x20
+
+PciBus: Discovered PCI @ [00|01|03]
+
+PciBus: Discovered PCI @ [00|02|00]
+   BAR[0]: Type = PMem32; Alignment = 0xFFFFFF;	Length = 0x1000000;	Offset = 0x10
+   BAR[2]: Type =  Mem32; Alignment = 0xFFF;	Length = 0x1000;	Offset = 0x18
+
+PciHostBridge: SubmitResources for PciRoot(0x0)
+ I/O: Granularity/SpecificFlag = 0 / 01
+      Length/Alignment = 0x1000 / 0xFFF
+ Mem: Granularity/SpecificFlag = 32 / 00
+      Length/Alignment = 0x1100000 / 0xFFFFFF
+PciBus: HostBridge->SubmitResources() - Success
+PciHostBridge: NotifyPhase (AllocateResources)
+ RootBridge: PciRoot(0x0)
+  Mem: Base/Length/Alignment = 80000000/1100000/FFFFFF - Success
+  I/O: Base/Length/Alignment = C000/1000/FFF - Success
+PciBus: HostBridge->NotifyPhase(AllocateResources) - Success
+Process Option ROM: BAR Base/Length = 81000000/10000
+PciBus: Resource Map for Root Bridge PciRoot(0x0)
+Type =   Io16; Base = 0xC000;	Length = 0x1000;	Alignment = 0xFFF
+   Base = 0xC000;	Length = 0x10;	Alignment = 0xF;	Owner = PCI [00|01|01:20]
+Type =  Mem32; Base = 0x80000000;	Length = 0x1100000;	Alignment = 0xFFFFFF
+   Base = 0x80000000;	Length = 0x1000000;	Alignment = 0xFFFFFF;	Owner = PCI [00|02|00:10]; Type = PMem32
+   Base = 0x81000000;	Length = 0x10000;	Alignment = 0xFFFF;	Owner = PCI [00|00|00:00]; Type =  OpRom
+   Base = 0x81010000;	Length = 0x1000;	Alignment = 0xFFF;	Owner = PCI [00|02|00:18]
+
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D8C818
+InstallProtocolInterface: gEfiPciIoProtocolGuid 6D8C428
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D8CE18
+InstallProtocolInterface: gEfiPciIoProtocolGuid 6D8C8A8
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D8BE98
+InstallProtocolInterface: gEfiPciIoProtocolGuid 6D8B028
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D8BF18
+InstallProtocolInterface: gEfiPciIoProtocolGuid 6D8B428
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D8BF98
+InstallProtocolInterface: gEfiPciIoProtocolGuid 6D8B828
+InstallProtocolInterface: gEfiPciEnumerationCompleteProtocolGuid 0
+OnRootBridgesConnected: root bridges have been connected, installing ACPI tables
+Select Item: 0x19
+Select Item: 0x29
+Select Item: 0x19
+Select Item: 0x28
+Select Item: 0x19
+Select Item: 0x22
+Select Item: 0x19
+Select Item: 0x23
+InstallQemuFwCfgTables: installed 5 tables
+PcRtc: Write 0x20 to CMOS location 0x32
+AcpiS3ContextSave!
+AcpiS3Context: AcpiFacsTable is 0x 7BDD000
+AcpiS3Context: IdtrProfile is 0x 7B6C000
+AcpiS3Context: S3NvsPageTableAddress is 0x       0
+AcpiS3Context: S3DebugBufferAddress is 0x 7B62000
+AcpiS3Context: BootScriptStackBase is 0x 7B63000
+AcpiS3Context: BootScriptStackSize is 0x    8000
+[Variable]END_OF_DXE is signaled
+Initialize variable error flag (FF)
+Select Item: 0x19
+Select Item: 0x28
+InstallProtocolInterface: gEfiDxeSmmReadyToLockProtocolGuid 0
+InstallProtocolInterface: BootScriptExecutorDxe 0
+Select Item: 0x0
+FW CFG Signature: 0x554D4551
+Select Item: 0x1
+FW CFG Revision: 0x3
+QemuFwCfg interface (DMA) is supported.
+Select Item: 0x19
+Select Item: 0x28
+Found LPC Bridge device
+BdsPlatform.c+618: COM1 DevPath: PciRoot(0x0)/Pci(0x1,0x0)/Serial(0x0)/Uart(115200,8,N,1)/VenMsg(gEfiPcAnsiGuid)
+BdsPlatform.c+650: COM2 DevPath: PciRoot(0x0)/Pci(0x1,0x0)/Serial(0x1)/Uart(115200,8,N,1)/VenMsg(gEfiPcAnsiGuid)
+Found PCI display device
+QemuVideo: QEMU Standard VGA detected
+QemuVideo: Using mmio bar @ 0x81010000
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D77A98
+QemuVideoBochsModeSetup: AvailableFbSize=0x1000000
+Adding Mode 0 as Bochs Internal Mode 0: 640x480, 32-bit
+Adding Mode 1 as Bochs Internal Mode 1: 800x480, 32-bit
+Adding Mode 2 as Bochs Internal Mode 2: 800x600, 32-bit
+Adding Mode 3 as Bochs Internal Mode 3: 832x624, 32-bit
+Adding Mode 4 as Bochs Internal Mode 4: 960x640, 32-bit
+Adding Mode 5 as Bochs Internal Mode 5: 1024x600, 32-bit
+Adding Mode 6 as Bochs Internal Mode 6: 1024x768, 32-bit
+Adding Mode 7 as Bochs Internal Mode 7: 1152x864, 32-bit
+Adding Mode 8 as Bochs Internal Mode 8: 1152x870, 32-bit
+Adding Mode 9 as Bochs Internal Mode 9: 1280x720, 32-bit
+Adding Mode 10 as Bochs Internal Mode 10: 1280x760, 32-bit
+Adding Mode 11 as Bochs Internal Mode 11: 1280x768, 32-bit
+Adding Mode 12 as Bochs Internal Mode 12: 1280x800, 32-bit
+Adding Mode 13 as Bochs Internal Mode 13: 1280x960, 32-bit
+Adding Mode 14 as Bochs Internal Mode 14: 1280x1024, 32-bit
+Adding Mode 15 as Bochs Internal Mode 15: 1360x768, 32-bit
+Adding Mode 16 as Bochs Internal Mode 16: 1366x768, 32-bit
+Adding Mode 17 as Bochs Internal Mode 17: 1400x1050, 32-bit
+Adding Mode 18 as Bochs Internal Mode 18: 1440x900, 32-bit
+Adding Mode 19 as Bochs Internal Mode 19: 1600x900, 32-bit
+Adding Mode 20 as Bochs Internal Mode 20: 1600x1200, 32-bit
+Adding Mode 21 as Bochs Internal Mode 21: 1680x1050, 32-bit
+Adding Mode 22 as Bochs Internal Mode 22: 1920x1080, 32-bit
+Adding Mode 23 as Bochs Internal Mode 23: 1920x1200, 32-bit
+Adding Mode 24 as Bochs Internal Mode 24: 1920x1440, 32-bit
+Adding Mode 25 as Bochs Internal Mode 25: 2000x2000, 32-bit
+Adding Mode 26 as Bochs Internal Mode 26: 2048x1536, 32-bit
+Adding Mode 27 as Bochs Internal Mode 27: 2048x2048, 32-bit
+Adding Mode 28 as Bochs Internal Mode 28: 2560x1440, 32-bit
+Adding Mode 29 as Bochs Internal Mode 29: 2560x1600, 32-bit
+InitializeBochsGraphicsMode: 640x480 @ 32
+PixelBlueGreenRedReserved8BitPerColor
+FrameBufferBase: 0x80000000, FrameBufferSize: 0x12C000
+0: shl:0 shr:0 mask:FF0000
+1: shl:0 shr:0 mask:FF00
+2: shl:0 shr:0 mask:FF
+Bytes per pixel: 4
+0: shl:0 shr:0 mask:FF0000
+1: shl:0 shr:0 mask:FF00
+2: shl:0 shr:0 mask:FF
+Bytes per pixel: 4
+InstallProtocolInterface: gEfiGraphicsOutputProtocolGuid 75B81B8
+InstallVbeShim: VBE shim installed
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+Select Item: 0xE
+[Bds]RegisterKeyNotify: 000C/0000 80000000/00 Success
+[Bds]RegisterKeyNotify: 0017/0000 80000000/00 Success
+[Bds]RegisterKeyNotify: 0000/000D 80000000/00 Success
+InstallProtocolInterface: SioBusDxe 6D27518
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 709FA18
+InstallProtocolInterface: gEfiSioProtocolGuid 709F938
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 709F818
+InstallProtocolInterface: gEfiSioProtocolGuid 709F738
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D26B98
+InstallProtocolInterface: gEfiSioProtocolGuid 6D26E38
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D27398
+InstallProtocolInterface: gEfiSerialIoProtocolGuid 6D263A8
+PciSioSerial: Create SIO child serial device - Success
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+Terminal - Mode 0, Column = 80, Row = 25
+Terminal - Mode 1, Column = 80, Row = 50
+Terminal - Mode 2, Column = 100, Row = 31
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+InstallProtocolInterface: gEfiSimpleTextInProtocolGuid 6D04340
+InstallProtocolInterface: gEfiSimpleTextInputExProtocolGuid 6D04428
+InstallProtocolInterface: gEfiSimpleTextOutProtocolGuid 6D04358
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6D04918
+InstallProtocolInterface: gEfiConsoleInDeviceGuid 0
+InstallProtocolInterface: gEfiConsoleOutDeviceGuid 0
+InstallProtocolInterface: gEfiStandardErrorDeviceGuid 0
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+InitializeBochsGraphicsMode: 800x600 @ 32
+PixelBlueGreenRedReserved8BitPerColor
+FrameBufferBase: 0x80000000, FrameBufferSize: 0x1D5000
+0: shl:0 shr:0 mask:FF0000
+1: shl:0 shr:0 mask:FF00
+2: shl:0 shr:0 mask:FF
+Bytes per pixel: 4
+0: shl:0 shr:0 mask:FF0000
+1: shl:0 shr:0 mask:FF00
+2: shl:0 shr:0 mask:FF
+Bytes per pixel: 4
+GraphicsConsole video resolution 800 x 600
+Graphics - Mode 0, Column = 80, Row = 25
+Graphics - Mode 1, Column = 0, Row = 0
+Graphics - Mode 2, Column = 100, Row = 31
+Graphics Console Started, Mode: 0
+InstallProtocolInterface: gEfiSimpleTextOutProtocolGuid 6D029B0
+InstallProtocolInterface: gEfiConsoleOutDeviceGuid 0
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+PixelBlueGreenRedReserved8BitPerColor
+InstallProtocolInterface: gEfiGraphicsOutputProtocolGuid 700D020
+InstallProtocolInterface: gEfiSimpleTextInProtocolGuid 6C5A028
+InstallProtocolInterface: gEfiSimpleTextInputExProtocolGuid 6C5A040
+InstallProtocolInterface: gEfiConsoleInDeviceGuid 0
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+PlatformBootManagerAfterConsole
+PlatformBdsPolicyBehavior: not restoring NvVars from disk since flash variables appear to be supported.
+Boot Mode:0
+PlatformBdsConnectSequence
+Select Item: 0x19
+EfiBootManagerConnectAll
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+SataControllerStart START
+InstallProtocolInterface: gEfiIdeControllerInitProtocolGuid 6C59AA0
+SataControllerStart END status = Success
+==AtaAtapiPassThru Start== Controller = 6D8BC18
+[primary  ] channel [master] [harddisk] device
+Enabled S.M.A.R.T feature at [primary] channel [master] device!
+CalculateBestPioMode: AdvancedPioMode = 3
+IdeInitCalculateMode: PioMode = 4
+CalculateBestUdmaMode: DeviceUDmaMode = 203F
+IdeInitCalculateMode: UdmaMode = 5
+[secondary] channel [master] [cdrom   ] device
+CalculateBestPioMode: AdvancedPioMode = 3
+IdeInitCalculateMode: PioMode = 3
+CalculateBestUdmaMode: DeviceUDmaMode = 203F
+IdeInitCalculateMode: UdmaMode = 5
+InstallProtocolInterface: gEfiAtaPassThruProtocolGuid 6C58040
+InstallProtocolInterface: gEfiExtScsiPassThruProtocolGuid 6C58090
+InstallProtocolInterface: AtaBusDxe 6C57898
+AtaBus - Identify Device: Port 0 PortMultiplierPort 0
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6C57498
+InstallProtocolInterface: gEfiBlockIoProtocolGuid 6C56028
+InstallProtocolInterface: gEfiBlockIo2ProtocolGuid 6C56058
+InstallProtocolInterface: gEfiDiskInfoProtocolGuid 6C560B0
+Found TCG support in Port 0 PortMultiplierPort 0
+InstallProtocolInterface: gEfiStorageSecurityCommandProtocolGuid 6C560E8
+Successfully Install Storage Security Protocol on the ATA device
+InstallProtocolInterface: ScsiBus 6C56820
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6C56418
+InstallProtocolInterface: gEfiScsiIoProtocolGuid 6C564A8
+InstallProtocolInterface: gEfiBlockIoProtocolGuid 6C53338
+InstallProtocolInterface: gEfiBlockIo2ProtocolGuid 6C53368
+InstallProtocolInterface: gEfiDiskInfoProtocolGuid 6C53460
+InstallProtocolInterface: gEfiDiskIoProtocolGuid 6C53C20
+InstallProtocolInterface: gEfiDiskIo2ProtocolGuid 6C53C38
+ BlockSize : 2048 
+ LastBlock : 0 
+FatOpenDevice: read of part_lba failed No Media
+InstallProtocolInterface: gEfiDiskIoProtocolGuid 6C528A0
+InstallProtocolInterface: gEfiDiskIo2ProtocolGuid 6C528B8
+ BlockSize : 512 
+ LastBlock : FBFFF 
+InstallProtocolInterface: gEfiDevicePathProtocolGuid 6C52718
+InstallProtocolInterface: gEfiBlockIoProtocolGuid 6C51D30
+InstallProtocolInterface: gEfiBlockIo2ProtocolGuid 6C51D60
+InstallProtocolInterface: gEfiPartitionInfoProtocolGuid 6C51DE8
+InstallProtocolInterface: gEfiDiskIoProtocolGuid 6C51A20
+InstallProtocolInterface: gEfiDiskIo2ProtocolGuid 6C51A38
+ BlockSize : 512 
+ LastBlock : FBFC0 
+InstallProtocolInterface: gEfiSimpleFileSystemProtocolGuid 6C50030
+Installed Fat filesystem on 6C52418
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+SataControllerStart START
+SataControllerStart error return status = Already started
+ BlockSize : 2048 
+ LastBlock : 0 
+FatOpenDevice: read of part_lba failed No Media
+ BlockSize : 512 
+ LastBlock : FBFFF 
+ClockRate = 1843200
+Divisor   = 1
+BaudRate/Actual (115200/115200) = 100%
+PciSioSerial: Create SIO child serial device - Device Error
+Select Item: 0x19
+[Bds]OsIndication: 0000000000000000
+[Bds]=============Begin Load Options Dumping ...=============
+  Driver Options:
+  SysPrep Options:
+  Boot Options:
+    Boot0000: UiApp 		 0x0109
+    Boot0001: UEFI QEMU DVD-ROM QM00003  		 0x0001
+    Boot0002: UEFI QEMU HARDDISK QM00001  		 0x0001
+    Boot0003: EFI Internal Shell 		 0x0001
+  PlatformRecovery Options:
+    PlatformRecovery0000: Default PlatformRecovery 		 0x0001
+[Bds]=============End Load Options Dumping=============
+[Bds]BdsWait ...Zzzzzzzzzzzz...
+[Bds]Exit the waiting!
+[Bds]Stop Hotkey Service!
+[Bds]UnregisterKeyNotify: 000C/0000 Success
+[Bds]UnregisterKeyNotify: 0017/0000 Success
+[Bds]UnregisterKeyNotify: 0000/000D Success
+Memory  Previous  Current    Next   
+ Type    Pages     Pages     Pages  
+======  ========  ========  ========
+  0A    00000080  00000022  00000080
+  09    00000010  00000008  00000010
+  00    00000080  00000022  00000080
+  05    00000100  0000003C  00000100
+  06    00000100  000000B1  00000100
+[Bds]Booting UEFI QEMU DVD-ROM QM00003 
+FatOpenDevice: read of part_lba failed No Media
+ BlockSize : 2048 
+ LastBlock : 0 
+FatOpenDevice: read of part_lba failed No Media
+[Bds] Expand PciRoot(0x0)/Pci(0x1,0x1)/Ata(Secondary,Master,0x0) -> <null string>
+Memory  Previous  Current    Next   
+ Type    Pages     Pages     Pages  
+======  ========  ========  ========
+  0A    00000080  00000022  00000080
+  09    00000010  00000008  00000010
+  00    00000080  00000022  00000080
+  05    00000100  0000003C  00000100
+  06    00000100  000000B1  00000100
+[Bds]Booting UEFI QEMU HARDDISK QM00001 
+ BlockSize : 512 
+ LastBlock : FBFFF 
+ BlockSize : 512 
+ LastBlock : FBFFF 
+[Bds] Expand PciRoot(0x0)/Pci(0x1,0x1)/Ata(Primary,Master,0x0) -> <null string>
+Memory  Previous  Current    Next   
+ Type    Pages     Pages     Pages  
+======  ========  ========  ========
+  0A    00000080  00000022  00000080
+  09    00000010  00000008  00000010
+  00    00000080  00000022  00000080
+  05    00000100  0000003C  00000100
+  06    00000100  000000B1  00000100
+[Bds]Booting EFI Internal Shell
+[Bds] Expand Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(Shell) -> Fv(7CB8BDC9-F8EB-4F34-AAEA-3EE4AF6516A1)/FvFile(Shell)
+InstallProtocolInterface: gEfiLoadedImageProtocolGuid 66A66C0
+Loading driver at 0x000064E4000 EntryPoint=0x0000652AC78 Shell.efi
+InstallProtocolInterface: gEfiLoadedImageDevicePathProtocolGuid 6D77798
+ProtectUefiImageCommon - 0x66A66C0
+  - 0x00000000064E4000 - 0x00000000000E0A80
+InstallProtocolInterface: gEfiSimpleTextOutProtocolGuid 66A32A0
+InstallProtocolInterface: gEfiShellParametersProtocolGuid 66A2018
+InstallProtocolInterface: gEfiShellProtocolGuid 65C01E0
