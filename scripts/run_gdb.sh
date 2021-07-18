@@ -9,7 +9,7 @@ function show_help {
   echo "Description:"
   echo "  run_gdb.sh is a script that helps to debug UEFI shell applications and drivers"
   echo ""
-  echo "Usage: run_gdb.sh [-1|-f] -m <module>"
+  echo "Usage: run_gdb.sh -m <module> [-1|-f|-p <package>|-q <dir>]"
   echo "  -1            This is a first run of this configuration"
   echo "                (in this case before main gdb launch there would be another QEMU start that will create 'debug.log' file)"
   echo "  -f            Load all debug symbols"
@@ -63,6 +63,12 @@ else
   DRIVERS=${TARGET}
 fi
 
+if [[ -z $TARGET ]]; then
+  echo "Error! Module is not provided."
+  echo ""
+  show_help
+  exit 1
+fi
 
 function test_file {
   FILE_NAME=$1
