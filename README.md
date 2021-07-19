@@ -45,6 +45,7 @@ Lessons description:
 - [Lesson 39](Lessons/Lesson_39): Create a driver that adds hot key functionality with a help of `RegisterKeyNotify`/`UnregisterKeyNotify` functions
 - [Lesson 40](Lessons/Lesson_40): `Key####` NVRAM variables
 - [Lesson 41](Lessons/Lesson_41): `DEBUG` print statement internals. `EFI_D_*` log levels and all the PCDs for the `DEBUG` statement control. Getting and parsing OVMF boot log.
+- [Lesson 42](Lessons/Lesson_42): Debug your drivers/applications and OVMF itself with GDB
 
 ______
 
