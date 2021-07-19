@@ -1,6 +1,6 @@
 These series of lessons are intendend to get you started with UEFI programming in Linux with the help of TianoCore.
 
-Lessons description:
+# Content
 
 - [Lesson 00](Lessons/Lesson_00): Getting started guide for TianoCore. Compile OVMF and run it in QEMU
 - [Lesson 01](Lessons/Lesson_01): Create a simplest app and run it in OVMF
@@ -47,9 +47,10 @@ Lessons description:
 - [Lesson 41](Lessons/Lesson_41): `DEBUG` print statement internals. `EFI_D_*` log levels and all the PCDs for the `DEBUG` statement control. Getting and parsing OVMF boot log.
 - [Lesson 42](Lessons/Lesson_42): Debug your drivers/applications and OVMF itself with GDB
 
-______
+_____
 
-Usefull links:
+# Learning links
+
 1) Beyond BIOS: Developing with the Unified Extensible Firmware Interface, Third Edition by Vincent Zimmer and Michael Rothman (https://www.amazon.com/Beyond-BIOS-Developing-Extensible-Interface/dp/1501514784)
 
 2) Harnessing the Uefi Shell: Moving The Platform Beyond Dos, Second Edition by Michael Rothman and Vincent Zimmer (https://www.amazon.com/Harnessing-UEFI-Shell-Moving-Platform/dp/1501514806)
