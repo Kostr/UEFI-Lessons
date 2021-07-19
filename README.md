@@ -104,3 +104,9 @@ EDK2 specifications (https://github.com/tianocore/tianocore.github.io/wiki/EDK-I
 - [Driver Writer's Guide](https://edk2-docs.gitbook.io/edk-ii-uefi-driver-writer-s-guide/)
 - [Module Writer's Guide](https://edk2-docs.gitbook.io/edk-ii-module-writer-s-guide/)
 - [EDKII User Manual](https://github.com/tianocore-docs/Docs/raw/master/User_Docs/EDK_II_UserManual_0_7.pdf)
+
+# Tools
+
+- [UEFITool](https://github.com/LongSoft/UEFITool) - UEFITool is a cross-platform C++/Qt program for parsing, extracting and modifying UEFI firmware images
+- [CrScreenshotDxe](https://github.com/LongSoft/CrScreenshotDxe) - UEFI DXE driver to take screenshots from GOP-compatible graphic consoles
+- [RU.EFI](http://ruexe.blogspot.com/) - "Read Universal" - UEFI application to debug UEFI interfaces
