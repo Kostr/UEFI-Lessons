@@ -103,7 +103,7 @@ fi
 if [[ ! -z "${FIRST_RUN}" || ! -f debug.log ]]; then
   touch debug.log
   # If it is a first run, we need to create 'debug.log' file for addresses
-  TARGET_EFI="Build/${PACKAGE}/DEBUG_GCC5/X64/${TARGET}.efi"
+  TARGET_EFI="Build/${PACKAGE}/RELEASE_GCC5/X64/${TARGET}.efi"
   test_file "${TARGET_EFI}"
   cp ${TARGET_EFI} ${QEMU_SHARED_FOLDER}
   tmux new-session \; \
