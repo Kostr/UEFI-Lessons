@@ -373,6 +373,22 @@ In the end `run_gdb_ovmf.sh` would provide similar `tmux` session. The only diff
 - `d <number>` - delete breakpoint `<number>`
 - `c` - continue
 - `q` - quit GDB
+- `Ctrl+p` - previous GDB command in history
+- `Ctrl+n` - next GDB command in history
+- `Ctrl+x` and `o` - change active window in tui mode
+
+To print CHAR16 string you can use `x /sh <addr>` command. Here is the example how can you print device path:
+```
+(gdb) p ConvertDevicePathToText(DevicePath, 0, 1)
+$1 = (CHAR16 *) 0x6d04518
+(gdb) x /sh 0x6d04518 
+0x6d04518:      u"PciRoot(0x0)/Pci(0x2,0x0)"
+```
+You can even do it in one command:
+```
+(gdb) x /sh ConvertDevicePathToText(DevicePath, 0, 1)
+0x6d02098:      u"PciRoot(0x0)/Pci(0x2,0x0)"
+```
 
 # Minimal Tmux cheatsheet
 
