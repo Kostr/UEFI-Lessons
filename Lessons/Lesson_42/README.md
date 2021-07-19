@@ -1,12 +1,14 @@
-In this lesson we would talk about how to debug our UEFI application and drivers with GDB.
+In this lesson we would talk about how to debug our UEFI applications and drivers with GDB.
 
 To perfrom debug with GDB we need to load debug symbols at the correct offset, for it we need to know:
 - app offset in memory
 - internal app sections offsets
 
+As example in this lesson we would try to debug `ShowBootVariables.efi` application that we've developed earlier.
+
 # Getting application offset in memory
 
-Run your QEMU with debug image of OVMF and log functionality enabled:
+Run your QEMU with the debug image of OVMF and log functionality enabled:
 ```
 qemu-system-x86_64 \
   -drive if=pflash,format=raw,readonly,file=Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
@@ -41,9 +43,9 @@ Our image is loaded to `0x6649000`.
 
 Use `objdump` to see what sections are inside `.efi` executable:
 ```
-$ objdump -h Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.efi
+$ objdump -h Build/UefiLessonsPkg/RELEASE_GCC5/X64/ShowBootVariables.efi
 
-Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.efi:     file format pei-x86-64
+Build/UefiLessonsPkg/RELEASE_GCC5/X64/ShowBootVariables.efi:     file format pei-x86-64
 
 Sections:
 Idx Name          Size      VMA               LMA               File off  Algn
@@ -56,9 +58,9 @@ Idx Name          Size      VMA               LMA               File off  Algn
 ```
 And what sections are inside `.debug` version:
 ```
-$ objdump -h Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.debug
+$ objdump -h Build/UefiLessonsPkg/RELEASE_GCC5/X64/ShowBootVariables.debug
 
-Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.debug:     file format elf64-x86-64
+Build/UefiLessonsPkg/RELEASE_GCC5/X64/ShowBootVariables.debug:     file format elf64-x86-64
 
 Sections:
 Idx Name          Size      VMA               LMA               File off  Algn
@@ -105,8 +107,6 @@ qemu-system-x86_64 \
   -drive format=raw,file=fat:rw:~/UEFI_disk \
   -net none \
   -nographic \
-  -global isa-debugcon.iobase=0x402 \
-  -debugcon file:debug.log \
   -s
 ```
 
@@ -116,7 +116,7 @@ Now we need to calculate addresses for `.text` and `.data` sections:
 0x6649000 + 0x4f40 = 0x664df40
 ```
 
-Run GDB and load symbols into it:
+Run GDB and load symbols into it at calculated offsets:
 ```
 $ gdb
 (gdb) add-symbol-file Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.debug 0x6649240 -s .data 0x664df40
@@ -177,5 +177,206 @@ In this mode source code file would be displayed right above the GDB prompt.
 ![gdb_tui](gdb_tui.png?raw=true "gdb_tui")
 
 
+# efi.py
 
+All this proccess of debug setup is very tedious.
+
+To ease a proccess of address calculation we could use [efi.py](efi.py) python script by Artem Nefedov.
+
+This script helps to load debug symbols into GDB (https://github.com/artem-nefedov/uefi-gdb/blob/master/efi.py).
+
+You can load this script into GDB:
+```
+gdb -ex 'source efi.py'
+```
+After that you would have custom `efi` command in GDB.
+
+We can use like this:
+```
+(gdb) efi -64 ShowBootVariables
+Turning pagination off
+Using pre-defined driver list: ['ShowBootVariables']
+The target architecture is assumed to be i386:x86-64:intel
+With architecture X64
+Looking for addresses in debug.log
+EFI file Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.efi
+ Base address 0x00006649000
+.text address 0x0000000000000240
+.data address 0x0000000000004f40
+add symbol table from file "Build/UefiLessonsPkg/DEBUG_GCC5/X64/ShowBootVariables.debug" at
+        .text_addr = 0x6649240
+        .data_addr = 0x664df40
+Restoring pagination
+
+```
+This would search `debug.log` file (so it should be already present) for `Loading driver at <...> EntryPoint=<...> ShowBootVariables.efi` string, get address information from it and
+load all the necessary symbols into GDB at the correct addresses.
+
+After that all you need to do is run QEMU in a separate terminal:
+
+```
+qemu-system-x86_64 \
+  -drive if=pflash,format=raw,readonly,file=Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
+  -drive format=raw,file=fat:rw:~/UEFI_disk \
+  -net none \
+  -nographic \
+  -s
+```
+And in GDB terminal create a breakpoint and connect to QEMU as before:
+```
+(gdb) target remote :1234
+Remote debugging using :1234
+warning: No executable has been specified and target does not support
+determining executable automatically.  Try using the "file" command.
+0x000000000717d841 in ?? ()
+(gdb) b UefiLessonsPkg/ShowBootVariables/ShowBootVariables.c:67
+Breakpoint 1 at 0x664c50f: file /home/kostr/tiano/edk2/UefiLessonsPkg/ShowBootVariables/ShowBootVariables.c, line 68.
+(gdb) c
+Continuing.
+```
+After that running our app in QEMU would produce breakpoint hit like before:
+```
+Breakpoint 1, ShellAppMain (Argc=1, Argv=0x666ae18) at /home/kostr/tiano/edk2/UefiLessonsPkg/ShowBootVariables/ShowBootVariables.c:73
+73        Status = GetNvramVariable(L"BootCurrent", &gEfiGlobalVariableGuid, (VOID**)&BootCurrent, &OptionSize);
+```
+
+# run_gdb.sh
+
+The `efi.py` script is good, but we still have much to do:
+- we need to create `debug.log` file that would contain necessary string. For this we need to launch QEMU with a correct parameters, and after boot launch our app in QEMU. We need to do it every time after recompilation of our app,
+- we need to run GDB with a correct arguments to load `efi.py`, and then execute `efi` command with a correct arguments,
+- we need to search entry point of our function to set a first breakpoint,
+- we need to run QEMU in a separate terminal with a correct parameters,
+- we need to connect GDB to QEMU,
+- we need to run our app in QEMU.
+
+That is too much to do, and we wasn't even talking about a fact, that it would be good to see OVMF log at the same time as we debug.
+
+To automate all these tasks I've created a `run_gdb.sh` script that creates `tmux` session with different panes, and automatically send necessay keys to them.
+
+```
+$ ./run_gdb.sh -h
+Description:
+  run_gdb.sh is a script that helps to debug UEFI shell applications and drivers
+
+Usage: run_gdb.sh -m <module> [-1|-f|-p <package>|-q <dir>]
+  -1            This is a first run of this configuration
+                (in this case before main gdb launch there would be another QEMU start that will create 'debug.log' file)
+  -f            Load all debug symbols
+                (this will load all OVMF debug symbols - with this you could step inside OVMF functions)
+  -m <module>   UEFI module to debug
+  -p <package>  UEFI package to debug
+                (by default it is equal to PACKAGE variable in the head of the script)
+  -q <dir>      QEMU shared directory
+                (by default it is equal to QEMU_SHARED_FOLDER variable in the head of the script)
+
+Examples:
+ run_gdb.sh -1 -m MyApp      - create 'debug.log' file with the necessary address information for the 'MyApp'
+                               and debug it with gdb
+ run_gdb.sh -1 -m MyApp -f   - create 'debug.log' file with the necessary address information for the 'MyApp'
+                               and debug it with gdb (all debug symbols are included, i.e. you can step into OVMF functions)
+ run_gdb.sh -m MyApp         - debug 'MyApp' with gdb ('debug.log' was created in the last run, no need to remake it again)
+```
+
+If we running our debug for the first time, we need to create `debug.log` with necessary information. For this run:
+```
+./run_gdb.sh -1 -m ShowBootVariables
+```
+
+This would launch `tmux` window with a OVMF log in the upper pane and QEMU in the lower pane:
+![run_gdb_first_time_1](run_gdb_first_time_1.png?raw=true "run_gdb_first_time_1")
+
+You just need to hit `Enter` to load your app:
+![run_gdb_first_time_2](run_gdb_first_time_2.png?raw=true "run_gdb_first_time_2")
+
+Now press `Ctrl+b` and then type `:kill-session` to close tmux session.
+
+After that another tmux session will be launched:
+- at left side there will be GDB in tui mode
+- at upper right corner there will be OVMF log
+- at lower right corner there will be QEMU
+
+![run_gdb_1](run_gdb_1.png?raw=true "run_gdb_1")
+
+Again once GDB loads all the necessary info, all you need to do is press `Enter` in QEMU pane.
+
+![run_gdb_2](run_gdb_2.png?raw=true "run_gdb_2")
+
+# Load all symbols
+
+If you want to step in functions, that were defined outside your application/driver (for example `gRT->GetVariable`) you need to load all the symbols into GDB from the `debug.log`.
+
+For this case you need to run `run_gdb.sh` script with `-f` argument:
+```
+./run_gdb.sh -1 -m ShowBootVariables -f
+```
+With this you can step inside most of the OVMF functions.
+![run_gdb_full](run_gdb_full.png?raw=true "run_gdb_full")
+
+One caution, don't hit `Enter` in QEMU pane, before GDB has loaded all the symbols.
+
+# Debug OVMF itself
+
+To debug OVMF itself we need to stop QEMU at start. For this task there is a `-S` parameter:
+```
+qemu-system-x86_64 \
+  -drive if=pflash,format=raw,readonly,file=Build/OvmfX64/DEBUG_GCC5/FV/OVMF.fd \
+  -drive format=raw,file=fat:rw:~/UEFI_disk \
+  -net none \
+  -nographic \
+  -s \
+  -S
+```
+
+Now we need to run GDB, load all the symbols from previously created `debug.log` file and connect to QEMU.
+
+Again, this is no very different from application debug, but it can be very tedious to setup.
+
+So I've provided similar `run_gdb_ovmf.sh` script to ease this task.
+
+```
+$ ./run_gdb_ovmf.sh -h
+Description:
+  run_gdb_ovmf.sh is a script that helps to debug OVMF
+
+Usage: run_gdb_ovmf.sh [-1] [-q <dir>]
+  -1            This is a first run of this configuration
+                (in this case before main gdb launch there would be another QEMU start that will create 'debug.log' file)
+  -q <dir>      QEMU shared directory
+                (by default it is equal to QEMU_SHARED_FOLDER variable in the head of the script)
+
+Examples:
+ run_gdb_ovmf.sh -1      - create 'debug.log' file with the necessary address information
+                           and debug OVMF it with gdb
+ run_gdb_ovmf.sh         - debug OVMF with gdb ('debug.log' was created in the last run, no need to remake it again)
+```
+
+The `-1` argument is no different from the `run_gdb.sh` script.
+
+In the end `run_gdb_ovmf.sh` would provide similar `tmux` session. The only difference is that it will not set any breakpoints or run OVMF.
+
+![run_gdb_ovmf](run_gdb_ovmf.png?raw=true "run_gdb_ovmf")
+
+
+# Minimal GDB cheatsheet
+
+- `s` - step
+- `n` - next
+- `fin` - step out
+- `i loc` - info about local variables
+- `i arg` - info about function arguments
+- `p <var>` - print value of `<var>`
+- `b <number>` - set breakpoint at line `<number>` in the current file
+- `b <file>:<number>` - set breakpoint at line `<number>` in the `<file>` file
+- `b <func>` - break on function `<func>`
+- `i b` - info breakpoints
+- `d <number>` - delete breakpoint `<number>`
+- `c` - continue
+- `q` - quit GDB
+
+# Minimal Tmux cheatsheet
+
+- `Ctrl+b` and `up/down/left/right` - switch between panes
+- `Ctrl+b` and `:kill-session` - close all panes
+- `Ctrl+b` and `Ctrl+up/down/left/right` - change pane size
 
