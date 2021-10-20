@@ -1,0 +1,20 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = ShowHII
+  FILE_GUID                      = 44c09516-1a1b-48cb-844d-3858887e57cc
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  ShowHII.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[Protocols]
+  gEfiHiiDatabaseProtocolGuid
