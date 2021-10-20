@@ -111,6 +111,8 @@ The `Key` field here corresponds to the current value of the `HiiHandleCount` fi
 
 And the `LIST_ENTRY Handle` helps to connect all the `HII_HANDLEs` in the system together. The important point to note that the `LIST_ENTRY HiiHandleList` field in the main `HII_DATABASE_PRIVATE_DATA` is the same handle list.
 
+Here is a picture of the HII database structure that we've just covered:
+![HII_Database](HII_Database.png?raw=true "HII Database")
 
 # HII database initialization
 
