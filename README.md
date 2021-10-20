@@ -47,6 +47,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 41](Lessons/Lesson_41): `DEBUG` print statement internals. `EFI_D_*` log levels and all the PCDs for the `DEBUG` statement control. Getting and parsing OVMF boot log.
 - [Lesson 42](Lessons/Lesson_42): Debug your drivers/applications and OVMF itself with GDB
 - [Lesson 43](Lessons/Lesson_43): Intro to the HII. Create an application to display HII database content 
+- [Lesson 44](Lessons/Lesson_44): HII database internals 
 
 _____
 
