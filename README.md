@@ -48,7 +48,9 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 42](Lessons/Lesson_42): Debug your drivers/applications and OVMF itself with GDB
 - [Lesson 43](Lessons/Lesson_43): Intro to the HII. Create an application to display HII database content 
 - [Lesson 44](Lessons/Lesson_44): HII database internals 
-- [Lesson 45](Lessons/Lesson_45): Intro to HII strings packages. Create package list with translation strings by hand
+- [Lesson 45](Lessons/Lesson_45): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 1: Investigate common aspects of Package List data generation 
+- [Lesson 46](Lessons/Lesson_46): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 2: String Packages data generation
+- [Lesson 47](Lessons/Lesson_47): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 3: Combine everything together. Use `NewPackageList` and `GetString` protocol functions
 
 _____
 
