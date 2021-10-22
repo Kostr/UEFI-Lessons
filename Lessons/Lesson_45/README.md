@@ -1,4 +1,36 @@
-Let's look one more time at the output of our `ShowHII` application:
+In the last lesson we've discovered that internally HII Database stores Package lists and its packages not in a continious data array, but in a complex data structure with many double linked lists.
+
+But when we've used `ExportPackageLists` from the `EFI_HII_DATABASE_PROTOCOL`, we received continious data array of Package lists and its packages. It is a handy interface to hide/abstract inernals of the HII Database and provide data to the user in a form that is easy to parse.
+
+The same goes when we want to add Package list to the database via `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL`. This functions expects incoming Package list in a continious data array in the same form.
+
+```
+EFI_HII_DATABASE_PROTOCOL.NewPackageList()
+
+Summary:
+Adds the packages in the package list to the HII database.
+
+Prototype:
+typedef
+EFI_STATUS
+(EFIAPI *EFI_HII_DATABASE_NEW_PACK) (
+ IN CONST EFI_HII_DATABASE_PROTOCOL *This,
+ IN CONST EFI_HII_PACKAGE_LIST_HEADER *PackageList,
+ IN CONST EFI_HANDLE DriverHandle, OPTIONAL
+ OUT EFI_HII_HANDLE *Handle
+ );
+
+Parameters:
+This		A pointer to the EFI_HII_DATABASE_PROTOCOL instance
+PackageList	A pointer to an EFI_HII_PACKAGE_LIST_HEADER structure
+DriverHandle	Associate the package list with this EFI handle
+Handle		A pointer to the EFI_HII_HANDLE instance
+Description	This function adds the packages in the package list to the database and returns a handle. If there is a
+		EFI_DEVICE_PATH_PROTOCOL associated with the DriverHandle, then this function will create a
+		package of type EFI_PACKAGE_TYPE_DEVICE_PATH and add it to the package list.
+```
+
+Let's inspect one more time the output of our `ShowHII` application:
 ```
 FS0:\> ShowHII.efi
 PackageList[0]: GUID=A487A478-51EF-48AA-8794-7BEE2A0562F1; size=0x1ADC
@@ -102,59 +134,137 @@ So basically package list data here looks something like this:
 ![Package_list](Package_list.png?raw=true "Package list")
 
 
-Ordinary packages can be of different types. In this lesson we would look at the string package.
-
-# String package
-
-String package is a set of strings in one language. Each of the strings in package can be referred by ID. IDs to these strings are not written anywhere but it is supposed that numbering scheme simply starts from ID=1 in every string package and increases by 1 on every string [there are some exceptions, but it is not important now].
-
-The general idea is to create String packages for each language you want to support for these piece of interface. In every of these language string packages the same words should have the same ID. For example:
+Ordinary packages can be of different types. For the examples take a look at the possible defines for the `EFI_HII_PACKAGE_HEADER.type` field:
 ```
-      String package (ENG)        String package (FR)
-      ___________________         ___________________
-
-ID=1   ...                            ...
-
-       ...                            ...
-
-ID=5   Hello!                        Bonjour!
-
-       ...                            ...
+//
+// Value of HII package type
+//
+#define EFI_HII_PACKAGE_TYPE_ALL             0x00
+#define EFI_HII_PACKAGE_TYPE_GUID            0x01
+#define EFI_HII_PACKAGE_FORMS                0x02
+#define EFI_HII_PACKAGE_STRINGS              0x04
+#define EFI_HII_PACKAGE_FONTS                0x05
+#define EFI_HII_PACKAGE_IMAGES               0x06
+#define EFI_HII_PACKAGE_SIMPLE_FONTS         0x07
+#define EFI_HII_PACKAGE_DEVICE_PATH          0x08
+#define EFI_HII_PACKAGE_KEYBOARD_LAYOUT      0x09
+#define EFI_HII_PACKAGE_ANIMATIONS           0x0A
+#define EFI_HII_PACKAGE_END                  0xDF
+#define EFI_HII_PACKAGE_TYPE_SYSTEM_BEGIN    0xE0
+#define EFI_HII_PACKAGE_TYPE_SYSTEM_END      0xFF
 ```
 
-In the code strings from the Package list are received from the `(ID, language)` combination. This helps to create UIs that could switch translations easily.
-
-# String package content
-
-String package strarts with a header `EFI_HII_STRING_PACKAGE_HDR` and then contains so called `String blocks`, which can be of different types. And as with the package list, the last element (=String block) has special `END` type.
-
-![String_package](String_package.png?raw=true "String package")
-
-The most important and most common type of String block is UCS2 String block. It contains header which points String block type and a CHAR16 string as a block data. Basically String package is a set of UCS2 String blocks each of which contains one string.
-
-![UCS2_String_block](UCS2_String_block.png?raw=true "UCS2 String block")
-
-
-# Create String package
-
+In the next lessons we would try to add a Package list with Strings packages.
 ```
-Prototype:
-typedef struct _EFI_HII_STRING_PACKAGE_HDR {
- EFI_HII_PACKAGE_HEADER Header;
- UINT32 HdrSize;
- UINT32 StringInfoOffset;
- CHAR16 LanguageWindow[16];
- EFI_STRING_ID LanguageName;
- CHAR8 Language[ … ];
-} EFI_HII_STRING_PACKAGE_HDR;
+EFI_HII_PACKAGE_HEADER.type = EFI_HII_PACKAGE_STRINGS
+```
 
-Members:
-Header			The standard package header, where Header.Type = EFI_HII_PACKAGE_STRINGS.
-HdrSize			Size of this header.
-StringInfoOffset	Offset, relative to the start of this header, of the string information.
-LanguageWindow		Specifies the default values placed in the static and dynamic windows
-			before processing each SCSU-encoded string.
-LanguageName		String identifier within the current string package of the full name of the
-			language specified by Language.
-Language		The null-terminated ASCII string that specifies the language of the strings in the package.
+# Create app from template
+
+Now when we have our `InitStringPackage` function that creates string packages it is time to create the application that would create Package list with String packages.
+
+Initialize new app from our template script:
+```
+./createNewApp.sh HIIStringsC
+```
+
+And add new app to the `UefiLessonsPkg/UefiLessonsPkg.dsc`:
+```
+[Components]
+  ...
+  UefiLessonsPkg/HIIStringsC/HIIStringsC.inf
+```
+
+# Package list GUID
+
+As every Package list has its own GUID we need to create GUID and add it to our DEC file (`UefiLessonsPkg/UefiLessonsPkg.dec`):
+```
+[Guids]
+  ...
+  gHIIStringsCGuid = { 0x8e0b8ed3, 0x14f7, 0x499d, { 0xa2, 0x24, 0xae, 0xe8, 0x9d, 0xc9, 0x7f, 0xa3 }}
+```
+To reference it in our code we should declare it in the application INF file as well. Add this to our `UefiLessonsPkg/HIIStringsC/HIIStringsC.inf` file:
+```
+[Guids]
+  gHIIStringsCGuid
+```
+
+For this GUID to be included we also need to add `UefiLessonsPkg/UefiLessonsPkg.dec` in the `Packages` section:
+```
+[Packages]
+  ...
+  UefiLessonsPkg/UefiLessonsPkg.dec
+```
+
+# UefiHiiServicesLib
+
+As each of the HII protocols can have only one instance in the system, there is a library that abstracts all the `LocateProtocol` logic in its constructor and fills global variables for protocols (https://github.com/tianocore/edk2/tree/master/MdeModulePkg/Library/UefiHiiServicesLib):
+```
+EFI_HII_STRING_PROTOCOL  		*gHiiString		// UEFI HII String Protocol
+EFI_HII_DATABASE_PROTOCOL  		*gHiiDatabase		// UEFI HII Database Protocol
+EFI_HII_CONFIG_ROUTING_PROTOCOL 	*gHiiConfigRouting	// UEFI HII Config Routing Protocol
+EFI_HII_FONT_PROTOCOL 			*gHiiFont		// UEFI HII Font Protocol
+EFI_HII_IMAGE_PROTOCOL  		*gHiiImage		// UEFI HII Image Protocol
+```
+
+So instead of using this in our last application:
+```
+  EFI_STATUS Status;
+  EFI_HII_DATABASE_PROTOCOL* HiiDbProtocol;
+  Status = gBS->LocateProtocol(&gEfiHiiDatabaseProtocolGuid,
+                               NULL,
+                               (VOID**)&HiiDbProtocol);
+  if (EFI_ERROR(Status)) {
+    Print(L"ERROR: Could not find HII Database protocol: %r\n", Status);
+    return Status;
+  }
+```
+We could simply include `UefiHiiServicesLib` to the app INF file and use `gHiiDatabase` instead as a `EFI_HII_DATABASE_PROTOCOL*`.
+
+Let's use `UefiHiiServicesLib` in our current app. For this add `UefiHiiServicesLib` to the Library classes in the `UefiLessonsPkg/HIIStringsC/HIIStringsC.inf`:
+```
+[LibraryClasses]
+  ...
+  UefiHiiServicesLib
+```
+Also we need to include this library package DEC file in the application INF:
+```
+[Packages]
+  ...
+  MdeModulePkg/MdeModulePkg.dec
+```
+
+Finally add necessary include to our *.c file `UefiLessonsPkg/HIIStringsC/HIIStringsC.c`:
+```
+#include <Library/UefiHiiServicesLib.h>
+```
+
+# Application code
+
+Here is a starting template for our application. We cheat a little bit here as we don't calculate size for our Package list, but use some number bigger that we would actually need in this example. This lesson is splitted in many parts and is hard enough as it is, I don't want to complicate things even more, so take my word on it that this size would be enough for the thing we are about to do:
+```
+  CHAR8* Data = (CHAR8*) AllocateZeroPool(200);          // CHEAT! NEEDS CORRECTION FOR YOUR OWN PACKAGES!
+  UINT32 offset = 0;
+  EFI_HII_PACKAGE_LIST_HEADER* PackageListHdr = (EFI_HII_PACKAGE_LIST_HEADER*)&Data[offset];
+  PackageListHdr->PackageListGuid = gHIIStringsCGuid;
+  offset += sizeof(EFI_HII_PACKAGE_LIST_HEADER);
+
+  <...> 		// Fill String Packages in the memory starting from &Data[offset]
+  offset += <...>	// Add packages size to the 'offset' variable
+
+  EFI_HII_PACKAGE_HEADER* HIIEndPackageHdr = (EFI_HII_PACKAGE_HEADER*)&Data[offset];
+  HIIEndPackageHdr->Type = EFI_HII_PACKAGE_END;
+  HIIEndPackageHdr->Length = sizeof(EFI_HII_PACKAGE_HEADER);
+  offset += sizeof(EFI_HII_PACKAGE_HEADER);
+
+  PackageListHdr->PackageLength = offset;
+
+  <...>			// Add new package to the HII Database
+
+  FreePool(Data);
+```
+
+Off course don't forget to add include for using memory allocation functions:
+```
+#include <Library/MemoryAllocationLib.h>
 ```
