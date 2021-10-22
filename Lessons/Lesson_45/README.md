@@ -161,8 +161,6 @@ EFI_HII_PACKAGE_HEADER.type = EFI_HII_PACKAGE_STRINGS
 
 # Create app from template
 
-Now when we have our `InitStringPackage` function that creates string packages it is time to create the application that would create Package list with String packages.
-
 Initialize new app from our template script:
 ```
 ./createNewApp.sh HIIStringsC
