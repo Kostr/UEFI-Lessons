@@ -1,5 +1,5 @@
 First install necessary packages to your distro.
-For the TianoCore compilation you'll need:
+For the EDKII compilation you'll need:
 - nasm - The Netwide Assembler (NASM) is an assembler and disassembler for the Intel x86 architecture. It can be used to write 16-bit, 32-bit (IA-32) and 64-bit (x86-64) programs. NASM is considered to be one of the most popular assemblers for Linux,
 - iasl - Intel ACPI compiler/decompiler. Advanced Configuration and Power Interface (ACPI) provides an open standard that operating systems can use to discover and configure computer hardware components, to perform power management and to perform status monitoring. UEFI firmware provides ACPI configuration tables to OS. ACPI specification can be found at https://uefi.org/specifications,
 - uuid-dev - Universally Unique ID library. A universally unique identifier (UUID) is a 128-bit label used for identification of various components in UEFI. The term globally unique identifier (GUID) is also used,
@@ -45,7 +45,7 @@ Try to execute help command to see all available options:
 build --help
 ```
 
-Next we want to build the Open Virtual Machine Firmware (OVMF). OVMF is a port of tianocore firmware to the qemu virtual machine. This allows easy debugging and experimentation with UEFI firmware; either for testing OS booting or using the (included) EFI shell. We would be writing various EFI programs, and OVMF is an easy way to test them. We could install it with the package manager with something like `sudo apt-get install ovmf`, but it is not fun.
+Next we want to build the Open Virtual Machine Firmware (OVMF). OVMF is a EDKII-based firmware that is possible to run under the qemu x86-64 virtual machine. This allows easy debugging and experimentation with UEFI firmware; either for testing OS booting or using the (included) EFI shell. We would be writing various EFI programs, and OVMF is an easy way to test them. We could install it with the package manager with something like `sudo apt-get install ovmf`, but it is not fun.
 
 To build OVMF execute:
 ```

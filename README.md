@@ -2,7 +2,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 
 # Content
 
-- [Lesson 00](Lessons/Lesson_00): Getting started guide for TianoCore. Compile OVMF and run it in QEMU
+- [Lesson 00](Lessons/Lesson_00): Getting started guide for EDKII. Compile OVMF and run it in QEMU
 - [Lesson 01](Lessons/Lesson_01): Create a simplest app and run it in OVMF
 - [Lesson 02](Lessons/Lesson_02): Create a simplest package
 - [Lesson 03](Lessons/Lesson_03): Create `HelloWorld` app with the help of SystemTable services
