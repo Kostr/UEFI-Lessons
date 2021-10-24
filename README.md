@@ -51,6 +51,8 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 45](Lessons/Lesson_45): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 1: Investigate common aspects of Package List data generation 
 - [Lesson 46](Lessons/Lesson_46): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 2: String Packages data generation
 - [Lesson 47](Lessons/Lesson_47): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 3: Combine everything together. Use `NewPackageList` and `GetString` protocol functions
+- [Lesson 48](Lessons/Lesson_48): Use `UNI` files and `HiiLib` to publish and work with HII String packages
+ 
 
 _____
 
