@@ -230,7 +230,7 @@ fr-FR ID=3: <null string>
 What is wrong? Why only the language strings (ID=1) were populated to String packages?
 
 Let's look at the actual `HIIStringsUNIStrings` array data that is present in the file
-Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/AutoGen.c
+`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/AutoGen.c`
 ```
 //
 //Unicode String Pack Definition
@@ -307,7 +307,7 @@ Print(L"fr-FR ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), "fr-FR"))
 
 Now build the application and look at the generated files:
 
-Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/HIIStringsUNIStrDefs.h
+`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/HIIStringsUNIStrDefs.h`
 ```
 //
 //Unicode String ID
@@ -317,7 +317,7 @@ Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI
 #define STR_HELLO                                            0x0002
 #define STR_BYE                                              0x0003
 ```
-Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/AutoGen.c
+`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI/DEBUG/AutoGen.c`
 ```
 //
 //Unicode String Pack Definition
