@@ -369,7 +369,7 @@ unsigned char HIIStringsUNIStrings[] = {
 
 As you can see this time our strings got into the `HIIStringsUNIStrings` array.
 
-If you execute our application under OVMF now you would get:
+If you execute our application under OVMF now you would get correct output:
 ```
 FS0:\> HIIStringsUNI.efi
 en-US ID=1: English
@@ -378,4 +378,17 @@ en-US ID=3: Bye!
 fr-FR ID=1: Francais
 fr-FR ID=2: Bonjour!
 fr-FR ID=3: Au revoir!
+```
+
+You can see now how important to reference our strings with the `STRING_TOKEN` macro, but keep in mind that in reality this macro simply does nothing to its value (https://github.com/tianocore/edk2/blob/master/BaseTools/Source/C/Include/Common/UefiInternalFormRepresentation.h):
+```
+//
+// References to string tokens must use this macro to enable scanning for
+// token usages.
+//
+//
+// STRING_TOKEN is not defined in UEFI specification. But it is placed
+// here for the easy access by C files and VFR source files.
+//
+#define STRING_TOKEN(t) t
 ```
