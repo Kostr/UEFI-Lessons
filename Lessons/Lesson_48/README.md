@@ -182,7 +182,7 @@ As we've already included `HiiLib` library, let's use its `HiiGetString` functio
 
 https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Include/Library/HiiLib.h
 
-https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/UefiHiiLib/HiiLib.c
+https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/UefiHiiLib/HiiString.c
 ```
 /**
   Retrieves a string from a string package in a specific language specified in Language
