@@ -28,5 +28,11 @@ UefiMain (
   Print(L"fr-FR ID=2: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_HELLO), "fr-FR"));
   Print(L"fr-FR ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), "fr-FR"));
 
+  Print(L"Best language ID=1: %s\n", HiiGetString(Handle, 1, NULL));
+  Print(L"Best language ID=2: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_HELLO), NULL));
+  Print(L"Best language ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), NULL));
+
+  Print(L"fr ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), "fr"));
+
   return EFI_SUCCESS;
 }

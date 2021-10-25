@@ -392,3 +392,60 @@ You can see now how important to reference our strings with the `STRING_TOKEN` m
 //
 #define STRING_TOKEN(t) t
 ```
+
+# Best language
+
+The `HiiGetString` library function not only simplier to use over direct protocol use, it has another useful feature.
+It is possible to call `HiiGetString` without providing target language. This way function would decide itself what language is better to use.
+This way the best language would be chosen based on the value of the `PlatformLang` runtime variable.
+Remember how we used `gRT->GetNextVariableName`/`gRT->GetVariable` to work with the runtime variables? `PlatformLang` was one of them. With the help of our `ListVariables.efi` application we've discovered that this option is placed under the `gEfiGlobalVariableGuid`.
+
+8BE4DF61-93CA-11D2-AA0D-00E098032B8C - gEfiGlobalVariableGuid
+https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Guid/GlobalVariable.h
+
+https://github.com/tianocore/edk2/blob/master/MdePkg/MdePkg.dec
+
+
+Let's add these strings at the end of our application:
+```
+Print(L"Best language ID=1: %s\n", HiiGetString(Handle, 1, NULL));
+Print(L"Best language ID=2: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_HELLO), NULL));
+Print(L"Best langiage ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), NULL));
+```
+
+Now build and run our application under OVMF:
+```
+FS0:\> HIIStringsUNI.efi
+en-US ID=1: English
+en-US ID=2: Hello!
+en-US ID=3: Bye!
+fr-FR ID=1: Francais
+fr-FR ID=2: Bonjour!
+fr-FR ID=3: Au revoir!
+Best language ID=1: English
+Best language ID=2: Hello!
+Best language ID=3: Bye!
+```
+Now execute `exit` in the UEFI shell to go to the BIOS settings. Change language to French. Close QEMU and re-run it again. Now the output for best language would be coming from the `fr-FR` String package:
+```
+FS0:\> HIIStringsUNI.efi
+en-US ID=1: English
+en-US ID=2: Hello!
+en-US ID=3: Bye!
+fr-FR ID=1: Francais
+fr-FR ID=2: Bonjour!
+fr-FR ID=3: Au revoir!
+Best language ID=1: Francais
+Best language ID=2: Bonjour!
+Best language ID=3: Au revoir!
+```
+
+Another useful feature that it is possible to call `HiiGetString` with more general language names. For example `fr` instead of `fr-FR` will still choose the correct String package.
+```
+ Print(L"fr ID=3: %s\n", HiiGetString(Handle, STRING_TOKEN(STR_BYE), "fr"));
+```
+This will print:
+```
+fr ID=3: Au revoir!
+```
+Keep in mind that this functionality comes purely from the `HiiGetString` implementation. If you would try to paste "fr" instead of "fr-FR" to the `EFI_HII_STRING_PROTOCOL.GetString()` you simply get an error.
