@@ -1,0 +1,8 @@
+#langdef en-US "English"
+#langdef fr-FR "Francais"
+
+#string STR_HELLO         #language en-US  "Hello!"
+                          #language fr-FR  "Bonjour!"
+
+#string STR_BYE           #language en-US  "Bye!"
+                          #language fr-FR  "Au revoir!"

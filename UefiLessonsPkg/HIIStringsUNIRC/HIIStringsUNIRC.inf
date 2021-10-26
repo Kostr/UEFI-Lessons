@@ -1,0 +1,30 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIStringsUNIRC
+  FILE_GUID                      = f8dc4b7a-8c6d-4a16-b2a1-03682db32bfd
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+  UEFI_HII_RESOURCE_SECTION      = TRUE
+
+[Sources]
+  HIIStringsUNIRC.c
+  Strings.uni
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  HiiLib
+  UefiHiiServicesLib
+
+[Protocols]
+  gEfiHiiPackageListProtocolGuid
+
+[Guids]
+  gHIIStringsUNIRCGuid
+

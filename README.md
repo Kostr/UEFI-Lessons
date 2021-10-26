@@ -53,6 +53,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 47](Lessons/Lesson_47): Use `NewPackageList` from the `EFI_HII_DATABASE_PROTOCOL` directly to publish HII Package list with Strings packages. Part 3: Combine everything together. Use `NewPackageList` and `GetString` protocol functions
 - [Lesson 48](Lessons/Lesson_48): Use `UNI` files and `HiiLib` to publish and work with HII String packages
 - [Lesson 49](Lessons/Lesson_49): UNI files declared with the help of `MODULE_UNI_FILE`/`PACKAGE_UNI_FILE`/`[UserExtensions.TianoCore."ExtraFiles"]`
+- [Lesson 50](Lessons/Lesson_50): Use `UEFI_HII_RESOURCE_SECTION` to publish HII Package list with Strings packages
  
 
 _____
