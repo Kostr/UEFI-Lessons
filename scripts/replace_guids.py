@@ -1,3 +1,9 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
 from shutil import copyfile
 
 GUIDS_FILE_PATH = "Build/OvmfX64/DEBUG_GCC5/FV/Guid.xref"

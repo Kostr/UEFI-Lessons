@@ -1,4 +1,9 @@
 #!/bin/bash
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
 
 ##### Controllable parameters #####
 QEMU_SHARED_FOLDER=~/UEFI_disk

@@ -1,3 +1,9 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
 [Defines]
   INF_VERSION                    = 1.25
   BASE_NAME                      = HIIStringsUNIRC

@@ -1,4 +1,9 @@
 #!/bin/bash
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
 
 # This is a simple script that creates a basic structure for your new UEFI driver
 # Put this script in your edk2 folder and run it with 1 argument - your new driver name
