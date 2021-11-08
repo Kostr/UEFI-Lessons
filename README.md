@@ -54,7 +54,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 48](Lessons/Lesson_48): Use `UNI` files and `HiiLib` to publish and work with HII String packages
 - [Lesson 49](Lessons/Lesson_49): UNI files declared with the help of `MODULE_UNI_FILE`/`PACKAGE_UNI_FILE`/`[UserExtensions.TianoCore."ExtraFiles"]`
 - [Lesson 50](Lessons/Lesson_50): Use `UEFI_HII_RESOURCE_SECTION` to publish HII Package list with Strings packages
- 
+- [Lesson 51](Lessons/Lesson_51): Add manual to UEFI application. How `-?` and `help` work in shell. `EFI_SHELL_GET_HELP_TEXT` function from the `EFI_SHELL_PROTOCOL`
 
 _____
 

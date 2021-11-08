@@ -1,9 +1,3 @@
-##
-# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
-#
-# SPDX-License-Identifier: MIT
-##
-
 [Defines]
   DSC_SPECIFICATION              = 0x0001001C
   PLATFORM_GUID                  = 3db7270f-ffac-4139-90a4-0ae68f3f8167

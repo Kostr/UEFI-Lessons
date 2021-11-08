@@ -1,0 +1,19 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIStringsMan
+  FILE_GUID                      = 55fd4de5-0f19-4a23-a001-72bef56f8966
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+  UEFI_HII_RESOURCE_SECTION      = TRUE
+
+[Sources]
+  HIIStringsMan.c
+  Strings.uni
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
