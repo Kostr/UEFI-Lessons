@@ -1,0 +1,102 @@
+<-- MAKE REPLACEMENTS WITH YOUR FONT IN THE 3 MARKED PLACES -->
+
+<html>
+  <head>
+    <style>
+      @font-face {
+        font-family: "AST";
+        src: url(web_ast_premiumexec.woff) format('woff');   /* REPLACE WITH YOUR FONT (1) */
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="32" height="32"></canvas>
+    <script type="text/javascript">
+      function decimalToHex(d, padding) {
+        var hex = Number(d).toString(16);
+        padding = typeof (padding) === "undefined" || padding === null ? padding = 2 : padding;
+
+        while (hex.length < padding) {
+          hex = "0" + hex;
+        }
+
+        return hex;
+      }
+
+      function UnicodeToGlyphs(unicode_start_code, unicode_end_code) {
+        const threshold = 100;                // `A` threshold to count data as a black pixel
+        const FW = 16;
+        const FH = 19;
+        const left_glyph_start_column = 0;
+        const left_glyph_end_column = FW/2 - 1;
+        const right_glyph_start_column = FW/2;
+        const right_glyph_end_column = FW - 1;
+
+        const canvas = document.getElementById('canvas');
+        canvas.width *= window.devicePixelRatio
+        canvas.height *= window.devicePixelRatio
+        canvas.style.width = 32
+        canvas.style.height = 32
+        const ctx = canvas.getContext('2d');
+        ctx.strokeRect(0, 0, FW, FH);
+        ctx.font = "19px AST"                               <-- REPLACE WITH YOUR FONT (2) -->
+        ctx.fillstyle='#00f';
+
+        var wide_glyphs_str="EFI_WIDE_GLYPH  gSimpleFontWideGlyphData[] = {<BR>";
+        var narrow_glyphs_str="EFI_NARROW_GLYPH  gSimpleFontNarrowGlyphData[] = {<BR>";
+        for(i=unicode_start_code; i<=unicode_end_code; i++){
+          wide_glyph = false;
+          ctx.clearRect(0, 0, FW, FH);
+          ctx.fillText(String.fromCharCode(i), 0, 0 + FW-1);
+          var bitmapimg = ctx.getImageData(0, 0, FW, FH);
+          var bitmap = bitmapimg.data;
+          var left_glyph = " ";
+          var right_glyph = " ";
+          for (row=0; row<FH; row++){
+            left_row = 0;
+            for (col=left_glyph_start_column; col<=left_glyph_end_column; col++){
+              left_row <<= 1
+              if (bitmap[row*FW*4 + col*4 + 3] > threshold)
+                left_row |= 1;
+            }
+            left_glyph += "0x" + decimalToHex(left_row);
+
+            right_row = 0;
+            for (col=right_glyph_start_column; col<=right_glyph_end_column; col++){
+              right_row <<= 1
+              if(bitmap[row*FW*4 + col*4 + 3] > threshold) {
+                wide_glyph = true;
+                right_row |= 1;
+              }
+            }
+            right_glyph += "0x" + decimalToHex(right_row);
+
+            if (row < (FH-1)) {
+              left_glyph += ",";
+              right_glyph += ",";
+            }
+          }
+          if (wide_glyph)
+            wide_glyphs_str += "{ 0x" + decimalToHex(i) + ", 0x00, " + "{" +  left_glyph + "}, {" + right_glyph + "}, {0x00,0x00,0x00}}," + "<BR>";
+          else
+            narrow_glyphs_str += "{ 0x" + decimalToHex(i) + ", 0x00, " + "{" +  left_glyph + "}},"+ "<BR>";
+        }
+        narrow_glyphs_str += "};<BR>"
+        narrow_glyphs_str += "UINT32 gSimpleFontNarrowBytes = sizeof(gSimpleFontNarrowGlyphData);<BR>"
+        wide_glyphs_str += "{ 0x00, 0x00, { 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}" + "<BR>"
+        wide_glyphs_str += "};<BR>"
+        wide_glyphs_str += "UINT32 gSimpleFontWideBytes = sizeof(gSimpleFontWideGlyphData);<BR>"
+        return wide_glyphs_str + "<BR>" + narrow_glyphs_str;
+      }
+
+      const unicode_start_code = 0x0400;
+      const unicode_end_code = 0x045F;
+      var f = new FontFace('AST', 'url(web_ast_premiumexec.woff)');           <-- REPLACE WITH YOUR FONT (3) -->
+      f.load().then(function() {
+        document.write(UnicodeToGlyphs(unicode_start_code, unicode_end_code));
+      })
+    </script>
+  </body>
+</html>
+
+
