@@ -87,7 +87,7 @@ https://github.com/zhenghuadai/uefi-programming
 
 8) https://blog.csdn.net/luobing4365
 
-https://gitee.com/luobing4365/uefi-exolorer
+https://gitee.com/luobing4365/uefi-explorer
 
 _______
 
