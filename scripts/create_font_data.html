@@ -4,7 +4,7 @@
 
 
 
-<-- MAKE REPLACEMENTS WITH YOUR FONT IN THE 3 MARKED PLACES -->
+<!-- MAKE REPLACEMENTS WITH YOUR FONT IN THE 3 MARKED PLACES -->
 
 <html>
   <head>
@@ -45,7 +45,7 @@
         canvas.style.height = 32
         const ctx = canvas.getContext('2d');
         ctx.strokeRect(0, 0, FW, FH);
-        ctx.font = "19px AST"                               <-- REPLACE WITH YOUR FONT (2) -->
+        ctx.font = "19px AST"                               <!-- REPLACE WITH YOUR FONT (2) -->
         ctx.fillstyle='#00f';
 
         var wide_glyphs_str="EFI_WIDE_GLYPH  gSimpleFontWideGlyphData[] = {<BR>";
@@ -97,7 +97,7 @@
 
       const unicode_start_code = 0x0400;
       const unicode_end_code = 0x045F;
-      var f = new FontFace('AST', 'url(web_ast_premiumexec.woff)');           <-- REPLACE WITH YOUR FONT (3) -->
+      var f = new FontFace('AST', 'url(web_ast_premiumexec.woff)');           <!-- REPLACE WITH YOUR FONT (3) -->
       f.load().then(function() {
         document.write(UnicodeToGlyphs(unicode_start_code, unicode_end_code));
       })
