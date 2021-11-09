@@ -18,8 +18,11 @@ For example we have a `PlatformDxe` which has strings only for the English langu
 This means that even if we change our language preference to French in the BIOS menu, these strings still would be printed in English. You can verify it.
 
 With a help of a `Select Language` option change language to `Francais`
+
 ![Translations1](Translations1.png?raw=true "Translations1")
+
 Then look at the `Device Manager->OVMF Platform Configuration`:
+
 ![Translations2](Translations2.png?raw=true "Translations2")
 
 As you remember one string package has translation strings only for one language. If HII element supports multiple languages it would have multiple STRING packages in its package list. As for the `PlatformDxe` it has only one string package in its package list: 
@@ -313,7 +316,10 @@ FS0:\>
 After that perform `exit` to go to the BIOS menu.
 
 Use `Select Language` option to change language to `Francais`. Then got to the `DeviceManager->OVMF Platform Configuration`. You can already see that translation are in place:
+
 ![Translations4](Translations4.png?raw=true "Translations4")
+
 If you exit the menu and then go to it again you could even see that even the string in the `Device manager` is changed to "Configuration de la OVMF plateforme":
+
 ![Translations3](Translations3.png?raw=true "Translations3")
 

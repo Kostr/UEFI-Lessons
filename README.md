@@ -57,7 +57,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 51](Lessons/Lesson_51): Add manual to UEFI application. How `-?` and `help` work in shell. `EFI_SHELL_GET_HELP_TEXT` function from the `EFI_SHELL_PROTOCOL`
 - [Lesson 52](Lessons/Lesson_52): Add Russian font - Part 1: investigate `EFI_NARROW_GLYPH`/`EFI_WIDE_GLYPH` format, construct glyph array from the *.woff font file
 - [Lesson 53](Lessons/Lesson_53): Add Russian font - Part 2: construct `EFI_HII_SIMPLE_FONT_PACKAGE` and populate it to the HII database 
-- [Lesson 54](Lessons/Lesson_54): Use `NewString` and `SetString` functions from the `EFI_HII_STRING_PROTOCOL` to add String Package in a new language dynamically 
+- [Lesson 54](Lessons/Lesson_54): Use `NewString` and `SetString` functions from the `EFI_HII_STRING_PROTOCOL` to add String Package for another language dynamically 
 
 
 _____
