@@ -1,0 +1,20 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIAddLocalization
+  FILE_GUID                      = 1d20e66e-4b7e-4cbb-a8f5-a6e427aee1de
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  HIIAddLocalization.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  HiiLib
+  UefiHiiServicesLib
