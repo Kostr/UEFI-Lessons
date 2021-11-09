@@ -20,3 +20,6 @@
 
 [run_gdb_ovmf.sh](run_gdb_ovmf.sh) - script that launches tmux session ready for OVMF debug
 
+- Font:
+
+[create_font_data.html](create_font_data.html) - HTML with javascript code to transform font file to UEFI Glyph array
