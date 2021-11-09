@@ -6,6 +6,8 @@ Print(L"Привет!\n");
 ```
 would be printed like this:
 
+![No font](NoFont.png?raw=true "No font")
+
 QEMU would print something like this in `nographic` mode:
 ```
 FS0:\> HIIFont.efi
