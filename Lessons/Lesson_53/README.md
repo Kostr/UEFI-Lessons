@@ -258,7 +258,7 @@ UefiMain (
 
   return EFI_SUCCESS;
 }
-
+```
 First print would produce only `!` as there are no information in the system about how to display russian unicode symbol glyphs. But at the end after we've added our font package, print would produce expected result:
 
 ![AddFont2](AddFont2.png?raw=true "Add font 2")
