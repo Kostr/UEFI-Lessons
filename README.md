@@ -55,7 +55,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 49](Lessons/Lesson_49): UNI files declared with the help of `MODULE_UNI_FILE`/`PACKAGE_UNI_FILE`/`[UserExtensions.TianoCore."ExtraFiles"]`
 - [Lesson 50](Lessons/Lesson_50): Use `UEFI_HII_RESOURCE_SECTION` to publish HII Package list with Strings packages
 - [Lesson 51](Lessons/Lesson_51): Add manual to UEFI application. How `-?` and `help` work in shell. `EFI_SHELL_GET_HELP_TEXT` function from the `EFI_SHELL_PROTOCOL`
-- [Lesson 52](Lessons/Lesson_52): Add Russian font - Part 1: investigate EFI_NARROW_GLYPH/EFI_WIDE_GLYPH format, construct glyph array from the *.woff font file
+- [Lesson 52](Lessons/Lesson_52): Add Russian font - Part 1: investigate `EFI_NARROW_GLYPH`/`EFI_WIDE_GLYPH` format, construct glyph array from the *.woff font file
 - [Lesson 53](Lessons/Lesson_53): Add Russian font - Part 2: construct `EFI_HII_SIMPLE_FONT_PACKAGE` and populate it to the HII database 
 
 
