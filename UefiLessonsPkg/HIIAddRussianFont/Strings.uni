@@ -1,0 +1,25 @@
+//
+// Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+//
+// SPDX-License-Identifier: MIT
+//
+
+#langdef en-US "English"
+#langdef fr-FR "Francais"
+#langdef ru-RU "Russian"
+
+#string STR_HELLO               #language en-US  "Hello!"
+                                #language fr-FR  "Bonjour!"
+                                #language ru-RU  "Привет!"
+
+#string STR_BYE                 #language en-US  "Bye!"
+                                #language fr-FR  "Au revoir!"
+                                #language ru-RU  "До свидания!"
+
+#string STR_ALPHABET_UPPERCASE  #language en-US  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                #language fr-FR  "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÈÙÉÂÊÎÔÛËÏÜŸÆŒÇ"
+                                #language ru-RU  "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЪЭЮЯ"
+
+#string STR_ALPHABET_LOWERCASE  #language en-US  "abcdefghijklmnopqrstuvwxyz"
+                                #language fr-FR  "abcdefghijklmnopqrstuvwxyzàèùéâêîôûëïüÿæœç"
+                                #language ru-RU  "абвгдеёжзийклмнопрстуфхцчшщьъэюя"
