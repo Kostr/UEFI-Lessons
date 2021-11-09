@@ -28,7 +28,11 @@ COPYRIGHT_META="\
 ##
 "
 
-DIR="$(dirname $(dirname "$(readlink -f "$0")"))"
+if [ ! -z "$1" ]; then
+  DIR="$(readlink -f "$1")"
+else
+  DIR="$(dirname $(dirname "$(readlink -f "$0")"))"
+fi
 
 function insertCopyright {
   FILENAME=${1}
