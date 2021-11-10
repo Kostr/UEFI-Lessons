@@ -98,8 +98,8 @@ And https://github.com/tianocore/edk2/blob/master/OvmfPkg/PlatformDxe/Platform.u
 #string STR_FORMSET_HELP         #language en-US "Change various OVMF platform settings."
 ```
 This would produce this output in the BIOS menu:
-![Formset_title_help](Formset_title_help.png?raw=true "Formset_title_help")
 
+![Formset_title_help](Formset_title_help.png?raw=true "Formset_title_help")
 
 Okay, now that we have VFR and UNI files it is time to publish our form to the HII. Add VFR and UNI files to the `Sources` section in the `UefiLessonsPkg/HIISimpleForm/HIISimpleForm.inf`:
 ```
