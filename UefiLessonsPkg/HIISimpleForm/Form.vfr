@@ -1,0 +1,11 @@
+#define HIISIMPLEFORM_FORMSET_GUID  {0xef2acc91, 0x7b50, 0x4ab9, {0xab, 0x67, 0x2b, 0x4, 0xf8, 0xbc, 0x13, 0x5e}}
+
+formset
+  guid     = HIISIMPLEFORM_FORMSET_GUID,
+  title    = STRING_TOKEN(HIISIMPLEFORM_FORMSET_TITLE),
+  help     = STRING_TOKEN(HIISIMPLEFORM_FORMSET_HELP),
+  form
+    formid = 1,
+    title = STRING_TOKEN(HIISIMPLEFORM_FORMID1_TITLE);
+  endform;
+endformset;

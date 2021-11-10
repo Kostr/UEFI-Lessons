@@ -60,6 +60,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 54](Lessons/Lesson_54): Use `NewString` and `SetString` functions from the `EFI_HII_STRING_PROTOCOL` to add String Package for another language dynamically 
 - [Lesson 55](Lessons/Lesson_55): Try to modify `PlatformLangCodes` EFI variable and add another language dynamically. Variable protection with a help of `EDKII_VARIABLE_POLICY_PROTOCOL`
 - [Lesson 56](Lessons/Lesson_56): How to get module `FILE_GUID` and `BASE_NAME` in code. Autoconf variables `gEfiCallerIdGuid`/`gEdkiiDscPlatformGuid`/`gEfiCallerBaseName` 
+- [Lesson 57](Lessons/Lesson_57): Use VFR to create a simple form and display it with a help of `EFI_FORM_BROWSER2_PROTOCOL.SendForm()`. IFR data investigation
 
 
 _____
