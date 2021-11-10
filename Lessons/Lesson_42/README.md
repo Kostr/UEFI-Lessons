@@ -377,6 +377,8 @@ In the end `run_gdb_ovmf.sh` would provide similar `tmux` session. The only diff
 - `Ctrl+n` - next GDB command in history
 - `Ctrl+x` and `o` - change active window in tui mode
 
+To print variable value in hexadecimal use `p/x <variable>`.
+
 To print CHAR16 string you can use `x /sh <addr>` command. Here is the example how can you print device path:
 ```
 (gdb) p ConvertDevicePathToText(DevicePath, 0, 1)
