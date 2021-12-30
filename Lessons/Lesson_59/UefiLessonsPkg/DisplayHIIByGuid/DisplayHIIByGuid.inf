@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = DisplayHIIByGuid
+  FILE_GUID                      = 1597e1d0-7f62-4631-a166-703f03bd7223
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  DisplayHIIByGuid.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  HiiLib
+
+[Protocols]
+  gEfiFormBrowser2ProtocolGuid

@@ -1,0 +1,30 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIFormCheckbox
+  FILE_GUID                      = 771a4631-43ba-4852-9593-919d9de079f1
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  HIIFormCheckbox.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  HiiLib
+
+[Protocols]
+  gEfiFormBrowser2ProtocolGuid

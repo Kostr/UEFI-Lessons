@@ -1,0 +1,25 @@
+#include <Uefi/UefiMultiPhase.h>
+
+#define FORMSET_GUID  {0xef2acc91, 0x7b50, 0x4ab9, {0xab, 0x67, 0x2b, 0x4, 0xf8, 0xbc, 0x13, 0x5e}}
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+
+  efivarstore UINT8,
+    attribute = EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,
+    name  = HIIFormCheckboxEfiVarstore,
+    guid  = FORMSET_GUID;  
+
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+    checkbox
+      varid = HIIFormCheckboxEfiVarstore,
+      prompt = STRING_TOKEN(CHECKBOX_PROMPT),
+      help = STRING_TOKEN(CHECKBOX_HELP),
+    endcheckbox;
+  endform;
+endformset;
