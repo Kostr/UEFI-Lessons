@@ -1,0 +1,25 @@
+//
+// Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+//
+// SPDX-License-Identifier: MIT
+//
+
+#langdef en-US "English"
+
+#string HIISTATICFORM_FORMSET_TITLE          #language en-US  "Static Formset"
+#string HIISTATICFORM_FORMSET_HELP           #language en-US  "This is a static formset"
+#string HIISTATICFORM_FORMID1_TITLE          #language en-US  "Static Form"
+#string SUBTITLE1                            #language en-US  "Subtitle1"
+#string SUBTITLE2                            #language en-US  "Subtitle2"
+#string SUBTITLE3                            #language en-US  "Subtitle3"
+#string SUBTITLE4                            #language en-US  "Subtitle4"
+#string SUBTITLE5                            #language en-US  "Subtitle5"
+#string SUBTITLE6                            #language en-US  "Subtitle6"
+#string STR_NULL                             #language en-US  ""
+#string TEXT1_TEXT                           #language en-US  "Text1 title"
+#string TEXT1_HELP                           #language en-US  "Text1 help"
+#string TEXT2_TEXT                           #language en-US  "Text2 title"
+#string TEXT2_HELP                           #language en-US  "Text2 help"
+#string TEXT3_TEXT                           #language en-US  "Text3 title"
+#string TEXT3_TEXT_TWO                       #language en-US  "Text3 value"
+#string TEXT3_HELP                           #language en-US  "Text3 help"

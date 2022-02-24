@@ -1,0 +1,37 @@
+#define HIISTATICFORM_FORMSET_GUID  {0x32783cc5, 0xe551, 0x4b61, {0xb7, 0xbd, 0x41, 0xba, 0x71, 0x7f, 0xba, 0x81}}
+
+formset
+  guid     = HIISTATICFORM_FORMSET_GUID,
+  title    = STRING_TOKEN(HIISTATICFORM_FORMSET_TITLE),
+  help     = STRING_TOKEN(HIISTATICFORM_FORMSET_HELP),
+  form
+    formid = 1,
+    title = STRING_TOKEN(HIISTATICFORM_FORMID1_TITLE);
+
+    subtitle text = STRING_TOKEN(SUBTITLE1);
+    subtitle text = STRING_TOKEN(SUBTITLE2);
+
+    subtitle
+      text = STRING_TOKEN(SUBTITLE3),
+
+      subtitle text = STRING_TOKEN(SUBTITLE4);
+      subtitle text = STRING_TOKEN(SUBTITLE5);
+    endsubtitle;
+
+    subtitle text = STRING_TOKEN(STR_NULL);
+    subtitle text = STRING_TOKEN(SUBTITLE6);
+
+    text
+      help = STRING_TOKEN(TEXT1_HELP),
+      text = STRING_TOKEN(TEXT1_TEXT);
+
+    text
+      help = STRING_TOKEN(TEXT2_HELP),
+      text = STRING_TOKEN(TEXT2_TEXT);
+
+    text
+      help = STRING_TOKEN(TEXT3_HELP),
+      text = STRING_TOKEN(TEXT3_TEXT),
+      text = STRING_TOKEN(TEXT3_TEXT_TWO);
+  endform;
+endformset;

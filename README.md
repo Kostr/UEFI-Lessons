@@ -62,6 +62,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 56](Lessons/Lesson_56): How to get module `FILE_GUID` and `BASE_NAME` in code. Autoconf variables `gEfiCallerIdGuid`/`gEdkiiDscPlatformGuid`/`gEfiCallerBaseName` 
 - [Lesson 57](Lessons/Lesson_57): Use VFR to create a simple form and display it with a help of `EFI_FORM_BROWSER2_PROTOCOL.SendForm()`. IFR data investigation
 - [Lesson 58](Lessons/Lesson_58): `subtitle` and `text` VFR elements
+- [Lesson 59](Lessons/Lesson_59): Create an application to display HII Forms by package list GUIDs. Convert our simple form application to UEFI driver form
 
 
 _____
