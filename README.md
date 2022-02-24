@@ -63,6 +63,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 57](Lessons/Lesson_57): Use VFR to create a simple form and display it with a help of `EFI_FORM_BROWSER2_PROTOCOL.SendForm()`. IFR data investigation
 - [Lesson 58](Lessons/Lesson_58): `subtitle` and `text` VFR elements
 - [Lesson 59](Lessons/Lesson_59): Create an application to display HII Forms by package list GUIDs. Convert our simple form application to UEFI driver form
+- [Lesson 60](Lessons/Lesson_60): Use `gRT->SetVariable()` function to create and delete UEFI variables. Investigate variable attributes. Practical uses of the `dmpstore` command
 
 
 _____
