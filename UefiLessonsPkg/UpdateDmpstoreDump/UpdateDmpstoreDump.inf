@@ -1,0 +1,26 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = UpdateDmpstoreDump
+  FILE_GUID                      = d14fe21b-7dbf-40ff-96cb-5d6f5b63cda6
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib 
+
+[Sources]
+  UpdateDmpstoreDump.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  ShellPkg/ShellPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+  ShellCEntryLib
+  ShellLib
