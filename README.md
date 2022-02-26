@@ -65,6 +65,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 59](Lessons/Lesson_59): Create an application to display HII Forms by package list GUIDs. Convert our simple form application to UEFI driver form
 - [Lesson 60](Lessons/Lesson_60): Use `gRT->SetVariable()` function to create and delete UEFI variables. Investigate variable attributes. Practical uses of the `dmpstore` command
 - [Lesson 61](Lessons/Lesson_61): Use `dmpstore` command to save/load variables to/from files. Write an application to recalculate CRC32 checksums in the `dmpstore` variable dumps
+- [Lesson 62](Lessons/Lesson_62): Structure of the UEFI `Device path`. Dynamic and static Device paths. Interation over Device paths
 
 
 _____
