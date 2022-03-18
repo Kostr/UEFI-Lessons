@@ -1,6 +1,6 @@
 In last lesson we've used `checkbox` VFR element. Let's investigate other VFR elements that can be used for user input.
 
-# Create a HII application that uses custom stucture in `efivarstore`
+# Create a HII application that uses a custom stucture in `efivarstore`
 
 Create `HIIFormDataElements` driver with one checkbox element based on our code from the `HIIFormCheckbox` driver.
 
@@ -33,7 +33,7 @@ Here are modifications that we need to make now to the `UefiLessonsPkg/HIIFormDa
 
 ...
 
-EFI_STRING      UEFIVariableName = UEFI_VARIABLE_STRUCTURE_NAME;   <--- and constant for the UEFI variable name
+EFI_STRING      UEFIVariableName = UEFI_VARIABLE_STRUCTURE_NAME;   <--- add constant for the UEFI variable name
 
 
 EFI_STATUS
@@ -121,13 +121,13 @@ formset
 endformset;
 ```
 
-Build our driver and verify that everything work as it should.
+Build the driver and verify that everything works as it should.
 
 # Numeric
 
 Let's investigate `numeric` VFR element. With it user can enter a number value from a HII Form. https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/211_vfr_form_definition#2.11.6.6.1-vfr-numeric-statement-definition
 
-Our new element would need a storage, so add a field `UINT8 NumericValue;` to our UEFI variable structure:
+Our new element would need a storage, so add a field `UINT8 NumericValue` to our UEFI variable structure:
 ```
 typedef struct {
   UINT8 CheckboxValue;
@@ -159,22 +159,24 @@ FS0:\> load HIIFormDataElements.efi
 ```
 
 On load our form would look like this:
+
 ![Numeric1](Numeric1.png?raw=true "Numeric1") 
 
 As you see by default the value is equal to 0 (because we use `ZeroMem(&EfiVarstore, sizeof(EfiVarstore))`). This means that the value is out of its constrain range (5..20). The point is that HII form can't control initial value. The maximum and minimal limitation only for the user input.
 
 If you try to enter value out of the range (for example `4`), form won't allow you:
+
 ![Numeric2](Numeric2.png?raw=true "Numeric2") 
 
-Form engine even permit you from typing unallowed input. For example you type `3` as a first symbol, form engine wouldn't permit you to type any other `number` symbol, as any value would be out of the available range.
+Form engine even permit you from typing unallowed input. For example if you type `3` as a first symbol, form engine wouldn't permit you to type any other number symbol, as any value would be out of the available range.
 
-But you can successfully enter and save (F10) value if it is in the allowed range.
+But you can successfully enter and save (`F10`) value if it is in the allowed range.
 
 ![Numeric3](Numeric3.png?raw=true "Numeric3")
 
 ![Numeric4](Numeric4.png?raw=true "Numeric4")
 
-With a help of `dmpstore` command you can verify that the value was set successfully:
+With a help of the `dmpstore` command you can verify that the value was set successfully. In our case the value is in the second byte of the storage (`0x0f = 15`):
 ```
 Shell> dmpstore -guid 531bc507-9191-4fa2-9446-b844e35dd12a
 Variable NV+BS '531BC507-9191-4FA2-9446-B844E35DD12A:FormData' DataSize = 0x02
@@ -200,11 +202,9 @@ If this field is present, in the bottom left corner of a form there would be an 
 
 This means that you can increase/decrease element value by typing `+`/`-`. And each time you type `+`/`-` the value would be increased/decreased by the value that we've set in our `step` field. The form engine even has some respect for the range field. For example if you have a value of `19` and enter `+`, the value would be set to `20`. The next `+` would change the value to `5`. And the next `+` to `7` and so on.
 
-# Display
-
 # IFR code
 
-As usual let's investigate IFR code `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`:
+As usual let's investigate IFR code (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`):
 ```
     numeric
 >0000006C: 07 91 07 00 08 00 02 00 01 00 01 00 00 10 05 14 02
@@ -218,7 +218,7 @@ As usual let's investigate IFR code `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiL
 >0000007D: 29 02
 ```
 
-
+To interpret it we need to consult UEFI specification:
 ```
 EFI_IFR_NUMERIC
 
@@ -268,22 +268,23 @@ Step 		Defines the amount to increment or decrement the value each time a user r
 		data field may vary from 8 to 64 bits.
 ```
 
-We've already investigated `EFI_IFR_OP_HEADER` and `EFI_IFR_QUESTION_HEADER` when we've talked about `checkbox` element. If you split its data, all is left is `10 05 14 02`.
+We've already investigated `EFI_IFR_OP_HEADER` and `EFI_IFR_QUESTION_HEADER` when we've talked about the `checkbox` element. If you split this data, all that is left is `10 05 14 02`.
 
-This means that in our case the fields filled like this:
+This means that in our case the new fields are filled like this:
+```
 typedef struct _EFI_IFR_NUMERIC {
  EFI_IFR_OP_HEADER   Header;
  EFI_IFR_QUESTION_HEADER Question;
- UINT8 Flags;                        0x10
+ UINT8 Flags;                        = 0x10
  struct {
-    UINT8 MinValue;                  0x05
-    UINT8 MaxValue;                  0x14
-    UINT8 Step;                      0x02
+    UINT8 MinValue;                  = 0x05
+    UINT8 MaxValue;                  = 0x14
+    UINT8 Step;                      = 0x02
  } u8;
 } EFI_IFR_NUMERIC;
 ```
 
-Everything is filled as expected except the `Flags` field which contains 0x10 value. What does it mean?
+Everything is filled as we would expect except the `Flags` field which contains 0x10 value. What does it mean?
 
 Special numeric flags are:
 ```
@@ -298,11 +299,12 @@ Special numeric flags are:
 #define EFI_IFR_DISPLAY_UINT_DEC       0x10
 #define EFI_IFR_DISPLAY_UINT_HEX       0x20
 ```
+
 So in our case our numeric has flags `EFI_IFR_DISPLAY_UINT_DEC` and `EFI_IFR_NUMERIC_SIZE_1`. Which means it is displayed as unsigned decimal and has a size of 1 byte.
 
 # numeric flags
 
-If you want to change the flag value you should use these defines in VFR:
+If you want to change the flag value you should use these keywords in VFR:
 ```
 NUMERIC_SIZE_1
 NUMERIC_SIZE_2
@@ -347,13 +349,14 @@ endnumeric;
 
 As for the size flag by default it is set automatically based on the size of a our storage variable.
 
-For example if you change the type of your numeric field to `UINT32`:
+For example if you change the type of the numeric field to `UINT32`:
 ```
 typedef struct {
   UINT8 CheckboxValue;
   UINT32 NumericValue;
 } UEFI_VARIABLE_STRUCTURE;
 ```
+
 This VFR code
 ```
 numeric
@@ -365,6 +368,7 @@ numeric
   step = 2,
 endnumeric;
 ```
+
 Would produce the following IFR result:
 ```
     numeric
@@ -387,17 +391,21 @@ maximum = 0xaabbccdd
 step    = 0x00000002
 ```
 
-Build system checks size of the storage in the build process. For example if you revert now it to `UINT8`, but left the values for min/max/step, your build would fail:
+So the size flag has changed from the `EFI_IFR_NUMERIC_SIZE_1` to `EFI_IFR_NUMERIC_SIZE_4`.
+
+Build system checks size of the storage in the build process. For example if you revert now it to `UINT8`, but leave `UINT32` values for min/max/step, your build would fail:
 ```
 ERROR 12288: Overflow: Value 0x11223344 is too large to store in a UINT8
 ```
+
 Also you can't enter a size flag that conflicts with a storage size. In this case you would get:
 ```
 ERROR 12288: Numeric Flag is not same to Numeric VarData type
 ```
-In case of `efivarstore` size flag is really a redundancy. It only matters when other types of storages are used. But you can put it in case you want to explicitly show the size of the storage in the VFR.
 
-Don't forget to drop old variable every time you change UEFI variable size. You should do it before the driver load:
+In case of a `efivarstore` the size flag is really a redundancy. It only matters when other types of storages are used. But you can put it in case you want to explicitly show the size of the storage in the VFR.
+
+Also don't forget to delete UEFI variable every time you change UEFI variable size. You should do it before the updated driver load:
 ```
 FS0:\> dmpstore -guid 531bc507-9191-4fa2-9446-b844e35dd12a -d
 ```
