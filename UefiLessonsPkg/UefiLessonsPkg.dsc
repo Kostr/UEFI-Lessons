@@ -80,6 +80,7 @@
   UefiLessonsPkg/UpdateDmpstoreDump/UpdateDmpstoreDump.inf
   UefiLessonsPkg/DevicePath/DevicePath.inf
   UefiLessonsPkg/HIIFormCheckbox/HIIFormCheckbox.inf
+  UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
 
 [PcdsFixedAtBuild]
   gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
