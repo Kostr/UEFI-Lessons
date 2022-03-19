@@ -392,6 +392,11 @@ You can even do it in one command:
 0x6d02098:      u"PciRoot(0x0)/Pci(0x2,0x0)"
 ```
 
+Sometimes printed data can be so long, that the gdb wouldn't print it completely. In this case you can drop print character limit with the following command:
+```
+(gdb) set print elements 0
+```
+
 # Minimal Tmux cheatsheet
 
 - `Ctrl+b` and `up/down/left/right` - switch between panes
