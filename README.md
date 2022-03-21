@@ -68,8 +68,9 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 62](Lessons/Lesson_62): Structure of the UEFI `Device path`. Dynamic and static Device paths. Interation over Device paths
 - [Lesson 63](Lessons/Lesson_63): Create HII Form with a checkbox - Part 1: VFR code for `checkbox` element and `efivarstore` element
 - [Lesson 64](Lessons/Lesson_64): Create HII Form with a checkbox - Part 2: Necessary code for `efivarstore` to work correctly
-- [Lesson 65](Lessons/Lesson_65): VFR input elements - Part 1: `numeric`
-- [Lesson 66](Lessons/Lesson_66): VFR input elements - Part 2: `string`
+- [Lesson 65](Lessons/Lesson_65): More VFR input elements - Part 1: `numeric`
+- [Lesson 66](Lessons/Lesson_66): More VFR input elements - Part 2: `string`
+- [Lesson 67](Lessons/Lesson_67): More VFR input elements - Part 3: `date` and `time`
 
 
 _____
