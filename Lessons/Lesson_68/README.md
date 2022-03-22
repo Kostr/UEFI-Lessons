@@ -1,6 +1,6 @@
 # `oneof` element
 
-`oneof` element allows to select on option from the predefined set (https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/211_vfr_form_definition#2.11.6.6.2-vfr-oneof-statement-definition)
+`oneof` element allows to select an option from the predefined set (https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/211_vfr_form_definition#2.11.6.6.2-vfr-oneof-statement-definition)
 
 Add the folowing code to the `UefiLessonsPkg/HIIFormDataElements/Form.vfr`
 ```
@@ -31,7 +31,7 @@ typedef struct {
 } UEFI_VARIABLE_STRUCTURE;
 ```
 
-Once you load the form, you get:
+Once you load the form, you would get:
 
 ![OneOf1](OneOf1.png?raw=true "OneOf1")
 
@@ -43,11 +43,11 @@ If you select the option 2:
 
 ![OneOf3](OneOf3.png?raw=true "OneOf3")
 
-The variable field would get the value `0x33`. If you want to, you can verify it with `dmpstore`.
+The variable field would get the value `0x33`. If you want to, you can verify it with the `dmpstore` command.
 
 ## IFR
 
-IFR code would look like this (Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst):
+IFR code would look like this (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`):
 ```
     oneof
 >000000B4: 05 91 0F 00 10 00 06 00 01 00 20 00 00 10 00 55 00
@@ -151,7 +151,7 @@ Value 	 The union of all of the different possible values. The actual contents (
 	 of the field depends on Type.
 ```
 
-Description says that the content of the `Value` field is dependent on the value of the `Type` field. Here are all possible value types with comments of their type flags:
+Description says that the content of the `Value` field is dependent on the value of the `Type` field. Here are all the possible value types with comments of their type flags:
 ```
 typedef union {
  UINT8 u8;             // EFI_IFR_TYPE_NUM_SIZE_8
@@ -243,7 +243,7 @@ typedef struct {
 } UEFI_VARIABLE_STRUCTURE;
 ```
 
-On load form looks like this:
+On load our form would look like this:
 
 ![Orderedlist1](Orderedlist1.png?raw=true "Orderedlist1")
 
@@ -251,7 +251,7 @@ If you select the element:
 
 ![Orderedlist2](Orderedlist2.png?raw=true "Orderedlist2")
 
-You can change order by selecting an option and moving it up or down with the help of `+` and `-` keys:
+You can change its order by moving it up or down with the help of `+` and `-` keys:
 
 ![Orderedlist3](Orderedlist3.png?raw=true "Orderedlist3")
 
@@ -266,7 +266,7 @@ This would get the following data in the `OrderedListValue` field of our UEFI va
 
 ## IFR
 
-Let's look at the IFR code: `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`:
+Let's look at the IFR code (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`):
 ```
     orderedlist
 >000000DC: 23 8F 14 00 15 00 07 00 01 00 21 00 00 03 00
@@ -283,7 +283,7 @@ Let's look at the IFR code: `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPk
 >00000100: 29 02
 ```
 
-First element if `EFI_IFR_ORDERED_LIST`:
+First code element is `EFI_IFR_ORDERED_LIST`:
 ```
 EFI_IFR_ORDERED_LIST
 
@@ -320,9 +320,9 @@ UINT8 Flags;		// 0x00
 
 Everything is in order, our element has 3 options, and therefore `MaxContainers=0x03`.
 
-If you look at the options IFR code you could see that the options are encoded with the same opcode `EFI_IFR_ONE_OF_OPTION` that was used in `oneof` element.
+If you look at the options IFR code you could see that the options are encoded with the same opcode `EFI_IFR_ONE_OF_OPTION` that was used in the `oneof` element.
 
-Therefore the principle is the same. If you encode our data as `UINT16` instead of `UINT8`
+Here the principle is the same. If you encode our data as `UINT16` instead of `UINT8`
 ```
 UINT16 OrderedListValue[3];
 ```
@@ -336,7 +336,7 @@ With the `orderedlist` it is even possible to use non-numeric data types. For ex
 EFI_HII_DATE OrderedListValue[3];
 ```
 
-Change the code in VFR:
+For this off course you need to change the code in VFR:
 ```
 orderedlist
   varid = FormData.OrderedListValue,
@@ -348,7 +348,7 @@ orderedlist
 endlist;
 ```
 
-If you parse IFR data now, you could see that every option is encoded with `#define EFI_IFR_TYPE_DATE 0x06` type:
+If you parse IFR data for such code, you could see that every option is encoded with `#define EFI_IFR_TYPE_DATE 0x06` type:
 ```
     orderedlist
 >000000DC: 23 8F 14 00 15 00 07 00 01 00 21 00 00 0C 00
@@ -365,6 +365,6 @@ If you parse IFR data now, you could see that every option is encoded with `#def
 >00000109: 29 02
 ```
 
-If the data array has a size lower than amount of available option, everything would compile, but in the HII, you would see only the first `array size` options. For example `UINT8 OrderedListValue[2]` would result to:
+If the data array has a size lower than amount of available options, everything would compile, but in the HII, you would see only the first `array size` options. For example `UINT8 OrderedListValue[2]` would result to:
 
 ![Orderedlistr5](Orderedlist5.png?raw=true "Orderedlist5")
