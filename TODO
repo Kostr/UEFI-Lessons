@@ -1,0 +1,22 @@
+PCD:
+- Dynamic PCDs
+- NV?
+
+VFR:
+- `varstore`
+- `namevaluestore`
+- `defaultstore`
+- `goto`
+- ConfigAccess
+- Callback
+- labels and dynamic HII add
+- how forms are embedded to the current OVMF setup
+- `password` element
+- `oneof` max/min/step
+- `orderedlist` maxcontainers
+- `orderedlist` flags UNIQUE NOEMPTY
+- `date`/`time` flags IFR
+
+Combined:
+- library that adds page block functionality
+- Create form with PCI devices in the system
