@@ -245,19 +245,19 @@ typedef struct {
 
 On load form looks like this:
 
-![Orderedlist1](OrderedList1.png?raw=true "OrderedList1")
+![Orderedlist1](Orderedlist1.png?raw=true "Orderedlist1")
 
 If you select the element:
 
-![Orderedlist2](OrderedList2.png?raw=true "OrderedList2")
+![Orderedlist2](Orderedlist2.png?raw=true "Orderedlist2")
 
 You can change order by selecting an option and moving it up or down with the help of `+` and `-` keys:
 
-![Orderedlist3](OrderedList3.png?raw=true "OrderedList3")
+![Orderedlist3](Orderedlist3.png?raw=true "Orderedlist3")
 
 Change order to `2 1 3` and save it with `F10`:
 
-![Orderedlist4](OrderedList4.png?raw=true "OrderedList4")
+![Orderedlist4](Orderedlist4.png?raw=true "Orderedlist4")
 
 This would get the following data in the `OrderedListValue` field of our UEFI variable:
 ```
@@ -367,4 +367,4 @@ If you parse IFR data now, you could see that every option is encoded with `#def
 
 If the data array has a size lower than amount of available option, everything would compile, but in the HII, you would see only the first `array size` options. For example `UINT8 OrderedListValue[2]` would result to:
 
-![Orderedlistr5](OrderedList5.png?raw=true "OrderedList5")
+![Orderedlistr5](Orderedlist5.png?raw=true "Orderedlist5")
