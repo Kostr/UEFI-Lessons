@@ -1,12 +1,12 @@
 In this lesson we will look at several built-in VFR conditionals.
 
-Before we go deep into this new keywords, let's look one more time at our form:
+Before we go deep into these new keywords, let's look one more time at our form:
 
 ![Before](Before.png?raw=true "Before")
 
 Remember it as a reference as we would change the look of our form in this lesson.
 
-Also each of the built-in`s in this lesson work with a conditional statement. But we want to show how the element works, so we would simply use a constant `TRUE` in the place of a conditional.
+Also each of the built-in\`s in this lesson works with a conditional statement. But we want to show how the element works, so we would simply use a constant `TRUE` in the place of a conditional.
 
 # suppressif
 
@@ -33,13 +33,15 @@ After that the form would look like this:
 
 ![SuppressIf](SuppressIf.png?raw=true "SuppressIf")
 
+So the element simply has become invisible for the user.
+
 One more use of `suppressif` is in the fact that you can hide options inside the question.
 
-For example currently our `oneof` question looks like:
+For example currently our `oneof` question looks like this:
 
 ![SuppressIf_oneof1](SuppressIf_oneof1.png?raw=true "SuppressIf_oneof1")
 
-But adding `suppressif` like this:
+But adding `suppressif` to the option 3:
 ```
 oneof
   varid = FormData.OneOfValue,
@@ -53,7 +55,7 @@ oneof
 endoneof;
 ```
 
-Would hide the option 3 for the user:
+Would hide it for the selection:
 
 ![SuppressIf_oneof2](SuppressIf_oneof2.png?raw=true "SuppressIf_oneof2")
 
