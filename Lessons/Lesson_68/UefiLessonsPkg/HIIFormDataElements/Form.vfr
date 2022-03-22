@@ -1,0 +1,72 @@
+#include <Uefi/UefiMultiPhase.h>
+#include "Data.h"
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+
+  efivarstore UEFI_VARIABLE_STRUCTURE,
+    attribute = EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,
+    name  = FormData,
+    guid  = FORMSET_GUID;
+
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+    checkbox
+      varid = FormData.CheckboxValue,
+      prompt = STRING_TOKEN(CHECKBOX_PROMPT),
+      help = STRING_TOKEN(CHECKBOX_HELP),
+    endcheckbox;
+
+    numeric
+      varid = FormData.NumericValue,
+      prompt = STRING_TOKEN(NUMERIC_PROMPT),
+      help = STRING_TOKEN(NUMERIC_HELP),
+      flags = NUMERIC_SIZE_2 | DISPLAY_UINT_HEX,
+      minimum = 0x1234,
+      maximum = 0xaa55,
+      step = 2,
+    endnumeric;
+
+    string
+      varid = FormData.StringValue,
+      prompt = STRING_TOKEN(STRING_PROMPT),
+      help = STRING_TOKEN(STRING_HELP),
+      minsize = 5,
+      maxsize = 10,
+    endstring;
+
+    date
+      varid = FormData.DateValue,
+      prompt = STRING_TOKEN(DATE_PROMPT),
+      help = STRING_TOKEN(DATE_HELP),
+    enddate;
+
+    time
+      varid = FormData.TimeValue,
+      prompt = STRING_TOKEN(TIME_PROMPT),
+      help = STRING_TOKEN(TIME_HELP),
+    endtime;
+
+    oneof
+      varid = FormData.OneOfValue,
+      prompt = STRING_TOKEN(ONEOF_PROMPT),
+      help = STRING_TOKEN(ONEOF_HELP),
+      option text = STRING_TOKEN(ONEOF_OPTION1), value = 0x00, flags = DEFAULT;
+      option text = STRING_TOKEN(ONEOF_OPTION2), value = 0x33, flags = 0;
+      option text = STRING_TOKEN(ONEOF_OPTION3), value = 0x55, flags = 0;
+    endoneof;
+
+    orderedlist
+      varid = FormData.OrderedListValue,
+      prompt = STRING_TOKEN(ORDERED_LIST_PROMPT),
+      help = STRING_TOKEN(ORDERED_LIST_HELP),
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION1), value = 0x0A, flags = 0;
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION2), value = 0x0B, flags = 0;
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION3), value = 0x0C, flags = 0;
+    endlist;
+  endform;
+endformset;

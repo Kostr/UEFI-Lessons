@@ -71,6 +71,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 65](Lessons/Lesson_65): More VFR input elements - Part 1: `numeric`
 - [Lesson 66](Lessons/Lesson_66): More VFR input elements - Part 2: `string`
 - [Lesson 67](Lessons/Lesson_67): More VFR input elements - Part 3: `date` and `time`
+- [Lesson 68](Lessons/Lesson_68): More VFR input elements - Part 4: `oneof` and `orderedlist`
 
 
 _____
