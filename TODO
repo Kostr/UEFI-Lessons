@@ -16,7 +16,26 @@ VFR:
 - `orderedlist` maxcontainers
 - `orderedlist` flags UNIQUE NOEMPTY
 - `date`/`time` flags IFR
+- HII Image
+
+UEFI driver model
+
+EBC
+
+- GPT/MBR
+- DiskIO/BlockIO
+- Events
+- Timers
+- GOP
+- SCSI
+- TPM
+- network (PXE/TFTP/tcp/udp/HTTP boot)
+
+PEI
 
 Combined:
 - library that adds page block functionality
 - Create form with PCI devices in the system
+- tetris
+- doom
+- UEFI tool
