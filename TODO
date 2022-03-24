@@ -17,6 +17,36 @@ VFR:
 - `orderedlist` flags UNIQUE NOEMPTY
 - `date`/`time` flags IFR
 - HII Image
+- VFR keywords:
+```
+catenate 	EFI_IFR_CATENATE
+match 		EFI_IFR_MATCH
+match2		EFI_IFR_MATCH2 
+dup		EFI_IFR_DUP
+rule            EFI_IFR_RULE
+ruleref		EFI_IFR_RULE_REF
+security	EFI_IFR_SECURITY 
+get		EFI_IFR_GET
+set		EFI_IFR_SET 
+find		EFI_IFR_FIND 
+mid		EFI_IFR_MID 
+token		EFI_IFR_TOKEN 
+span		EFI_IFR_SPAN 
+map		EFI_IFR_MAP 
+read		EFI_IFR_READ
+write		EFI_IFR_WRITE
+modal		EFI_IFR_MODAL_TAG
+goto		EFI_IFR_REF
+
+formmap
+	maptitle =
+	mapguid  =
+	maptitle =
+	mapguid  =
+endform;
+
+guidop		EFI_IFR_GUID
+```
 
 UEFI driver model
 
