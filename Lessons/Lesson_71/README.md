@@ -113,7 +113,7 @@ suppressif length(questionref(StringQuestion)) == 7;
 endif;
 ```
 
-# More advanced atring builtins
+# More advanced string builtins
 
 
 | keyword | IFR opcode | link |
