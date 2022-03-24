@@ -73,6 +73,8 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 67](Lessons/Lesson_67): More VFR input elements - Part 3: `date` and `time`
 - [Lesson 68](Lessons/Lesson_68): More VFR input elements - Part 4: `oneof` and `orderedlist`
 - [Lesson 69](Lessons/Lesson_69): Conditional keywords in VFR: `suppressif`/`grayoutif`/`disableif`/`warningif`/`nosubmitif`/`inconsistentif`
+- [Lesson 70](Lessons/Lesson_70): Constants and operators in VFR. Basic condition statements with builtins `ideqval`/`ideqvallist`/`ideqid`/`questionref`/`pushthis`
+- [Lesson 71](Lessons/Lesson_71): Basic VFR builtins for strings: `stringref`/`toupper`/`tolower`/`length`
 
 
 _____
