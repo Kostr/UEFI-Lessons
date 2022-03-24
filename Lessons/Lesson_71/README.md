@@ -117,7 +117,7 @@ endif;
 
 
 | keyword | IFR opcode | link |
-| ------------- | ------------- |
+| --------| -----------| ---- |
 | `catenate` | `EFI_IFR_CATENATE` | https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/212_vfr_expression_statement_definition#2.12.11.1-catenate |
 | `match` | `EFI_IFR_MATCH` | https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/212_vfr_expression_statement_definition#2.12.11.2-match |
 | `match2` | `EFI_IFR_MATCH2` | https://edk2-docs.gitbook.io/edk-ii-vfr-specification/2_vfr_description_in_bnf/212_vfr_expression_statement_definition#2.12.11.9-match2 |
