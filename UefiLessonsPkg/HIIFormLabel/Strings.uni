@@ -1,0 +1,11 @@
+//
+// Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+//
+// SPDX-License-Identifier: MIT
+//
+
+#langdef en-US "English"
+
+#string FORMSET_TITLE          #language en-US  "Simple Formset"
+#string FORMSET_HELP           #language en-US  "This is a very simple formset"
+#string FORMID1_TITLE          #language en-US  "Simple Form"

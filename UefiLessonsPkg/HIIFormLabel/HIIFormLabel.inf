@@ -1,0 +1,31 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIFormLabel
+  FILE_GUID                      = a869c42c-fd49-469d-b6ab-b37569c0e90d
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HIIFormLabelEntryPoint
+  UNLOAD_IMAGE                   = HIIFormLabelUnload
+
+[Sources]
+  HIIFormLabel.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  HiiLib
+
+[Guids]
+  gEfiIfrTianoGuid

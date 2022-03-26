@@ -1,0 +1,14 @@
+#include "Data.h"
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+    label LABEL_START;
+    label LABEL_END;
+  endform;
+endformset;

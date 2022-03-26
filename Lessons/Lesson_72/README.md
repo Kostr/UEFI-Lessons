@@ -448,8 +448,13 @@ if (EndLabel == NULL) {
 EndLabel->ExtendOpCode = EFI_IFR_EXTEND_OP_LABEL;
 EndLabel->Number = LABEL_END;
 ```
+As we are using `gEfiIfrTianoGuid` here, don't forget to add `#include <Guid/MdeModuleHii.h>` to our code and add proper `Guids` section to the INF file:
+```
+[Guids]
+  gEfiIfrTianoGuid
+```
 
-We doing all of this to embed new code to the IFR. So besides the markers (=labels) we need to add new IFR codes to the buffer refernced by the `StartOpCodeHandle`. Let's add a VFR `text` element with a help of a `HiiCreateTextOpCode` function:
+Our final task is to embed new code to the IFR. So besides the markers (=labels) we need to add actually new IFR codes to the buffer refernced by the `StartOpCodeHandle`. Let's add a VFR `text` element with a help of a `HiiCreateTextOpCode` function:
 ```
 /**
   Create EFI_IFR_TEXT_OP opcode.
@@ -532,7 +537,7 @@ EFI_STRING_ID text_help = HiiSetString(mHiiHandle,
                                        NULL);
 ```
 
-Now we can use `HiiCreateTextOpCode` function:
+Now we can use `HiiCreateTextOpCode` function to add more opcodes to the opcode buffer refernced by `StartOpCodeHandle`:
 ```
 UINT8* Result = HiiCreateTextOpCode(StartOpCodeHandle,
                                     text_prompt,
@@ -547,7 +552,7 @@ if (Result == NULL) {
 }
 ```
 
-
+Let's add another `text` element for our example. Once again the `HiiCreateTextOpCode` would use the same `StartOpCodeHandle`:
 ```
 text_prompt = HiiSetString(mHiiHandle,
                            0,
@@ -569,4 +574,59 @@ if (Result == NULL) {
   HiiRemovePackages(mHiiHandle);
   return EFI_BUFFER_TOO_SMALL;
 }
+```
+
+Now when we have `StartOpCodeHandle` and `EndOpCodeHandle` filled, `HiiUpdateForm` call should succeed. So let's build and load our driver.
+
+If you look at our form, you will see that now that it has 2 `text` elements like we have intended:
+
+![Label](Label.png?raw=true "Label")
+
+# `HIICreate*`
+
+In our example we've used `HiiCreateTextOpCode` function to create `EFI_IFR_TEXT_OP` opcode (i.e. `text` element). But `HiiLib` offers many functions to create all kinds of elements. Most of them we are already know:
+
+https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Include/Library/HiiLib.h
+
+https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/UefiHiiLib/HiiLib.c
+
+```
+HiiCreateSubTitleOpCode		EFI_IFR_SUBTITLE_OP
+HiiCreateCheckBoxOpCode		EFI_IFR_CHECKBOX_OP
+HiiCreateTextOpCode		EFI_IFR_TEXT_OP
+HiiCreateNumericOpCode		EFI_IFR_NUMERIC_OP
+HiiCreateStringOpCode		EFI_IFR_STRING_OP
+HiiCreateDateOpCode		EFI_IFR_DATE_OP
+HiiCreateTimeOpCode		EFI_IFR_TIME_OP
+HiiCreateOneOfOpCode		EFI_IFR_ONE_OF_OP
+HiiCreateOneOfOptionOpCode	EFI_IFR_ONE_OF_OPTION_OP
+HiiCreateOrderedListOpCode	EFI_IFR_ORDERED_LIST_OP
+
+HiiCreateDefaultOpCode		EFI_IFR_DEFAULT_OP
+HiiCreateGuidOpCode		EFI_IFR_GUID
+HiiCreateActionOpCode		EFI_IFR_ACTION_OP
+HiiCreateGotoOpCode		EFI_IFR_REF_OP
+HiiCreateGotoExOpCode		EFI_IFR_REF_OP, EFI_IFR_REF2_OP, EFI_IFR_REF3_OP and EFI_IFR_REF4_OP
+HiiCreateEndOpCode		EFI_IFR_END_OP
+```
+
+And if this is not enough for you `HiiLib` library has a function to add raw opcode buffer:
+```
+/**
+  Append raw opcodes to an OpCodeHandle.
+  If OpCodeHandle is NULL, then ASSERT().
+  If RawBuffer is NULL, then ASSERT();
+  @param[in]  OpCodeHandle   Handle to the buffer of opcodes.
+  @param[in]  RawBuffer      Buffer of opcodes to append.
+  @param[in]  RawBufferSize  The size, in bytes, of Buffer.
+  @retval NULL   There is not enough space left in Buffer to add the opcode.
+  @retval Other  A pointer to the appended opcodes.
+**/
+UINT8 *
+EFIAPI
+HiiCreateRawOpCodes (
+  IN VOID   *OpCodeHandle,
+  IN UINT8  *RawBuffer,
+  IN UINTN  RawBufferSize
+  )
 ```
