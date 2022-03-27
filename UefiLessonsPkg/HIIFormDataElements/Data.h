@@ -9,6 +9,11 @@
 typedef struct {
   UINT8 CheckboxValue;
   UINT16 NumericValue;
+  CHAR16 StringValue[11];
+  EFI_HII_DATE DateValue;
+  EFI_HII_TIME TimeValue;
+  UINT8 OneOfValue;
+  UINT8 OrderedListValue[3];
 } UEFI_VARIABLE_STRUCTURE;
 #pragma pack()
 
