@@ -469,8 +469,17 @@ DiscoverPeimsAndOrderWithApriori(): Found 0x7 PEI FFS files in the 0th FV
 It is much easier to read now!
 
 
+# Max string length in `DEBUG` output
 
+There is a limitation to the maximum string length that can be outputed with a `DEBUG` statement.
 
+https://github.com/tianocore/edk2/blob/master/OvmfPkg/Library/PlatformDebugLibIoPort/DebugLib.c:
+```
+#define MAX_DEBUG_MESSAGE_LENGTH  0x100
+```
+If the printed sting is longer than this limit, the output would be truncated to the first `MAX_DEBUG_MESSAGE_LENGTH` symbols. Most probably you would notice this by the fact that `\n` symbol at the end of the string would be lost, and the next printed string wouldn't start from the new line.
 
-
-
+In this case you might consider increasing the aforementioned limit, for this change the value above and recompile OVMF:
+```
+build --platform=OvmfPkg/OvmfPkgX64.dsc --arch=X64 --buildtarget=DEBUG --tagname=GCC5
+```
