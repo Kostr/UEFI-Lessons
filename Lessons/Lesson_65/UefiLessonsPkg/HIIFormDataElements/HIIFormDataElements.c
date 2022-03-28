@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include <Library/BaseMemoryLib.h>
 #include <Library/DevicePathLib.h>
 #include <Library/HiiLib.h>
