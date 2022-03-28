@@ -6,7 +6,7 @@ For example it can help to display things like:
 - currently present memory
 - ...
 
-All these things are determined in the UEFI boot process, and can differ from boot to boot depending on the current hardware configuration. Therefore if you want to add such information to the HII Forms you need to do it dynamically.
+All these things are determined in the UEFI boot process and can differ from boot to boot depending on the current hardware configuration. Therefore if you want to add such information to the HII Forms you need to do it dynamically.
 
 For this operation EDKII uses labels mechanics.
 
@@ -131,7 +131,7 @@ All this code would give us this form:
 
 Now let's try add content dynamically to our form.
 
-Add 2 `label` elements to our form in `UefiLessonsPkg/HIIFormDataElements/Form.vfr`:
+Add two `label` elements to our form in `UefiLessonsPkg/HIIFormDataElements/Form.vfr`:
 ```
 formset
   guid     = FORMSET_GUID,
@@ -147,7 +147,7 @@ formset
 endformset;
 ```
 
-These two elements define a start and end of the section for the dynamic content.
+These two elements define the start and the end of the section for the dynamic content.
 
 Values under `LABEL_START` and `LABEL_END` are just `UINT16` numbers. Place some defines for them to the `UefiLessonsPkg/HIIFormDataElements/Data.h`:
 ```
@@ -245,7 +245,7 @@ typedef struct _EFI_IFR_GUID_LABEL {
 
 # C code
 
-To insert content from the C code into section defined by labels we need to utilize `HiiUpdateForm` function from the `HiiLib`
+To insert content from the C code into the section defined by labels we need to utilize `HiiUpdateForm` function from the `HiiLib`
 
 
 https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Include/Library/HiiLib.h
@@ -313,8 +313,8 @@ HiiUpdateForm (
 ```
 
 As you can see this function needs two opcode handles:
-- `StartOpCodeHandle` - handle that contains IFR that marks a start of a replace section + all the opcodes that are needed to be inserted,
-- `EndOpCodeHandle` - handle that contains IFR that marks an end of a replace section
+- `StartOpCodeHandle` - handle to opcode buffer that contains IFR that marks a start of a replace section + all the opcodes that are needed to be inserted,
+- `EndOpCodeHandle` - handle to opcode buffer that contains IFR that marks an end of a replace section
 
 
 How to create these OpCode Handles? `HiiLib` has a special function for that:
@@ -332,7 +332,7 @@ HiiAllocateOpCodeHandle (
   );
 ```
 
-The important thing to note here, is that this function doesn't accept any size. Because in this operation the buffer is always fixed. `HiiAllocateOpCodeHandle` returns a pointer to the newly allocated structure `HII_LIB_OPCODE_BUFFER` that is defined as follow:
+The important thing to note here is that this function doesn't accept any size. Because in this operation the buffer is always fixed. `HiiAllocateOpCodeHandle` returns a pointer to the newly allocated structure `HII_LIB_OPCODE_BUFFER` that is defined as follow:
 ```
 #define HII_LIB_OPCODE_ALLOCATION_SIZE  0x200	// (=512)
 
@@ -345,7 +345,7 @@ typedef struct {
 
 All our dynamically allocated opcodes should fit into the preallocated buffer.
 
-Off course we need to free all the buffers allocated with `HiiAllocateOpCodeHandle`:
+Off course we need to free all the buffers allocated with the `HiiAllocateOpCodeHandle`:
 
 ```
 /**
@@ -418,7 +418,7 @@ HiiCreateGuidOpCode (
   )
 ```
 
-This function returns a pointer to the opcode buffer. In our case it is a buffer for the `EFI_IFR_GUID_LABEL` opcode. So we need to cast the buffer to the `EFI_IFR_GUID_LABEL` structure and fill it with correct data. If `HiiCreateGuidOpCode` returns `NULL` we need to report an error and free all the previously allocated resources:
+This function returns a pointer to the opcode buffer. In our case it is a buffer that starts with a `EFI_IFR_GUID_LABEL` opcode. So we need to cast the buffer to the `EFI_IFR_GUID_LABEL` structure and fill it with correct data. If `HiiCreateGuidOpCode` returns `NULL` we need to report an error and free all the previously allocated resources:
 ```
 EFI_IFR_GUID_LABEL* StartLabel = (EFI_IFR_GUID_LABEL*) HiiCreateGuidOpCode(StartOpCodeHandle,
                                                                            &gEfiIfrTianoGuid,
@@ -454,7 +454,7 @@ As we are using `gEfiIfrTianoGuid` here, don't forget to add `#include <Guid/Mde
   gEfiIfrTianoGuid
 ```
 
-Our final task is to embed new code to the IFR. So besides the markers (=labels) we need to add actually new IFR codes to the buffer refernced by the `StartOpCodeHandle`. Let's add a VFR `text` element with a help of a `HiiCreateTextOpCode` function:
+Our final task is to embed new code to the IFR. So besides the markers (=labels) we need to add actually new IFR codes to the buffer referenced by the `StartOpCodeHandle`. Let's add a VFR `text` element with a help of a `HiiCreateTextOpCode` function:
 ```
 /**
   Create EFI_IFR_TEXT_OP opcode.
@@ -478,7 +478,7 @@ HiiCreateTextOpCode (
 
 As you can see this function needs `EFI_STRING_ID` for the new `text` element. As we are generating our new element dynamically, let's also add new strings dynamically to the HII database:
 
-For this task we can utilize `HiiSetString` function from the `https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/UefiHiiLib/HiiString.c`:
+For this task we can utilize `HiiSetString` function from the https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/UefiHiiLib/HiiString.c:
 ```
 /**
   This function create a new string in String Package or updates an existing
@@ -537,7 +537,7 @@ EFI_STRING_ID text_help = HiiSetString(mHiiHandle,
                                        NULL);
 ```
 
-Now we can use `HiiCreateTextOpCode` function to add more opcodes to the opcode buffer refernced by `StartOpCodeHandle`:
+Now we can use `HiiCreateTextOpCode` function to add more opcodes to the opcode buffer referenced by the `StartOpCodeHandle`:
 ```
 UINT8* Result = HiiCreateTextOpCode(StartOpCodeHandle,
                                     text_prompt,
