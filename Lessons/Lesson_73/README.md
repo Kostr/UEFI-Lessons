@@ -488,3 +488,42 @@ QuestionId 	The question’s identifier, which must be unique within the form se
 Description:
 Push the value of the question specified by QuestionId on to the expression stack
 ```
+
+# Default storages priority
+
+What will happen if we use `resetbutton` to change settings to the default storage with `ID=0x5555`, but some element only has `default` statements for the storages with different IDs (e.g. `ID=0x3333` and `ID=0x4444`).
+
+Here is some code to picture the situation:
+```
+defaultstore FirstDefault,
+  prompt      = STRING_TOKEN(FIRST_DEFAULT_PROMPT),
+  attribute   = 0x3333;
+
+defaultstore SecondDefault,
+  prompt      = STRING_TOKEN(SECOND_DEFAULT_PROMPT),
+  attribute   = 0x4444;
+
+defaultstore ThirdDefault,
+  prompt      = STRING_TOKEN(THIRD_DEFAULT_PROMPT),
+  attribute   = 0x5555;
+
+numeric
+  varid = FormData.NumericValue,
+  prompt = STRING_TOKEN(NUMERIC_PROMPT),
+  help = STRING_TOKEN(NUMERIC_HELP),
+  minimum = 0,
+  maximum = 10,
+  default = 7, defaultstore = FirstDefault,
+  default = 8, defaultstore = SecondDefault,
+endnumeric;
+
+resetbutton
+  defaultstore = TrirdDefault,
+  prompt   = STRING_TOKEN(BTN_THIRD_DEFAULT_PROMPT),
+  help     = STRING_TOKEN(BTN_THIRD_DEFAULT_HELP),
+endresetbutton;
+```
+
+In this case `numeric` will get the value from the `defaultstore` with a lowest ID. In this case it is `FirstDefault` storage. So the element value would be set to `7`.
+
+This is a general rule that helps to simplify the code. For example if you want to support manufacturing defaults which are differ from standard defaults only for couple of elements, you need to write extra code only for these elements.
