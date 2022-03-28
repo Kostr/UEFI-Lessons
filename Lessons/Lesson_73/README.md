@@ -49,27 +49,27 @@ Don't forget to add new string token to the `Strings.uni` file:
 #string STRING_DEFAULT         #language en-US  "String default"
 ```
 
-Immediately after form load, you might see that order of `orderedlist` element was changed to the default value. This looks kinda strage, but I guess it is connected to the fact that standard value `0x000000` doesn't make any sence to the element.
+Immediately after form load, you might see that the order of `orderedlist` element was changed to the default value. This looks kinda strage, but I guess it is connected to the fact that the standard value `0x000000` doesn't make any sense to the element.
 
 ![After1](After1.png?raw=true "After1")
 
-Anyway, you can see that it is possible to set reset values to default with a help of `F9` keystroke:
+Anyway, you can see that it is possible to reset values to defaults with a help of a `F9` key:
 
 ![After1_1](After1_1.png?raw=true "After1_1")
 
-If you do so, you will get confirmation window:
+If you do so, you will get a confirmation window:
 
 ![After2](After2.png?raw=true "After2")
 
-And if you press `Y`, they form values would be updated:
+And if you press `Y`, the form values would be updated:
 
 ![After3](After3.png?raw=true "After3")
 
-Off course to them you actually need to submit the form with `F10`.
+Off course to change them you actually need to submit the form with `F10`.
 
 # IFR
 
-If you look at IFR code (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`):
+If you look at the IFR code (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`):
 ```
     checkbox
       ...
@@ -114,7 +114,7 @@ If you look at IFR code (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/H
     endlist;
 ```
 
-You'll see that all the defaults are presented with a help of `EFI_IFR_DEFAULT` opcode:
+You'll see that all the defaults are presented with a help of a `EFI_IFR_DEFAULT` opcode:
 ```
 EFI_IFR_DEFAULT
 
@@ -149,7 +149,7 @@ Description:
 This opcode specifies a default value for the current question. There are two forms. The first (EFI_IFR_DEFAULT) assumes that the default value is a constant, embedded directly in the Value member. The second (EFI_IFR_DEFAULT_2) assumes that the default value is specified using a nested EFI_IFR_VALUE opcode.
 ```
 
-All the statements above use the first form (`EFI_IFR_DEFAULT` structure) with a `Value` field included. In case you forgot, here are possible value types:
+All the statements above use the first form of structure (`EFI_IFR_DEFAULT`), the one with a `Value` field included. In case you forgot, here are possible value types:
 ```
 #define EFI_IFR_TYPE_NUM_SIZE_8    0x00
 #define EFI_IFR_TYPE_NUM_SIZE_16   0x01
@@ -172,7 +172,7 @@ Also you might notice that all the statements above have `DefaultId = 0`. So now
 
 # Default storage
 
-First of all we need to understand that it is possible to define several default storages in UEFI.
+First of all we need to understand that it is possible to define several default storages in UEFI formset.
 
 If you look at the `Form.lst` file of our `HIIFormDataElements` application (`Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements/DEBUG/Form.lst`) you'll see that by default (excuse the pun) our formset already has 2 default storages:
 ```
@@ -209,7 +209,7 @@ Description:
 Declares a class of default which can then have question default values associated with. An EFI_IFR_DEFAULTSTORE with a specified DefaultId must appear in the IFR before it can be referenced by an EFI_IFR_DEFAULT.
 ```
 
-As you can see the code abobe defines two default storages without names with IDs equal to `0x0000` and `0x0001`. 
+As you can see that the code above defines two default storages without names with IDs equal to `0x0000` and `0x0001`. 
 
 Generally UEFI specification divides all the possible values for default storage ID (`UINT16`) into 4 classes:
 - `0x0000-0x3fff`: reserved by UEFI specification
@@ -287,7 +287,7 @@ formset
 ```
 Practically nothing has changed, only the string token for the `DefaultName` field was updated.
 
-But now you can see how default values referece our storages:
+But now you can see how default values reference our storages:
 ```
     numeric
        ...
