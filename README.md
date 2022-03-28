@@ -76,6 +76,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 70](Lessons/Lesson_70): Constants and operators in VFR. Basic condition statements with builtins `ideqval`/`ideqvallist`/`ideqid`/`questionref`/`pushthis`
 - [Lesson 71](Lessons/Lesson_71): Basic VFR builtins for strings: `stringref`/`toupper`/`tolower`/`length`
 - [Lesson 72](Lessons/Lesson_72): Dynamically add elements to HII forms with a help of a `label` keyword
+- [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
 
 
 _____
