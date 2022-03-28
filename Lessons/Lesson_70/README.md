@@ -257,6 +257,8 @@ endif
 ```
 This code will show element, only if numeric value is even.
 
+Keep in mind that code defining a `name` must come before its reference in `questionref`. Opposite situation would lead to build failure.
+
 # pushthis
 
 Inside the question you can get the question value with the help of `pushthis` keyword, which would translate to `EFI_IFR_THIS`:
