@@ -5,11 +5,9 @@ PCD:
 VFR:
 - `varstore`
 - `namevaluestore`
-- `defaultstore`
 - `goto`
 - ConfigAccess
 - Callback
-- labels and dynamic HII add
 - how forms are embedded to the current OVMF setup
 - `password` element
 - `oneof` max/min/step
@@ -69,3 +67,5 @@ Combined:
 - tetris
 - doom
 - UEFI tool
+- SecureBoot
+- update UEFI settings from OS
