@@ -514,3 +514,58 @@ FS0:\> DisplayHIIByGuid.efi 22514099-AD3B-45EC-B14B-112EB6446DB2
 ```
 
 ![HII_static_form](HII_static_form.png?raw=true "HII Static Form")
+
+# See your application in the main UEFI menu
+
+If you exit to the main UEFI menu:
+```
+FS0:\> exit
+```
+
+and go the `Device Manager`, you could find our formset as one of the possible menus:
+
+![DeviceManager](DeviceManager.png?raw=true "DeviceManager")
+
+If you check this menu, you'll find out that this is indeed our driver form.
+
+The current EDKII code works in a way, that all the forms with a `classguid = EFI_HII_PLATFORM_SETUP_FORMSET_GUID` will be added to the `Device Manager` menu.
+
+So if you don't use different `classguid` in your forms it is probably easier to check your form at this menu than typing `DisplayHIIByGuid.efi <Package list GUID>.
+
+If you curious how new forms are dynamically added to the Device Manager check https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/DeviceManagerUiLib/DeviceManager.c
+
+Here is some snippet from that file where you can see that code indeed uses `CompareGuid` to compare every formset `classguid` with `EFI_HII_PLATFORM_SETUP_FORMSET_GUID` and proceeds only if `CompareGuid` returns `TRUE`:
+```
+  //
+  // Get all the Hii handles
+  //
+  HiiHandles = HiiGetHiiHandles (NULL);
+
+  ...
+
+  //
+  // Search for formset of each class type
+  //
+  for (Index = 0; HiiHandles[Index] != NULL; Index++) {
+    Status = HiiGetFormSetFromHiiHandle (HiiHandles[Index], &Buffer, &BufferSize);
+    if (EFI_ERROR (Status)) {
+      continue;
+    }
+
+    Ptr = (UINT8 *)Buffer;
+    while (TempSize < BufferSize) {
+      TempSize += ((EFI_IFR_OP_HEADER *)Ptr)->Length;
+      if (((EFI_IFR_OP_HEADER *)Ptr)->Length <= OFFSET_OF (EFI_IFR_FORM_SET, Flags)) {
+        Ptr += ((EFI_IFR_OP_HEADER *)Ptr)->Length;
+        continue;
+      }
+
+      ClassGuidNum = (UINT8)(((EFI_IFR_FORM_SET *)Ptr)->Flags & 0x3);
+      ClassGuid    = (EFI_GUID *)(VOID *)(Ptr + sizeof (EFI_IFR_FORM_SET));
+      while (ClassGuidNum-- > 0) {
+        if (CompareGuid (&gEfiHiiPlatformSetupFormsetGuid, ClassGuid) == 0) {      <------- Add only formsets with
+          ClassGuid++;                                                                      EFI_HII_PLATFORM_SETUP_FORMSET_GUID
+          continue;
+        }
+    ...
+```
