@@ -18,21 +18,29 @@ ShellAppMain (
   IN CHAR16 **Argv
   )
 {
-  if (Argc != 2) {
+  if ((Argc < 2) || (Argc > 3)) {
     Print(L"Usage:\n");
-    Print(L"  DisplayHIIByGuid <GUID>\n");
+    Print(L"  DisplayHIIByGuid <Package list GUID> [<Formset classguid>]\n");
     return EFI_INVALID_PARAMETER;
   }
 
-  GUID Guid;
-  EFI_STATUS Status = StrToGuid(Argv[1], &Guid);
+  EFI_GUID PackageListGuid;
+  EFI_STATUS Status = StrToGuid(Argv[1], &PackageListGuid);
   if (Status != RETURN_SUCCESS) {
-    Print(L"Error! Can't convert input argument to GUID\n");
+    Print(L"Error! Can't convert <Package list GUID> argument to GUID\n");
     return EFI_INVALID_PARAMETER;
   }
 
+  EFI_GUID FormsetClassGuid = EFI_HII_PLATFORM_SETUP_FORMSET_GUID;
+  if (Argc == 3) {
+    Status = StrToGuid(Argv[2], &FormsetClassGuid);
+    if (Status != RETURN_SUCCESS) {
+      Print(L"Error! Can't convert <Formset classguid> argument to GUID\n");
+      return EFI_INVALID_PARAMETER;
+    }
+  }
 
-  EFI_HII_HANDLE* HiiHandles = HiiGetHiiHandles(&Guid);
+  EFI_HII_HANDLE* HiiHandles = HiiGetHiiHandles(&PackageListGuid);
 
   EFI_HII_HANDLE* HiiHandle = HiiHandles;
   UINTN HandleCount=0;
@@ -53,7 +61,7 @@ ShellAppMain (
                            FormBrowser2,
                            HiiHandles,
                            HandleCount,
-                           NULL,
+                           &FormsetClassGuid,
                            0,
                            NULL,
                            NULL

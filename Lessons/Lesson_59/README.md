@@ -82,14 +82,14 @@ Use it like this:
 ```
 if (Argc != 2) {
   Print(L"Usage:\n");
-  Print(L"  DisplayHIIByGuid <GUID>\n");
+  Print(L"  DisplayHIIByGuid <Package list GUID>\n");
   return EFI_INVALID_PARAMETER;
 }
 
-GUID Guid;
-EFI_STATUS Status = StrToGuid(Argv[1], &Guid);
+EFI_GUID PackageListGuid;
+EFI_STATUS Status = StrToGuid(Argv[1], &PackageListGuid);
 if (Status != RETURN_SUCCESS) {
-  Print(L"Error! Can't convert input argument to GUID\n");
+  Print(L"Error! Can't convert <Package list GUID> argument to GUID\n");
   return EFI_INVALID_PARAMETER;
 }
 ```
@@ -127,7 +127,7 @@ HiiGetHiiHandles (
 
 In our code we can use it as simple as:
 ```
-EFI_HII_HANDLE* HiiHandles = HiiGetHiiHandles(&Guid);
+EFI_HII_HANDLE* HiiHandles = HiiGetHiiHandles(&PackageListGuid);
 
 ...
 
@@ -301,6 +301,115 @@ https://github.com/tianocore/edk2/blob/master/OvmfPkg/PlatformDxe/Platform.inf
 For example we can get this output on the command `DisplayHIIByGuid.efi D9DCC5DF-4007-435E-9098-8970935504B2`:
 
 ![OVMF_Settings_Form.png](OVMF_Settings_Form.png?raw=true "OVMF Settings Form")
+
+# Formset `classguid`
+
+If you've tried `DisplayHIIByGuid.efi` on all of the package lists with forms, you could notice that one GUID doesn't work:
+```
+FS0:\> DisplayHIIByGuid.efi FE561596-E6BF-41A6-8376-C72B719874D0
+Error! SendForm returned Not found
+```
+
+Once again this is the GUID:
+- `FE561596-E6BF-41A6-8376-C72B719874D0`
+`EFI_FILE_EXPLORE_FORMSET_GUID` https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/FileExplorerLib/FormGuid.h
+
+Let's look again at the `EFI_FORM_BROWSER2_PROTOCOL.SendForm()` description:
+```
+EFI_FORM_BROWSER2_PROTOCOL.SendForm()
+
+Summary:
+Initialize the browser to display the specified configuration forms.
+
+Prototype:
+typedef
+EFI_STATUS
+(EFIAPI *EFI_SEND_FORM2) (
+ IN CONST EFI_FORM_BROWSER2_PROTOCOL *This,
+ IN EFI_HII_HANDLE *Handles,
+ IN UINTN HandleCount,
+ IN CONST EFI_GUID *FormsetGuid, OPTIONAL
+ IN EFI_FORM_ID FormId, OPTIONAL
+ IN CONST EFI_SCREEN_DESCRIPTOR *ScreenDimensions, OPTIONAL
+ OUT EFI_BROWSER_ACTION_REQUEST *ActionRequest OPTIONAL
+ );
+
+Parameters:
+This			A pointer to the EFI_FORM_BROWSER2_PROTOCOL instance.
+Handles			A pointer to an array of HII handles to display.
+HandleCount		The number of handles in the array specified by Handle.
+FormsetGuid		This field points to the EFI_GUID which must match the Guid field or one of the
+                	elements of the ClassId field in the EFI_IFR_FORM_SET op-code. If FormsetGuid
+                	is NULL, then this function will display the form set class
+                	EFI_HII_PLATFORM_SETUP_FORMSET_GUID.
+FormId			This field specifies the identifier of the form within the form set to render as the first
+			displayable page. If this field has a value of 0x0000, then the Forms Browser will
+			render the first enabled form in the form set.
+ScreenDimensions	Points to recommended form dimensions, including any non-content area, in characters.
+ActionRequested		Points to the action recommended by the form.
+
+Description:
+This function is the primary interface to the Forms Browser. The Forms Browser displays the forms specified by FormsetGuid and FormId from all of HII handles specified by Handles. If more than one form can be displayed, the Forms Browser will provide some means for the user to navigate between the
+forms in addition to that provided by cross-references in the forms themselves.
+```
+Up until now we've used `FormsetGuid = NULL` in all of the function calls. Which according to the descriptio means that `EFI_HII_PLATFORM_SETUP_FORMSET_GUID` is used.
+
+Also earlier we've investigated that if don't explicitly declare `classguid` for our formset, IFR will still has default value which is equal to the same `EFI_HII_PLATFORM_SETUP_FORMSET_GUID`. This is the reason why all of our `SendForm` calls have worked up until now.
+
+But if you look at the VFR code of the form from the problematic package list (https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Library/FileExplorerLib/FileExplorerVfr.vfr) you would see that this form uses different `classguid`:
+```
+formset
+  guid = EFI_FILE_EXPLORE_FORMSET_GUID,
+  title = STRING_TOKEN(STR_FILE_EXPLORER_TITLE),
+  help = STRING_TOKEN(STR_NULL_STRING),
+  classguid = EFI_FILE_EXPLORE_FORMSET_GUID,
+```
+In fact it is the same GUID that package list has.
+
+To correctly display formsets with `classguid` different from the default value (`EFI_HII_PLATFORM_SETUP_FORMSET_GUID`) we need to add a possibility to get this GUID from user.
+
+First we need to modify program description a little bit:
+```
+-  if (Argc != 2) {
++  if ((Argc < 2) || (Argc > 3)) {
+     Print(L"Usage:\n");
+-    Print(L"  DisplayHIIByGuid <Package list GUID>\n");
++    Print(L"  DisplayHIIByGuid <Package list GUID> [<Formset classguid>]\n");
+     return EFI_INVALID_PARAMETER;
+   }
+```
+Then add new argument handling:
+```
+EFI_GUID FormsetClassGuid = EFI_HII_PLATFORM_SETUP_FORMSET_GUID;
+if (Argc == 3) {
+  Status = StrToGuid(Argv[2], &FormsetClassGuid);
+  if (Status != RETURN_SUCCESS) {
+    Print(L"Error! Can't convert <Formset classguid> argument to GUID\n");
+    return EFI_INVALID_PARAMETER;
+  }
+}
+```
+And finally `FormsetClassGuid` in our `SendForm` call:
+```
+   Status = FormBrowser2->SendForm (
+                            FormBrowser2,
+                            HiiHandles,
+                            HandleCount,
+-                           NULL,
++                           &FormsetClassGuid,
+                            0,
+                            NULL,
+                            NULL
+                            );
+```
+
+Now you can verify that with a:
+```
+FS0:\> DisplayHIIByGuid.efi FE561596-E6BF-41A6-8376-C72B719874D0 FE561596-E6BF-41A6-8376-C72B719874D0
+```
+We can correctly display the File Explorer form:
+
+![FileExplorer](FileExplorer.png?raw=true "FileExplorer")
 
 # `HIIStaticFormDriver`
 
