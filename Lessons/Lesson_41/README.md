@@ -448,7 +448,7 @@ I've also added a possibility to include another `GUID:NAME` file with a help of
 
 Put this script in edk2 folder and run it with `python` or `python3`:
 ```
-python replace_guids.py
+$ python replace_guids.py
 ```
 
 Now look at the created `debug_parsed.log` file:
@@ -468,6 +468,57 @@ DiscoverPeimsAndOrderWithApriori(): Found 0x7 PEI FFS files in the 0th FV
 
 It is much easier to read now!
 
+As a final step, let's modify our python script to make it more generic, so it would take all variables not from the script defines, but from the command line arguments. Also let's add a possibility to modify log file in place by default:
+```
+from argparse import ArgumentParser
+
+parser = ArgumentParser(description="Convert GUIDs to text identifiers in UEFI firmware boot log")
+parser.add_argument('-g', '--guids', help="Guid.xref file location", required=True)
+parser.add_argument('-e', '--guids_extra', help="additional Guid.xref file location")
+parser.add_argument('-i', '--log_input', help="input log file location", required=True)
+parser.add_argument('-o', '--log_output', help="output log file location (by default input file is changed in place)")
+args = parser.parse_args()
+
+GUIDS_FILE_PATH = args.guids
+EXTRA_GUIDS_FILE_PATH = args.guids_extra
+
+LOG_IN_FILE_PATH = args.log_input
+if args.log_output:
+    LOG_OUT_FILE_PATH = args.log_output
+else:
+    LOG_OUT_FILE_PATH = args.log_input
+
+...
+
+if LOG_IN_FILE_PATH != LOG_OUT_FILE_PATH:
+    copyfile(LOG_IN_FILE_PATH, LOG_OUT_FILE_PATH)
+
+...
+```
+
+With this version we need to launch our script like this:
+```
+$ python replace_guids.py -g Build/OvmfX64/DEBUG_GCC5/FV/Guid.xref -e Guid_extra.xref -i debug.log -o debug_parsed.log
+```
+
+Also now we have a nice help message:
+```
+$ python replace_guids.py --help
+usage: replace_guids.py [-h] -g GUIDS [-e GUIDS_EXTRA] -i LOG_INPUT [-o LOG_OUTPUT]
+
+Convert GUIDs to text identifiers in UEFI firmware boot log
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g GUIDS, --guids GUIDS
+                        Guid.xref file location
+  -e GUIDS_EXTRA, --guids_extra GUIDS_EXTRA
+                        additional Guid.xref file location
+  -i LOG_INPUT, --log_input LOG_INPUT
+                        input log file location
+  -o LOG_OUTPUT, --log_output LOG_OUTPUT
+                        output log file location (by default input file is changed in place)
+```
 
 # Max string length in `DEBUG` output
 

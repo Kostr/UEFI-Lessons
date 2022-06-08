@@ -4,12 +4,24 @@
 # SPDX-License-Identifier: MIT
 ##
 
+from argparse import ArgumentParser
 from shutil import copyfile
 
-GUIDS_FILE_PATH = "Build/OvmfX64/DEBUG_GCC5/FV/Guid.xref"
-EXTRA_GUIDS_FILE_PATH = "Guid_extra.xref"
-LOG_IN_FILE_PATH = "debug.log"
-LOG_OUT_FILE_PATH = "debug_parsed.log"
+parser = ArgumentParser(description="Convert GUIDs to text identifiers in UEFI firmware boot log")
+parser.add_argument('-g', '--guids', help="Guid.xref file location", required=True)
+parser.add_argument('-e', '--guids_extra', help="additional Guid.xref file location")
+parser.add_argument('-i', '--log_input', help="input log file location", required=True)
+parser.add_argument('-o', '--log_output', help="output log file location (by default input file is changed in place)")
+args = parser.parse_args()
+
+GUIDS_FILE_PATH = args.guids
+EXTRA_GUIDS_FILE_PATH = args.guids_extra
+
+LOG_IN_FILE_PATH = args.log_input
+if args.log_output:
+    LOG_OUT_FILE_PATH = args.log_output
+else:
+    LOG_OUT_FILE_PATH = args.log_input
 
 guids = {}
 
@@ -26,7 +38,8 @@ if EXTRA_GUIDS_FILE_PATH:
             if len(l)==2:
                 guids[l[0].upper()] = l[1][:-1]
 
-copyfile(LOG_IN_FILE_PATH, LOG_OUT_FILE_PATH)
+if LOG_IN_FILE_PATH != LOG_OUT_FILE_PATH:
+    copyfile(LOG_IN_FILE_PATH, LOG_OUT_FILE_PATH)
 
 f = open(LOG_OUT_FILE_PATH, 'r')
 filedata = f.read()
