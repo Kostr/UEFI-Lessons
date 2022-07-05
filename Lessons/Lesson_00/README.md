@@ -22,14 +22,79 @@ $ cd edk2
 $ git submodule update --init
 ```
 
-Just in case the size of the edk2 folder after that would be ~867M (as for 12-06-2021).
+If you curious what projects EDKII loads as submodules check [https://github.com/tianocore/edk2/blob/master/.gitmodules](https://github.com/tianocore/edk2/blob/master/.gitmodules) file.
+Currently it has these submodules:
+```
+[submodule "CryptoPkg/Library/OpensslLib/openssl"]
+	path = CryptoPkg/Library/OpensslLib/openssl
+	url = https://github.com/openssl/openssl                            # TLS/SSL and crypto library
+[submodule "SoftFloat"]
+	path = ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3
+	url = https://github.com/ucb-bar/berkeley-softfloat-3.git           # software implementation of binary floating-point
+[submodule "UnitTestFrameworkPkg/Library/CmockaLib/cmocka"]
+	path = UnitTestFrameworkPkg/Library/CmockaLib/cmocka
+	url = https://github.com/tianocore/edk2-cmocka.git                  # unit testing framework for C with support for mock objects
+[submodule "MdeModulePkg/Universal/RegularExpressionDxe/oniguruma"]
+	path = MdeModulePkg/Universal/RegularExpressionDxe/oniguruma
+	url = https://github.com/kkos/oniguruma                             # regular expression library
+[submodule "MdeModulePkg/Library/BrotliCustomDecompressLib/brotli"]
+	path = MdeModulePkg/Library/BrotliCustomDecompressLib/brotli
+	url = https://github.com/google/brotli                              # Brotli compression format
+[submodule "BaseTools/Source/C/BrotliCompress/brotli"]
+	path = BaseTools/Source/C/BrotliCompress/brotli
+	url = https://github.com/google/brotli                              # Brotli compression format
+	ignore = untracked
+[submodule "RedfishPkg/Library/JsonLib/jansson"]
+	path = RedfishPkg/Library/JsonLib/jansson
+	url = https://github.com/akheron/jansson                            # C library for encoding, decoding and manipulating JSON data
+```
 
-Next we need to compile EDK2 build tools:
+Just in case the size of the edk2 folder after the submodules load would be ~867M (as for 12-06-2021).
+
+Next we need to compile EDK2 build tools. These tools are present in the [Basetools](https://github.com/tianocore/edk2/tree/master/BaseTools) folder. Basically all the tools are either Python scripts or C programs:
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/Source/Python](https://github.com/tianocore/edk2/tree/master/BaseTools/Source/Python)
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/Source/C](https://github.com/tianocore/edk2/tree/master/BaseTools/Source/C)
+
+We need to compile the later ones. For this we execute:
 ```
 make -C BaseTools
 ```
+This would produce tools and libs under the folders:
+- `BaseTools/Source/C/bin`
+- `BaseTools/Source/C/libs`
+
+As EDKII can be compiled both for Windows and Linux, the tools are used through wrappers:
+For Linux:
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/BinPipWrappers/PosixLike](https://github.com/tianocore/edk2/tree/master/BaseTools/BinPipWrappers/PosixLike)
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/BinWrappers/PosixLike](https://github.com/tianocore/edk2/tree/master/BaseTools/BinWrappers/PosixLike)
+
+For Windows:
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/BinPipWrappers/WindowsLike](https://github.com/tianocore/edk2/tree/master/BaseTools/BinPipWrappers/WindowsLike)
+- [https://github.com/tianocore/edk2/tree/master/BaseTools/BinWrappers/WindowsLike](https://github.com/tianocore/edk2/tree/master/BaseTools/BinWrappers/WindowsLike)
+
+Manuals for some of the build tools you can find under the link [https://github.com/tianocore/edk2/tree/master/BaseTools/UserManuals](https://github.com/tianocore/edk2/tree/master/BaseTools/UserManuals)
+
+Ok, we've build all the necessary tools and we're ready to build EDKII.
 
 To initiate a build we need to source `edksetup.sh` script to get necessary variables into our environment:
+```
+$ . edksetup.sh
+Using EDK2 in-source Basetools
+WORKSPACE: /<...>/edk2
+EDK_TOOLS_PATH: /<...>/edk2/BaseTools
+CONF_PATH: /<...>/edk2/Conf
+Copying $EDK_TOOLS_PATH/Conf/build_rule.template
+     to /<...>/edk2/Conf/build_rule.txt
+Copying $EDK_TOOLS_PATH/Conf/tools_def.template
+     to /<...>/edk2/Conf/tools_def.txt
+Copying $EDK_TOOLS_PATH/Conf/target.template
+     to /<...>/edk2/Conf/target.txt
+```
+Besides the new variables `WORKSPACE`/`EDK_TOOLS_PATH`/`CONF_PATH` this script would also update the standard `PATH` variable prepending it with a wrapper folder `BaseTools/BinWrappers/PosixLike`, so EDKII build tools could be used simply by their names.
+
+As you can see on the first launch this script also initializes necessary for the edk2 build `Conf` folder. This folder will be initialized by copying several files from the [https://github.com/tianocore/edk2/tree/master/BaseTools/Conf](https://github.com/tianocore/edk2/tree/master/BaseTools/Conf) folder.
+
+This happens only once, on the next `edksetup.sh` loads this script would only set environment variables:
 ```
 $ . edksetup.sh
 Loading previous configuration from /<...>/edk2/Conf/BuildEnv.sh
@@ -38,9 +103,12 @@ WORKSPACE: /<...>/edk2
 EDK_TOOLS_PATH: /<...>/edk2/BaseTools
 CONF_PATH: /<...>/edk2/Conf
 ```
+The `Conf` directory contains several configuration files for the build. It is implied that EDKII user would configure the build by modifying files in this folder, this is why this folder is not under git control but rather created on the fly via `BaseTools/Conf` templates and the content inside the `Conf` folder is ignored by git [https://github.com/tianocore/edk2/blob/master/Conf/.gitignore](https://github.com/tianocore/edk2/blob/master/Conf/.gitignore).
 
-After that we could use `build` command to build EDK2 packages.
-Try to execute help command to see all available options:
+
+After that we could use the `build` command to build EDK2 packages.
+We can use `build` command directly in our shell, because we've added `BaseTools/BinWrappers/PosixLike` to our path and the `build` command is just a wrapper [https://github.com/tianocore/edk2/blob/master/BaseTools/BinWrappers/PosixLike/build](https://github.com/tianocore/edk2/blob/master/BaseTools/BinWrappers/PosixLike/build) around the actual Python script [https://github.com/tianocore/edk2/blob/master/BaseTools/Source/Python/build/build.py](https://github.com/tianocore/edk2/blob/master/BaseTools/Source/Python/build/build.py).
+Try to execute help option to see all the available build options:
 ```
 build --help
 ```
