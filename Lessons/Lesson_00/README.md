@@ -119,6 +119,7 @@ To build OVMF execute:
 ```
 build --platform=OvmfPkg/OvmfPkgX64.dsc --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 ```
+Don't worry, you don't have to have `gcc` of exactly version 5 on your system. Any gcc with a version `>=5` would be acceptable.
 
 If build is successful, result would be in the folder `Build/{Platform Name}/{TARGET}_{TOOL_CHAIN_TAG}/FV`. So in our case it would be:
 ```
