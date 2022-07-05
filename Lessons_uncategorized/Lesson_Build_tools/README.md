@@ -1,0 +1,365 @@
+In this lesson we are going to look how EDKII configures its build tools.
+
+As you might remember when you source `edksetup.sh` script for the first time, this script creates `Conf` folder from the contents inside the [https://github.com/tianocore/edk2/tree/master/BaseTools/Conf](https://github.com/tianocore/edk2/tree/master/BaseTools/Conf) directory.
+
+In this lesson we are going to look at the content of the `Conf/tools_def.txt` file which is created from the [https://github.com/tianocore/edk2/blob/master/BaseTools/Conf/tools_def.template](https://github.com/tianocore/edk2/blob/master/BaseTools/Conf/tools_def.template).
+
+This file defines configurations for the edk2 build tools.
+
+Every configuration is representent in a format `TARGET_TOOLCHAIN_ARCH_COMMANDTYPE_ATTRIBUTE`, for example:
+```
+RELEASE_VS2013x86_X64_CC_FLAGS     = /nologo /c /WX /GS- /W4 /Gs32768 /D UNICODE /O1b2s /GL /Gy /FIAutoGen.h /EHs-c- /GR- /GF /Gw
+```
+In this example:
+```
+TARGET = RELEASE
+TOOLCHAIN = VS2013x86
+ARCH = X64
+COMMANDTYPE = CC
+ATTRIBUTE = FLAGS
+```
+This means, when the project is build in `RELEASE` mode with a `VS2013x86` toolchain for `X64` architecture use the `FLAGS` flags for the compiler `CC`.
+
+If we use `*` in place of some part of the format string, it means `for every`. For example:
+```
+*_GCC5_X64_NASM_FLAGS            = -f elf64
+```
+This means, when the project is build with a `GCC5` toolchain for the `X64` architecture use the `FLAGS` flags for the nasm assembler `NASM`. And this configuration would be active for every build mode (RELEASE/DEBUG/NOOPT).
+
+There can be many `*` in the configuration string. For example:
+```
+*_*_*_BROTLI_PATH        = BrotliCompress
+```
+This means that the `PATH` attribute for the `BROTLI` command is `BrotliCompress`. And this is true for builds for any arch, toolchain or build mode.
+
+Another example:
+```
+*_CLANG38_*_MAKE_PATH               = make
+```
+I guess no explanation is needed at this point. I just wanted to point out, that the `*` could be in any part of the format string.
+
+# `DEF` and `ENV`
+
+The `tools_def.txt` file has several syntactic constructions to help format strings definition.
+
+`DEFINE` statement is used to create a named data that can be later expanded via `DEF` statement. This is similar to the C language define statemnt. For example:
+```
+DEFINE IASL_OUTFLAGS           = -p
+...
+*_GCC49_*_ASL_OUTFLAGS         = DEF(IASL_OUTFLAGS)
+```
+There can be chains of defines:
+```
+DEFINE GCC_ASM_FLAGS             = -c -x assembler -imacros AutoGen.h
+DEFINE GCC48_ASM_FLAGS           = DEF(GCC_ASM_FLAGS)
+DEFINE GCC49_ASM_FLAGS           = DEF(GCC48_ASM_FLAGS)
+DEFINE GCC5_ASM_FLAGS            = DEF(GCC49_ASM_FLAGS)
+*_GCC5_X64_ASM_FLAGS             = DEF(GCC5_ASM_FLAGS) -m64
+```
+
+Another syntactic construction is `ENV`. It is used when the value should be obtained from the environment:
+```
+*_GCC5_ARM_CC_PATH               = ENV(GCC5_ARM_PREFIX)gcc
+```
+This way if we cross compile EDKII for the ARM architecture we can set gcc prefix:
+```
+export GCC5_ARM_PREFIX=<...>
+```
+
+# Precedence rules
+
+The more defined statements override the more common ones. The `tools_def.txt` has a comment about the override rules:
+
+```
+TARGET_TOOLCHAIN_ARCH_COMMANDTYPE_ATTRIBUTE (Highest)
+******_TOOLCHAIN_ARCH_COMMANDTYPE_ATTRIBUTE
+TARGET_*********_ARCH_COMMANDTYPE_ATTRIBUTE
+******_*********_ARCH_COMMANDTYPE_ATTRIBUTE
+TARGET_TOOLCHAIN_****_COMMANDTYPE_ATTRIBUTE
+******_TOOLCHAIN_****_COMMANDTYPE_ATTRIBUTE
+TARGET_*********_****_COMMANDTYPE_ATTRIBUTE
+******_*********_****_COMMANDTYPE_ATTRIBUTE
+TARGET_TOOLCHAIN_ARCH_***********_ATTRIBUTE
+******_TOOLCHAIN_ARCH_***********_ATTRIBUTE
+TARGET_*********_ARCH_***********_ATTRIBUTE
+******_*********_ARCH_***********_ATTRIBUTE
+TARGET_TOOLCHAIN_****_***********_ATTRIBUTE
+******_TOOLCHAIN_****_***********_ATTRIBUTE
+TARGET_*********_****_***********_ATTRIBUTE
+******_*********_****_***********_ATTRIBUTE (Lowest)
+```
+
+# Tools and flags review
+
+Here is some peak on the parameters that currently can be defined for the commands:
+
+```
+TARGET = 
+  RELEASE | DEBUG | NOOPT
+```
+
+```
+TOOLCHAIN = 
+  VS2008 | VS2008x86 | VS2010 | VS2010x86 | VS2012 | VS2012x86 | VS2013 | VS2013x86 | VS2015 | VS2015x86 | VS2017 | VS2019 
+  GCC48 | GCC49 | GCC5
+  CLANG35 | CLANG38 | CLANGPDB | CLANGDWARF
+  XCODE5
+  RVCT | RVCTLINUX | RVCTCYGWIN	                       # ARM RealView Tools Windows | ARM RealView Tools Linux | ARM RealView Tools - Cygwin
+```
+
+```
+ARCH = 
+  IA32 | X64 | EBC | AARCH64 | ARM | RISCV64
+```
+
+```
+ATTRIBUTE = 
+  PATH | FLAGS | OUTFLAGS | XIPFLAGS | GUID | DLL | FAMILY | BUILDRULEFAMILY
+```
+
+And here are descriptions for some of the common commands:
+```
+COMMANDTYPE =
+  APP			# C compiler for applications
+  ASL			# ACPI Compiler for generating ACPI tables
+  ASLCC			# ACPI Table C compiler
+  ASLDLINK		# ACPI Table C Dynamic linker
+  ASLPP			# ASL C pre-processor
+  ASM			# A Macro Assembler for assembly code in some libraries
+  ASMLINK		# The Linker to use for assembly code generated by the ASM tool
+  CC			# C compiler for PE32/PE32+/Coff images
+  DLINK			# The C dynamic linker
+  MAKE			# Required for tool chains. This identifies the utility used to process the Makefiles generated by the first phase of the build
+  PCH			# The compiler for generating pre-compiled headers
+  PP			# The C pre-processor command
+  SLINK			# The C static linker
+  TIANO			# This special keyword identifies a compression tool used to generate compression sections as well as the library needed to uncompress an image in the firmware volume
+  VFR			# The VFR file compiler which creates IFR code
+  VFRPP			# The C pre-processor used to process VFR files
+```
+
+# Setting  `TARGET`/`TOOLCHAIN`/`ARCH` for the project
+
+Configuration strings are represented in the form `TARGET_TOOLCHAIN_ARCH_COMMANDTYPE_ATTRIBUTE`.
+
+The first three parameters `TARGET`/`TOOLCHAIN`/`ARCH` are usually constant for the build environment, so we've even fixed them in our `Conf/target.txt` file:
+```
+...
+TARGET                = RELEASE
+TARGET_ARCH           = X64
+TOOL_CHAIN_TAG        = GCC5
+...
+```
+But as you remember we can always override them from command prompt to build different configurations:
+```
+build <...> --arch=X64 --buildtarget=RELEASE --tagname=GCC5
+```
+
+# Modify build tools attributes via INF files
+
+It is possible to modify build tools options in the INF files.
+
+Let's create new app:
+```
+./createNewApp.sh BuildOptionsApp
+```
+And add it to our package DSC file `UefiLessonsPkg/UefiLessonsPkg.dsc`:
+```
+[Components]
+  ...
+  UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp.inf
+```
+
+Add this code to the `UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp.c`:
+```cpp
+#include <Library/UefiBootServicesTableLib.h>
+#include <Library/UefiLib.h>
+
+EFI_STATUS
+EFIAPI
+UefiMain (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+{
+  #ifdef MY_DEBUG
+    Print(L"MY_DEBUG is definedi\n");
+  #endif
+  #ifdef MY_RELEASE
+    Print(L"MY_RELEASE is defined\n");
+  #endif
+  #ifdef MY_ALL_TARGETS
+    Print(L"MY_ALL_TARGETS is defined\n");
+  #endif
+
+  return EFI_SUCCESS;
+}
+```
+
+Build our application:
+```
+$ build --buildtarget=RELEASE
+```
+And copy result to the QEMU shared folder
+```
+$ cp Build/UefiLessonsPkg/RELEASE_GCC5/X64/BuildOptionsApp.efi ~/UEFI_disk/
+```
+If you execute our app under UEFI shell now, it wouldn't produce any output as we didn't define any of the defines.
+
+Now let's add this `[BuildOptions]` section to the application INF file:
+```
+[BuildOptions]
+  RELEASE_GCC5_X64_CC_FLAGS = "-DMY_RELEASE"
+  DEBUG_GCC5_X64_CC_FLAGS = "-DMY_DEBUG"
+  *_GCC5_CC_X64_FLAGS = "-DMY_ALL_TARGETS"
+```
+
+Now build and test our application in the RELEASE mode:
+```
+$ build --buildtarget=RELEASE
+$ cp Build/UefiLessonsPkg/RELEASE_GCC5/X64/BuildOptionsApp.efi ~/UEFI_disk/
+```
+This version would give you this output:
+```
+FS0:\> BuildOptionsApp.efi
+MY_RELEASE is defined
+MY_ALL_TARGETS is defined
+```
+And if you build with the DEBUG mode:
+```
+$ build --buildtarget=DEBUG
+$ cp Build/UefiLessonsPkg/DEBUG_GCC5/X64/BuildOptionsApp.efi ~/UEFI_disk/
+```
+You would get:
+```
+FS0:\> BuildOptionsApp.efi
+MY_DEBUG is defined
+MY_ALL_TARGETS is defined
+```
+
+If you look closely to the build log you could even see our defines in the EDK2 build output. For example this is a sample from the RELEASE build:
+```
+...
+"gcc" -MMD -MF /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp/OUTPUT/AutoGen.obj.deps -g -Os -fshort-wchar -fno-builtin -fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fno-common -ffunction-sections -fdata-sections -DSTRING_ARRAY_NAME=BuildOptionsAppStrings -m64 -fno-stack-protector "-DEFIAPI=__attribute__((ms_abi))" -maccumulate-outgoing-args -mno-red-zone -Wno-address -mcmodel=small -fpie -fno-asynchronous-unwind-tables -Wno-address -flto -DUSING_LTO -Os -Wno-unused-but-set-variable -Wno-unused-const-variable "-DMY_RELEASE" "-DMY_ALL_TARGETS" -c -o /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp/OUTPUT/./AutoGen.obj -I/<...>/UefiLessonsPkg/BuildOptionsApp -I/<...>/Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp/DEBUG -I/<...>/MdePkg -I/<...>/MdePkg/Include -I/<...>/MdePkg/Test/UnitTest/Include -I/<...>/MdePkg/Include/X64 /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp/DEBUG/AutoGen.c
+...
+```
+
+The `=` sign in the our statements actually means "append". This is why we have both defines in the end.
+If you want to completely override some attribute, you should use "==" syntax. EDK2 has many necessary options for the `CC_FLAGS`, so you probably shouldn't override this variable, but you might need this functionality for some other attributes.
+
+# `FAMILY` attribute
+
+With the help of a `FAMILY` attribute, it is possible to define rules for several toolchains. For example if we have these strings in the `tools_def.txt` file:
+```
+*_GCC48_*_*_FAMILY               = GCC
+*_GCC49_*_*_FAMILY               = GCC
+*_GCC5_*_*_FAMILY                = GCC
+```
+
+Then we can add append like this:
+```
+[BuildOptions]
+  GCC:*_*_*_CC_FLAGS = "-DMY_FAMILY"
+```
+
+And it would be active if our toolchain one of the GCC48/GCC49/GCC5
+
+# Command substitution in the tools options
+
+As we were adding defines to the gcc in our example, I want to point out one interesting usage of this feature.
+
+Look at the [https://github.com/tianocore/edk2/blob/master/EmbeddedPkg/Library/VirtualRealTimeClockLib/VirtualRealTimeClockLib.inf](https://github.com/tianocore/edk2/blob/master/EmbeddedPkg/Library/VirtualRealTimeClockLib/VirtualRealTimeClockLib.inf) `BuildOptions` section:
+```
+[BuildOptions]
+  GCC:*_*_*_CC_FLAGS = -DBUILD_EPOCH=`date +%s`
+```
+Here you can see that it is even possible to use command substitution in the `BuildOptions`. Fun, right?
+
+In case you don't know this command gives current date as Unix time (which is the number of (non-leap) seconds since 1970-01-01). Try to execute it in you Linux shell:
+```
+$ date +%s
+1657034765
+```
+
+In the code [https://github.com/tianocore/edk2/blob/master/EmbeddedPkg/Library/VirtualRealTimeClockLib/VirtualRealTimeClockLib.c] this define is used like this:
+```cpp
+EFI_STATUS
+EFIAPI
+LibGetTime (
+  OUT EFI_TIME               *Time,
+  OUT EFI_TIME_CAPABILITIES  *Capabilities
+  )
+{
+  UINTN       EpochSeconds;
+  ...
+  EpochSeconds = BUILD_EPOCH;
+  ...
+}
+```
+
+# Modify build tools attributes via DSC files
+
+Besides the INF files it is also possible to modify build tool attributes via the DSC file.
+
+You can do it globally for all the package modules via the `[BuildOptions]` section like we did in the INF file:
+```
+[BuildOptions]
+  RELEASE_GCC5_X64_CC_FLAGS = "-DMY_RELEASE_DSC"
+```
+
+Or only for individual modules:
+```
+[Components]
+  ...
+  
+  UefiLessonsPkg/BuildOptionsApp/BuildOptionsApp.inf {
+    <BuildOptions>
+      RELEASE_GCC5_X64_CC_FLAGS = "-DMY_RELEASE_DSC"
+  }
+```
+
+In the first case this would lead to recompilation of all the modules listed in the DSC. And in the second case build system will recompile only one module.
+
+# Section tag
+
+In the examples above we've always used `[BuildOptions]` name for our section. But this is just a short form. The most full form for the section is `[BuildOptions.$(arch).CodeBase.ModuleType]`.
+Here are:
+- `$(arch)` - target architecture. You can use `common` for any architecture or define particular rules just for particalar one like `X64`, `AARCH64`, ...
+- `CodeBase` - this is equal to the `EDKII`
+- `ModuleType` - with this option we can define options for different classes of modules, e.g. `DXE_RUNTIME_DRIVER`, `SMM_CORE`. This value corresponds to the `MODULE_TYPE` value in the INF files
+
+So the section `[BuildOptions.X64.EDKII.DXE_RUNTIME_DRIVER]` would change build options for the modules of type `DXE_RUNTIME_DRIVER` if they are compiled for the `X64` arch.
+
+The `[BuildOptions]` is the shortest form, but it is possible to have all intermidiate forms. For example `[BuildOptions.X64]` section name is allowed.
+
+Also it is possible to list several names as a section name. Look at this as an example:
+```
+[BuildOptions.common.EDKII.DXE_RUNTIME_DRIVER, BuildOptions.common.EDKII.COMBINED_SMM_DXE, BuildOptions.common.EDKII.DXE_SMM_DRIVER, BuildOptions.common.EDKII.SMM_CORE, BuildOptions.Common.EDK.DXE_RUNTIME_DRIVER]
+```
+With this you could define the same modifiers for different situations.
+
+# Override priority
+
+Generally if we use override `==` syntax, the DSC override would take the precedence over the INF override. But if we use `[BuildOptions.$(arch).CodeBase.ModuleType]` section names, things get a little bit more complicated.
+
+Here is complete override sequence from the EDKII docs:
+```
+HIGHEST PRIORITY
+- DSC file's component scoped <BuildOptions> for individual INF files
+- [BuildOptions.$(arch).CodeBase.ModuleType]
+- [BuildOptions.$(arch).CodeBase]
+- [BuildOptions.common.CodeBase]
+- [BuildOptions.$(arch)]
+- [BuildOptions.common]
+- [BuildOptions]
+- INF file's [BuildOptions] section
+- tools_def.txt
+LOWEST PRIORITY
+```
+
+# Links
+
+Here are links to the EDKII docs about `BuildOptions` section:
+- in the INF file: [https://edk2-docs.gitbook.io/edk-ii-inf-specification/3_edk_ii_inf_file_format/35_-buildoptions-_sections](https://edk2-docs.gitbook.io/edk-ii-inf-specification/3_edk_ii_inf_file_format/35_-buildoptions-_sections) and [https://github.com/tianocore-docs/edk2-InfSpecification/blob/master/2_inf_overview/26_%5Bbuildoptions%5D_section.md](https://github.com/tianocore-docs/edk2-InfSpecification/blob/master/2_inf_overview/26_%5Bbuildoptions%5D_section.md)
+- in the DSC file: [https://edk2-docs.gitbook.io/edk-ii-dsc-specification/3_edk_ii_dsc_file_format/36_-buildoptions-_sections](https://edk2-docs.gitbook.io/edk-ii-dsc-specification/3_edk_ii_dsc_file_format/36_-buildoptions-_sections) and [https://github.com/tianocore-docs/edk2-DscSpecification/blob/master/2_dsc_overview/24_%5Bbuildoptions%5D_section.md](https://github.com/tianocore-docs/edk2-DscSpecification/blob/master/2_dsc_overview/24_%5Bbuildoptions%5D_section.md)
+

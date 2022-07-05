@@ -1,0 +1,23 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = BuildOptionsApp
+  FILE_GUID                      = 311c8fac-737c-436a-9a73-a66b0eae722d
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  BuildOptionsApp.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[BuildOptions]
+  RELEASE_GCC5_X64_CC_FLAGS = "-DMY_RELEASE"
+  DEBUG_GCC5_X64_CC_FLAGS = "-DMY_DEBUG"
+  *_GCC5_X64_CC_FLAGS = "-DMY_ALL_TARGETS"
+
