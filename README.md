@@ -77,8 +77,9 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 71](Lessons/Lesson_71): Basic VFR builtins for strings: `stringref`/`toupper`/`tolower`/`length`
 - [Lesson 72](Lessons/Lesson_72): Dynamically add elements to HII forms with a help of a `label` keyword
 - [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
+_____
 
-
+- [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
 _____
 
 # Learning links
