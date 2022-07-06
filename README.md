@@ -144,3 +144,4 @@ EDK2 specifications (https://github.com/tianocore/tianocore.github.io/wiki/EDK-I
 - [UEFITool](https://github.com/LongSoft/UEFITool) - UEFITool is a cross-platform C++/Qt program for parsing, extracting and modifying UEFI firmware images
 - [CrScreenshotDxe](https://github.com/LongSoft/CrScreenshotDxe) - UEFI DXE driver to take screenshots from GOP-compatible graphic consoles
 - [RU.EFI](http://ruexe.blogspot.com/) - "Read Universal" - UEFI application to debug UEFI interfaces
+- [PCD_TABLE_parser](https://github.com/Kostr/PCD_TABLE_parser) - Parser for Platform Configuration Database (PCD) tables created in the EDKII build process
