@@ -80,6 +80,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 _____
 
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF): Intro to FDF file format. Flash Device Image `[FD]` sections: flash chip defines and regions definition. OVMF image FDF file analysis.
 _____
 
 # Learning links
