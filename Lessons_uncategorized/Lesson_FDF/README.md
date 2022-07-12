@@ -1,6 +1,6 @@
 When we build OVMF image the final result is a flash image.
 
-Last messages in the build log provide some information about image generation:
+Last messages in the build log provide some information about the image generation process:
 ```
 $ build --platform=OvmfPkg/OvmfPkgX64.dsc --arch=X64 --buildtarget=RELEASE --tagname=GCC5
 
@@ -186,6 +186,8 @@ FVMAIN_COMPACT [27%Full] 3440640 (0x348000) total, 935208 (0xe4528) used, 250543
 - Done -
 ```
 
+## `Flash Device Image` flash description tokens
+
 The `Flash Device Image` is intendend for usage on a specific flash device, therefore the following tokens are mandatory for each FD section:
 ```
 BaseAddress   = <...>
@@ -201,7 +203,7 @@ Most often the following two tokens are also defined:
 BlockSize = <...>
 NumBlocks = <...>
 ```
-This tokens define block structure of a flash chip. If they are present this rule should be satisfied:
+These tokens define block structure of a flash chip. If they are present this rule should be satisfied:
 ```
 BlockSize * NumBlocks = Size
 ```
@@ -211,7 +213,7 @@ Let's look at the values for these tokens in the `OvmfPkg/OvmfPkgX64.fdf` file. 
 [Defines]
 !include OvmfPkgDefines.fdf.inc
 ```
-As you can see this section uses `!include` directive to abstract all defines in the separate file. If you look at this file, you'll see that it contains some `if...endif` logic depending on the value of `FD_SIZE_IN_KB` variable for various configurations. In our case `OvmfPkg/OvmfPkgX64.dsc` defines `FD_SIZE_IN_KB = 4096`:
+As you can see this section uses `!include` directive to abstract all defines in the separate file. If you look at this file, you'll see that it contains some `if...endif` logic depending on the value of `FD_SIZE_IN_KB` variable for various configurations. In our case `OvmfPkg/OvmfPkgX64.dsc` defines `FD_SIZE_IN_KB` as `4096`:
 ```
 [Defines]
   ...
@@ -290,7 +292,7 @@ NumBlocks     = 0xD0
 
 Here you can see that `BlockSize * NumBlocks = Size` formula is correct for every FD.
 
-And you can verify that size of the files matches the `Size` field values:
+And you can verify that size of the files matches the `Size` field values (although it is not mandatory as we will see next):
 ```
 $ printf "%x\n" `stat -c "%s"  Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd`
 400000
@@ -302,7 +304,7 @@ $ printf "%x\n" `stat -c "%s"  Build/OvmfX64/RELEASE_GCC5/FV/MEMFD.fd`
 d00000
 ```
 
-Couple of words about the images itself. Remember what commands we've used to launch QEMU:
+Couple of words about the `OVMF*.fd` images itself. Remember what commands we've used to launch QEMU:
 ```
 qemu-system-x86_64 \
   -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
@@ -336,7 +338,7 @@ For example:
 ```
 0x500|0x600
 ```
-This is a region that starts at offset 0x500 with a size of 0x600. It is important to note that the final `Flash Device Image` size is defined by its regions and not by the `Size` token value.
+This is a region that starts at offset 0x500 with a size of 0x600. It is important to note that the final `Flash Device Image` size is defined by its regions and not by the `Size` token value. The none of the regions can have addresses above the `Size`.
 
 If we want to, we can assign PCDs to the region offset/size values:
 ```
@@ -348,7 +350,7 @@ For example:
 0x500|0x600
 gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress | gEfiMyTokenSpaceGuid.PcdFlashRegionSize
 ```
-This way the build system will automatically override these PCD with our values. Off course these PCDs `gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress` and `gEfiMyTokenSpaceGuid.PcdFlashRegionSize` must be defined in the DEC file.
+This way the build system will automatically override the PCDs with the provided values. Off course these PCDs `gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress` and `gEfiMyTokenSpaceGuid.PcdFlashRegionSize` must be defined in the DEC file.
 They can be of types `PcdsFixedAtBuild` or `PcdsPatchableInModule`, but not dynamic!
 
 Another thing that we would want to add to our region definition is a region type:
@@ -361,7 +363,7 @@ TokenSpaceGuidCName.PcdOffsetCName | TokenSpaceGuidCName.PcdSizeCName
 If `RegionType` is not present, it is considered `None` and edk2 doesn't touch this region data. It can be usefull, for example, if we define a space in flash reserved for logs.
 If `RegionType` is present, it can be one of the following types: `FV`, `DATA`, `FILE`, `INF` or `CAPSULE`.
 
-Here are some exmplanation for the most common ones: `FV`, `DATA`, `FILE`:
+Here are some explanation for the most common ones: `FV`, `DATA`, `FILE`:
 
 ## FV region
 
@@ -485,7 +487,7 @@ FV = FVMAIN_COMPACT
 $(FVMAIN_SIZE)|$(SECFV_SIZE)     # 0x00348000|0x34000
 FV = SECFV
 ```
-And here is example of build log output for this FD from the start of the lesson:
+And here is example of a build log output for this FD from the start of the lesson:
 ```
 Fd File Name:OVMF_CODE (/<...>/edk2/Build/OvmfX64/RELEASE_GCC5/FV/OVMF_CODE.fd)
 
@@ -498,7 +500,7 @@ Generate Region at Offset 0x348000
    Region Name = FV
 ```
 
-Finally `[FD.OVMF]`:
+Finally the `[FD.OVMF]` content:
 ```
 [FD.OVMF]
 ...
@@ -529,7 +531,7 @@ FV = FVMAIN_COMPACT
 $(SECFV_OFFSET)|$(SECFV_SIZE)    # 0x003CC000 | 0x34000
 FV = SECFV
 ```
-The build log for this FD:
+Compare it with the build log for this FD:
 ```
 Fd File Name:OVMF (/<...>/edk2/Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd)
 
@@ -580,22 +582,27 @@ Size          = 0x1000
 ErasePolarity = 1
 
 0x00|0x50
+
 ```
-This would produce the following FD as a build result:
+Important notice: keep in mind that the FDF file must end with an empty string. In other case EDKII build would fail!
+
+The FDF file above would produce the following FD as a build result:
 ```
-Fd File Name:SIMPLEIMAGE (/home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd)
+Fd File Name:SIMPLEIMAGE (/<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd)
 
 Generate Region at Offset 0x0
    Region Size = 0x50
    Region Name = None
 ```
-You can look at its content with a help of `hexdump` utility:
+You can look at its content with a help of a `hexdump` utility:
 ```
-$ hexdump /home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd
+$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd
 0000000 ffff ffff ffff ffff ffff ffff ffff ffff
 *
 0000050
 ```
+
+# Padding regions
 
 If regions would start not from the 0x0, the build system will automatically create a padding region. For example this config:
 ```
@@ -608,7 +615,7 @@ ErasePolarity = 1
 ```
 Would produce the following log:
 ```
-Fd File Name:SIMPLEIMAGE (/home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd)
+Fd File Name:SIMPLEIMAGE (/<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd)
 Padding region starting from offset 0x0, with size 0x60
 
 Generate Region at Offset 0x0
@@ -621,11 +628,50 @@ Generate Region at Offset 0x60
 ```
 And hexdump output would look like this:
 ```
-$ hexdump /home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd
+$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd
 0000000 ffff ffff ffff ffff ffff ffff ffff ffff
 *
 0000360
 ```
+The padding region is also created if there is an unused space between two regions. For example this config:
+```
+[FD.SimpleImage]
+BaseAddress   = 0x0
+Size          = 0x1000
+ErasePolarity = 1
+BlockSize = 0x100
+NumBlocks = 0x10
+
+0x0|0x50
+
+0x80|0x40
+```
+would produce the following build log output:
+```
+Fd File Name:SIMPLEIMAGE (/<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd)
+
+Generate Region at Offset 0x0
+   Region Size = 0x50
+   Region Name = None
+Padding region starting from offset 0x50, with size 0x30
+
+Generate Region at Offset 0x50
+   Region Size = 0x30
+   Region Name = None
+
+Generate Region at Offset 0x80
+   Region Size = 0x40
+   Region Name = None
+```
+And hexdump output would look like this:
+```
+$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd -C
+00000000  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
+*
+000000c0
+```
+
+## Define PCDs from region offset and size
 
 You can define PCDs in the DEC file `UefiLessonsPkg/UefiLessonsPkg.dec`:
 ```
@@ -645,6 +691,34 @@ ErasePolarity = 1
 gUefiLessonsPkgTokenSpaceGuid.Region1Offset | gUefiLessonsPkgTokenSpaceGuid.Region1Size
 ```
 
+For example if we add these PCDs to the `UefiLessonsPkg/PCDLesson/PCDLesson.inf` file:
+```
+[FixedPcd]
+  ...
+  gUefiLessonsPkgTokenSpaceGuid.Region1Offset
+  gUefiLessonsPkgTokenSpaceGuid.Region1Size
+ ```
+
+The following defines would be generated in the `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/PCDLesson/PCDLesson/DEBUG/AutoGen.h` file ready for the usage in your code:
+```cpp
+#define _PCD_TOKEN_Region1Offset  0U
+#define _PCD_SIZE_Region1Offset 4
+#define _PCD_GET_MODE_SIZE_Region1Offset  _PCD_SIZE_Region1Offset
+#define _PCD_VALUE_Region1Offset  0x00000000U                               <------------
+extern const  UINT32  _gPcd_FixedAtBuild_Region1Offset;
+#define _PCD_GET_MODE_32_Region1Offset  _gPcd_FixedAtBuild_Region1Offset
+//#define _PCD_SET_MODE_32_Region1Offset  ASSERT(FALSE)  // It is not allowed to set value for a FIXED_AT_BUILD PCD
+
+#define _PCD_TOKEN_Region1Size  0U
+#define _PCD_SIZE_Region1Size 4
+#define _PCD_GET_MODE_SIZE_Region1Size  _PCD_SIZE_Region1Size
+#define _PCD_VALUE_Region1Size  0x00000050U                                 <------------
+extern const  UINT32  _gPcd_FixedAtBuild_Region1Size;
+#define _PCD_GET_MODE_32_Region1Size  _gPcd_FixedAtBuild_Region1Size
+//#define _PCD_SET_MODE_32_Region1Size  ASSERT(FALSE)  // It is not allowed to set value for a FIXED_AT_BUILD PCD
+```
+
+## Define DATA region
 
 As a final example let's declare the region as DATA and initialize it:
 ```
@@ -661,7 +735,7 @@ DATA = {
 
 This would give us the following content in the final image:
 ```
-$ hexdump /home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd -C
+$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEIMAGE.fd -C
 00000000  de ad be ef ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
 00000010  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
 *
