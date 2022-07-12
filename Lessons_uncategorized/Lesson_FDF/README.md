@@ -126,7 +126,7 @@ FVMAIN_COMPACT [27%Full] 3440640 (0x348000) total, 935208 (0xe4528) used, 250543
 - Done -
 ```
 
-This image process is initiated because the package DSC file `OvmfPkg/OvmfPkgX64.dsc` has `FLASH_DEFINITION` identifier defined:
+This image process is initiated because the package DSC file [`OvmfPkg/OvmfPkgX64.dsc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.dsc) has `FLASH_DEFINITION` identifier defined:
 ```
 [Defines]
   ...
@@ -138,7 +138,7 @@ This file defines the flash images generated in the end of the build.
 
 Each image is called `Flash Device Image` and is defined by the `[FD.<name>]` section.
 
-For example `OvmfPkg/OvmfPkgX64.fdf` has 4 such sections:
+For example [`OvmfPkg/OvmfPkgX64.fdf`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.fdf) has 4 such sections:
 ```
 [FD.OVMF]
 [FD.OVMF_VARS]
@@ -208,12 +208,12 @@ These tokens define block structure of a flash chip. If they are present this ru
 BlockSize * NumBlocks = Size
 ```
 
-Let's look at the values for these tokens in the `OvmfPkg/OvmfPkgX64.fdf` file. Most of the tokens there are defined via defines. For their definition we should look in the `[Defines]` section:
+Let's look at the values for these tokens in the [`OvmfPkg/OvmfPkgX64.fdf`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.fdf) file. Most of the tokens there are defined via defines. For their definition we should look in the `[Defines]` section:
 ```
 [Defines]
 !include OvmfPkgDefines.fdf.inc
 ```
-As you can see this section uses `!include` directive to abstract all defines in the separate file. If you look at this file, you'll see that it contains some `if...endif` logic depending on the value of `FD_SIZE_IN_KB` variable for various configurations. In our case `OvmfPkg/OvmfPkgX64.dsc` defines `FD_SIZE_IN_KB` as `4096`:
+As you can see this section uses `!include` directive to abstract all defines in the separate file. If you look at this file, you'll see that it contains some `if...endif` logic depending on the value of `FD_SIZE_IN_KB` variable for various configurations. In our case [`OvmfPkg/OvmfPkgX64.dsc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.dsc) defines `FD_SIZE_IN_KB` as `4096`:
 ```
 [Defines]
   ...
@@ -229,7 +229,7 @@ As you can see this section uses `!include` directive to abstract all defines in
     DEFINE FD_SIZE_IN_KB           = 4096
   !endif
 ```
-Therefore we use the following defines from the `OvmfPkg/OvmfPkgDefines.fdf.inc` file:
+Therefore we use the following defines from the [`OvmfPkg/OvmfPkgDefines.fdf.inc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgDefines.fdf.inc) file:
 ```
 DEFINE BLOCK_SIZE        = 0x1000
 
@@ -253,7 +253,7 @@ DEFINE SECFV_SIZE        = 0x34000
 DEFINE MEMFD_BASE_ADDRESS = 0x800000
 ```
 
-Now we can calculate the token values for each `Flash Device Image` in the `OvmfPkg/OvmfPkgX64.fdf`:
+Now we can calculate the token values for each `Flash Device Image` in the [`OvmfPkg/OvmfPkgX64.fdf`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgX64.fdf):
 ```
 [FD.OVMF]
 BaseAddress   = $(FW_BASE_ADDRESS)   # 0xFFC00000
@@ -438,7 +438,7 @@ Start with `[FD.OVMF_VARS]` Flash Device Image:
 ...
 !include VarStore.fdf.inc
 ```
-As you can see all of its regions are defined in the `OvmfPkg/VarStore.fdf.inc` file.
+As you can see all of its regions are defined in the [`OvmfPkg/VarStore.fdf.inc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/VarStore.fdf.inc) file.
 
 If we remember that `FD_SIZE_IN_KB` is equal to `4096` in our case we can simplify `OvmfPkg/VarStore.fdf.inc` content to this:
 ```
@@ -477,7 +477,7 @@ Generate Region at Offset 0x42000
    Region Name = None
 ```
 
-The `[FD.OVMF_CODE]` flash device image consists of two Firmware Volumes (for the defines definition look at the `OvmfPkg/OvmfPkgDefines.fdf.inc` content):
+The `[FD.OVMF_CODE]` flash device image consists of two Firmware Volumes (for the defines definition look at the [`OvmfPkg/OvmfPkgDefines.fdf.inc`](https://github.com/tianocore/edk2/blob/master/OvmfPkg/OvmfPkgDefines.fdf.inc) content):
 ```
 [FD.OVMF_CODE]
 ...
