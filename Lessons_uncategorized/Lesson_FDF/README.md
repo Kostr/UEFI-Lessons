@@ -367,7 +367,7 @@ Here are some explanation for the most common ones: `FV`, `DATA`, `FILE`:
 
 ## FV region
 
-The `FV` region type is a pointer to some `Firmware Volume`. `Firmware Volume` (`FV`) is a data block next level lower than `Flash Device Image` (`FD`).
+The `FV` region type is a pointer to some `Firmware Volume`. `Firmware Volume` (`FV`) is a region with a filesystem inside. Formatting of this region is defined by the `UEFI Platform Initialization (PI) specification (Volume 3: Shared Architectural Elements)`. We will look at the `Firmware Volumes` in the next lesson.
 
 Example:
 ```
@@ -375,8 +375,6 @@ Example:
 FV = FVMAIN
 ```
 In this case FDF must define the section `[FV.FVMAIN]`.
-
-We will look at the `Firmware Volumes` in the next lesson.
 
 ## DATA region
 
