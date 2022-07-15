@@ -410,20 +410,23 @@ If you look to `VolInfo` output, you'll see that out FV has two attributes set:
 - `EFI_FVB2_ERASE_POLARITY` (set by default, means that uninitialized data bits in volume are set to 1)
 - `EFI_FVB2_ALIGNMENT_16` (set by our `FvAlignment=16` setting)
 
-Other possible attribute fro FV that you can come across is `FvNameGuid`:
+Similar to FD, the FV has an attribute that defines an address at which flash volume would be mapped to the CPU memory:
+```
+FvBaseAddress = <...>
+```
+And the tokens that define flash block structure:
+```
+BlockSize = <...>
+NumBlocks = <...>
+```
+
+Other possible attribute for the FV that you can come across is `FvNameGuid`:
 ```
 FvNameGuid           = <GUID>
 # Example:
 # FvNameGuid         = 763BED0D-DE9F-48F5-81F1-3E90E1B1A015
 ```
 This attribute would lead to the creation of a file of type `EFI_FV_FILETYPE_FFS_PAD` (padding file) with a GUID value in its data. This file would be placed first in the FV.
-
-And `BlockSize` attribute:
-```
-BlockSize          = <...>
-```
-This token define flash chip attribute similar to the one in FD.
-
 
 # Links
 
