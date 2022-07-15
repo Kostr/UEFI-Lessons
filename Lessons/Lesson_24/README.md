@@ -606,3 +606,4 @@ The output should be the same as before.
 
 - PCD PEI DB documentation [https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Pei/Pcd.inf](https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Pei/Pcd.inf) 
 - PCD DXE DB documentation [https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.inf](https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.inf)
+- AutoGen module responsible for PCD Database generation: [GenPcdDb.py](https://github.com/tianocore/edk2/blob/master/BaseTools/Source/Python/AutoGen/GenPcdDb.py)
