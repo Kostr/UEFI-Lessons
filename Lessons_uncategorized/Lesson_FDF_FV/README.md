@@ -340,6 +340,10 @@ $ hexdump /home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/S
 *
 00000500
 ```
+
+In this picture I've tried to provide visual parsing of data:
+![FV](FV.png?raw=true)
+
 Here you can see how our files follow each other in the FFS. Each of the files has its own `EFI_FFS_FILE_HEADER` with its unique Name (=GUID). The important thing to note that the filesystem is flat, files just follow one another. Therefore to find some file by GUID, we need to traverse FFS from the start.
 Also here you can see that the padding byte 0xff was inserted between the files. It was inserted because according to the specification each file must start at 8 byte boundary.
 
