@@ -1,6 +1,6 @@
 Now it is time to look at Firmware Volumes (`FV`) and how they are described in the FDF file.
 
-`Firmware Volume` is one of the region types in FD. If you declare some region as FV, you must provide its name `<FVname>` and define a separate section `[FV.<FVname>]`:
+`Firmware Volume` is one of the region types in the `Flash Device Image (FD)`. If you declare some region as FV, you must provide its name `<FVname>` and define a separate section `[FV.<FVname>]`:
 ```
 [FD.<FDname>]
 ...
@@ -71,7 +71,7 @@ Currently the UEFI Platform Initialization (PI) specification defines two filesy
 The main difference between them is that `EFI_FIRMWARE_FILE_SYSTEM3` supports files with a size `>16MB`. For the rest of the article we would describe `EFI_FIRMWARE_FILE_SYSTEM2`.
 
 Each file in the filesystem would have a header `EFI_FFS_FILE_HEADER` ([https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h)):
-```cpp
+```
 EFI_FFS_FILE_HEADER
 
 Summary:
@@ -97,7 +97,7 @@ Size		The length of the file in bytes, including the FFS header
 State		Used to track the state of the file throughout the life of the file from creation to deletion
 ```
 
-The file formatting is defined by the `EFI_FFS_FILE_HEADER.Type` field. Specification defines these file types:
+The data inside the file is formatted with respect to the `EFI_FFS_FILE_HEADER.Type` field. Specification defines these file types:
 
 | Name | Value | Description |
 | ---- | ----- | ----------- |
@@ -122,8 +122,8 @@ The file formatting is defined by the `EFI_FFS_FILE_HEADER.Type` field. Specific
 | EFI_FV_FILETYPE_FFS_PAD | 0xF0 | Pad File For FFS |
 
 
-Each file consists of sections, with each section prepended with a header `EFI_COMMON_SECTION_HEADER` ([https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h)):
-```cpp
+Almost each type of file consists of sections, with each section prepended with a header `EFI_COMMON_SECTION_HEADER` ([https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h)):
+```
 EFI_COMMON_SECTION_HEADER
 
 Summary:
@@ -144,43 +144,27 @@ The type EFI_COMMON_SECTION_HEADER defines the common header for all the section
 ```
 
 Specification defines following sections:
-```cpp
-//************************************************************
-// EFI_SECTION_TYPE
-//************************************************************
-typedef UINT8 EFI_SECTION_TYPE;
-//************************************************************
-// The section type EFI_SECTION_ALL is a pseudo type. It is
-// used as a wild card when retrieving sections. The section
-// type EFI_SECTION_ALL matches all section types.
-//************************************************************
-#define EFI_SECTION_ALL 0x00
-//************************************************************
-// Encapsulation section Type values 
-//************************************************************
-#define EFI_SECTION_COMPRESSION 0x01
-#define EFI_SECTION_GUID_DEFINED 0x02
-#define EFI_SECTION_DISPOSABLE 0x03
-//************************************************************
-// Leaf section Type values 
-//************************************************************
-#define EFI_SECTION_PE32 0x10
-#define EFI_SECTION_PIC 0x11
-#define EFI_SECTION_TE 0x12
-#define EFI_SECTION_DXE_DEPEX 0x13
-#define EFI_SECTION_VERSION 0x14
-#define EFI_SECTION_USER_INTERFACE 0x15
-#define EFI_SECTION_COMPATIBILITY16 0x16
-#define EFI_SECTION_FIRMWARE_VOLUME_IMAGE 0x17
-#define EFI_SECTION_FREEFORM_SUBTYPE_GUID 0x18
-#define EFI_SECTION_RAW 0x19
-#define EFI_SECTION_PEI_DEPEX 0x1B
-#define EFI_SECTION_MM_DEPEX 0x1C
-```
+| Name | Value | Description |
+| ---- | ----- | ----------- |
+| EFI_SECTION_COMPRESSION | 0x01 | Encapsulation section where other sections are compressed |
+| EFI_SECTION_GUID_DEFINED | 0x02 | Encapsulation section where other sections have format defined by a GUID |
+| EFI_SECTION_DISPOSABLE | 0x03 | Encapsulation section used during the build process but not required for execution |
+| EFI_SECTION_PE32 | 0x10 | PE32+ Executable image |
+| EFI_SECTION_PIC | 0x11 | Position-Independent Code |
+| EFI_SECTION_TE | 0x12 | Terse Executable image |
+| EFI_SECTION_DXE_DEPEX | 0x13 | DXE Dependency Expression |
+| EFI_SECTION_VERSION | 0x14 | Version, Text and Numeric |
+| EFI_SECTION_USER_INTERFACE | 0x15 | User-Friendly name of the driver |
+| EFI_SECTION_COMPATIBILITY16 | 0x16 | DOS-style 16-bit EXE |
+| EFI_SECTION_FIRMWARE_VOLUME_IMAGE | 0x17 | PI Firmware Volume image |
+| EFI_SECTION_FREEFORM_SUBTYPE_GUID | 0x18 | Raw data with GUID in header to define format |
+| EFI_SECTION_RAW | 0x19 | Raw data |
+| EFI_SECTION_PEI_DEPEX | 0x1b | PEI Dependency Expression |
+| EFI_SECTION_MM_DEPEX | 0x1c | Leaf section type for determining the dispatch order for an MM Traditional driver in MM Traditional Mode or MM Standaline driver in MM Standalone Mode |
 
 # Create simple Firmware Volume
 
-Now let's try to create a most simple firmware volume which would contain one binary file. Here is code for this structure (`UefiLessonsPkg/UefiLessonsPkg.fdf`):
+Now let's try to create the most simple firmware volume which would contain one binary file. Here is code for this structure (`UefiLessonsPkg/UefiLessonsPkg.fdf`):
 ```
 [FD.SimpleImage]
 BaseAddress   = 0x0
@@ -198,8 +182,8 @@ FILE RAW = 15c658f6-eb5c-4b8f-b232-d6bd7368a73e {
 }
 ```
 
-Like in FD case, we can set some characteristics of FV via predefined tokens.
-In this example we have only one token setting `FvAlignment = 16`, which is placed rigth after the `[FV.SimpleVolume]`. It is the only mandatory token for the `Firmware Volume`.
+Like in the FD case, we can set some characteristics of FV via predefined tokens.
+In this example we have only one token setting `FvAlignment = 16`, which is placed rigth after the `[FV.SimpleVolume]`. It is the only mandatory token for the `Firmware Volume`. We will talk about FV tokens later.
 
 Next we define what goes into the FFS of the FV. Here we have one FILE of type `RAW`, which means that the file type `EFI_FFS_FILE_HEADER.Type` is equal to `EFI_FV_FILETYPE_RAW`.
 And specification defines this type like this:
@@ -207,7 +191,7 @@ And specification defines this type like this:
 EFI_FV_FILETYPE_RAW
 The file type EFI_FV_FILETYPE_RAW denotes a file that does not contain sections and is treated as a raw data file
 ```
-The GUID value `15c658f6-eb5c-4b8f-b232-d6bd7368a73e` I've generated via `uuidgen` utility. It defines a file name for FFS and will be written to the `EFI_FFS_FILE_HEADER.Name` field.
+The GUID value `15c658f6-eb5c-4b8f-b232-d6bd7368a73e` I've generated via `uuidgen` utility. It defines a unique name for our file in the FFS and will be written to the `EFI_FFS_FILE_HEADER.Name` field.
 Inside the brackets we define content for the file. In our case it is our `hello.txt` generated via `echo "hello!" > hello.txt` command.
 
 Let's build and check our FD image:
@@ -245,7 +229,7 @@ Firmware Volume data starts with a header. In our case:
 ```cpp
 typedef struct {
   UINT8                     ZeroVector[16];			= { 00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 }
-  EFI_GUID                  FileSystemGuid;			= { 0x8c8ce578, 0x8a3d, 0x4f1c, { 0x99, 0x35, 0x89, 0x61, 0x85, 0xc3, 0x2d, 0xd3 } }
+  EFI_GUID                  FileSystemGuid;			= { 0x8c8ce578, 0x8a3d, 0x4f1c, { 0x99, 0x35, 0x89, 0x61, 0x85, 0xc3, 0x2d, 0xd3 } } = EFI_FIRMWARE_FILE_SYSTEM2_GUID
   UINT64                    FvLength;				= 0x0000000000000500
   UINT32                    Signature;				= "_FVH"
   EFI_FVB_ATTRIBUTES_2      Attributes;				= 0x00040800 = (EFI_FVB2_ERASE_POLARITY | EFI_FVB2_ALIGNMENT_16)
@@ -263,7 +247,7 @@ Right after the `EFI_FIRMWARE_VOLUME_HEADER` we have a header for our only file:
 typedef struct {
  EFI_GUID Name;							= 15c658f6-eb5c-4b8f-b232-d6bd7368a73e
  EFI_FFS_INTEGRITY_CHECK IntegrityCheck;			= 0x5faa
- EFI_FV_FILETYPE Type;						= 0x01
+ EFI_FV_FILETYPE Type;						= 0x01 (=EFI_FV_FILETYPE_RAW)
  EFI_FFS_FILE_ATTRIBUTES Attributes;				= 0x00
  UINT8 Size[3];							= 0x00001f
  EFI_FFS_FILE_STATE State;					= 0xf8
@@ -276,6 +260,8 @@ $ hexdump hello.txt -C
 00000000  68 65 6c 6c 6f 21 0a                              |hello!.|
 0000000
 ```
+
+The rest of the FV is filled with `0xff`.
 
 # VolInfo
 
@@ -316,9 +302,26 @@ $ hexdump DEADBEEF.txt -C
 00000000  de ad be ef                                       |....|
 00000004
 ```
-Now let's add it to out FFS:
+Now let's add it to our FFS:
 ```
+[FD.SimpleImage]
+BaseAddress   = 0x0
+Size          = 0x1000
+ErasePolarity = 1
 
+0x100|0x500
+FV = SimpleVolume
+
+[FV.SimpleVolume]
+FvAlignment   = 16
+
+FILE RAW = 15c658f6-eb5c-4b8f-b232-d6bd7368a73e {
+  $(WORKDIR)/hello.txt
+}
+
+FILE RAW = dd77425e-d338-43e7-8e94-1a755e0c217d {
+  $(WORKDIR)/DEADBEEF.txt
+}
 ```
 
 Build image and look at the Firmware Volume content:
@@ -337,7 +340,7 @@ $ hexdump /home/aladyshev/tiano/2021/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/S
 *
 00000500
 ```
-Here you can see how our files follows each other in the FFS. Each og the files has its own `EFI_FFS_FILE_HEADER` with its unique Name (=GUID). The important thing to note that the filesystem is flat, files just follow one another. Therefore to find some file by GUID, we need to traverse FFS from the start.
+Here you can see how our files follow each other in the FFS. Each of the files has its own `EFI_FFS_FILE_HEADER` with its unique Name (=GUID). The important thing to note that the filesystem is flat, files just follow one another. Therefore to find some file by GUID, we need to traverse FFS from the start.
 Also here you can see that the padding byte 0xff was inserted between the files. It was inserted because according to the specification each file must start at 8 byte boundary.
 
 We can use `VolInfo` to see how it interprets our Firmware Volume:
@@ -378,7 +381,7 @@ Indeed the FV contains 2 files of type `EFI_FV_FILETYPE_RAW`.
 
 # Firmware Volume attributes
 
-Currently in our `Firmware Volume` we've defined only one attribute `FvAlignment`. Along with these attributes they help to set flags in the `EFI_FIRMWARE_VOLUME_HEADER.Attributes` field.
+Currently in our `Firmware Volume` we've defined only one attribute `FvAlignment`. Along with these attributes it help to set flags in the `EFI_FIRMWARE_VOLUME_HEADER.Attributes` field.
 ```
 FvAlignment        = <...>
 ERASE_POLARITY     = 1|0
@@ -399,8 +402,11 @@ READ_LOCK_STATUS   = TRUE|FALSE
 ```
 The setting of these attributes will set respective `EFI_FVB2_*` flags which are defined in the [https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareVolume.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareVolume.h).
 You can read the meaning of these flags in the `UEFI Platform Initialization (PI) specification (Volume 3: Shared Architectural Elements)`.
+If you look to `VolInfo` output, you'll see that out FV has two attributes set:
+- `EFI_FVB2_ERASE_POLARITY` (set by default, means that uninitialized data bits in volume are set to 1)
+- `EFI_FVB2_ALIGNMENT_16` (set by our `FvAlignment=16` setting)
 
-Other possible attribute is `FvNameGuid`:
+Other possible attribute fro FV that you can come across is `FvNameGuid`:
 ```
 FvNameGuid           = <GUID>
 # Example:
@@ -408,7 +414,7 @@ FvNameGuid           = <GUID>
 ```
 This attribute would lead to the creation of a file of type `EFI_FV_FILETYPE_FFS_PAD` (padding file) with a GUID value in its data. This file would be placed first in the FV.
 
-And `BlockSize`:
+And `BlockSize` attribute:
 ```
 BlockSize          = <...>
 ```
