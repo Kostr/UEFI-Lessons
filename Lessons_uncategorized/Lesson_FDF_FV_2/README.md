@@ -42,11 +42,29 @@ Specification defines following sections:
 
 PI specification defines which sections each type of file must have. For example the file of type `EFI_FV_FILETYPE_APPLICATION=0x09` must have at least one `EFI_SECTION_PE32=0x10` section.
 
-In this lesson we would work with a sectioned file without any such limitations - `FREEFORM` file.
+In this lesson we would work with a sectioned file without any such limitations - `FREEFORM` file. In this lesson we want to investigate sections, so this is the perfect file type for this task.
 
 According to the PI documentation the file type `EFI_FV_FILETYPE_FREEFORM = 0x02` denotes a sectioned file that may contain any combination of sections.
 
-Here is an example of how we add such file. Let's start with one `RAW` section in the file:
+Here is an example of how we add such file. Let's start with one `RAW` section in the file.
+
+First here is a section description from the specification:
+```
+EFI_SECTION_RAW
+
+Summary:
+A leaf section type that contains an array of zero or more bytes.
+
+Prototype:
+typedef EFI_COMMON_SECTION_HEADER EFI_RAW_SECTION;
+
+Description:
+A raw section is a leaf section that contains an array of zero or more bytes. No particular formatting of these bytes is implied by this section type
+```
+
+Just in case, I want to point out, that like the rest of sections, this section has a slightly different format in case if section size is above 16MB. Here and after we would inspect only "small" sections. For the "large" section format consult PI specification.
+
+Now here is a code:
 ```
 [FD.SimpleImage]
 BaseAddress   = 0x0
@@ -64,7 +82,7 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
 }
 ```
 
-`hexdump` output would look like this:
+`hexdump` output of the resulting Firmware Volume would look like this:
 ```
 $ hexdump /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
@@ -130,7 +148,7 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
 }
 ```
 
-hexdump:
+`hexdump`:
 ```
 $ hexdump /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
@@ -147,11 +165,12 @@ $ hexdump /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
 00000500
 ```
 
-If you parse it, it look like this:
+If you parse it, it looks like this:
+
 ![FREEFORM](FREEFORM.png?raw=true)
 
 
-VolInfo:
+`VolInfo`:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -x Build/UefiLessonsPkg/RELEASE_GCC5/FV/Guid.xref
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -192,14 +211,14 @@ Before we go any further in our investigation of section types it would be good 
 
 If you execute `build` with `-v` (`--verbose`) argument, the EDKII build system would output a lot information about the build. In the end of the output you could see how EDKII uses its tools for image generation.
 
-Look at the output after the:
+Look at the output after the string:
 ```
 Generating SIMPLEVOLUME FV
 ```
 
 ## `GenSec`
 
-The first string is:
+The first string after the output above is:
 ```
 ['GenSec', '-s', 'EFI_SECTION_RAW', '-o', '<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.raw', '<...>/$(WORKDIR)/hello.txt', '-v']
 ```
@@ -207,9 +226,12 @@ This means that `GenSec` utility from the BaseTools was called and shows its arg
 ```
 GenSec -s EFI_SECTION_RAW -o <...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.raw' <...>/$(WORKDIR)/hello.txt -v
 ```
-You can look at the `GenSec` help for the options description, but basically this call means:
+You can look at the `GenSec` help for the options description. After the command `. edksetup.sh` this utility would be in your path. But basically this call means:
 ```
-GenSec --sectiontype EFI_SECTION_RAW --outputfile <output_file.raw> <input_file> --verbose
+GenSec --sectiontype EFI_SECTION_RAW \
+       --outputfile <output_file.raw> \
+       <input_file> \
+       --verbose
 ```
 
 You can look at the output file content:
@@ -238,7 +260,7 @@ GenSec -s EFI_SECTION_RAW -o /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6e
 
 ## `GenFfs`
 
-After we have all of the 3 section we can generate a file. In the output this corresponds to this call:
+After we have all of the 3 sections we can generate a file. In the output this corresponds to this call:
 ```
 ['GenFfs', '-t', 'EFI_FV_FILETYPE_FREEFORM', '-g', 'f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23', '-o', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23.ffs', '-i', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.raw', '-i', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC2.raw', '-i', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC3.raw', '-v']
 ```
@@ -253,9 +275,9 @@ GenFfs --filetype EFI_FV_FILETYPE_FREEFORM \
        --sectionfile /<...>/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC3.raw \
        --verbose
 ```
-Here you can see how the `.ffs` file is constructed from the several sections that we've created earlier.
+Here you can see how the `.ffs` file is constructed from the several sections that were created earlier.
 
-You can look at the file and see how our sections are combined and prepended with a file header:
+You can look at the output file and see how our sections are combined and prepended with a file header:
 ```
 $ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f4
 35e23.ffs -C
@@ -266,13 +288,13 @@ $ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2
 0000003a
 ```
 
-Like with the sections right to the `<...>.ffs` file there would be `<...>.ffs.txt` file that would contain the string of the call to the `GenFfs` utility`
+Like with the sections, right to the `<...>.ffs` file there would be `<...>.ffs.txt` file that would contain the string of the call to the `GenFfs` utility
 
 ## `GenFv`
 
 Finally `GenFv` utility is called for the Firmware Volume (`FV`) generation:
 ```
-['GenFv', '-a', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/SIMPLEVOLUME.inf', '-o', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv', '-i', '/home/aladyshev/edk2_patches/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.inf', '-v']
+['GenFv', '-a', '/<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/SIMPLEVOLUME.inf', '-o', '/<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv', '-i', '/<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.inf', '-v']
 ```
 
 Here is it in a more pleasant display:
@@ -283,7 +305,7 @@ GenFv --addrfile /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/SIMPLEVOLUME.in
       --verbose
 ```
 
-If you look at the content of the inpur file created in the build `Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.inf`, you would see how it references the `*.ffs` file that we've created earlier:
+If you look at the content of the input file created in the build process `Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.inf`, you would see how it references the `*.ffs` file that was created earlier:
 ```
 [options]
 EFI_BASE_ADDRESS = 0x100
@@ -296,7 +318,7 @@ EFI_FVB2_ALIGNMENT_16 = TRUE
 EFI_FILE_NAME = /<...>/Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23.ffs
 ```
 
-The output file `SIMPLEVOLUME.Fv` is the one that we've usually investigated before:
+The output file `SIMPLEVOLUME.Fv` is the one that we usually investigate:
 ```
 $ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
@@ -313,7 +335,7 @@ $ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
 00000500
 ```
 
-Now you know how modular is flash image build. `build` tool that we use actually delegates many tasks to the simple utilities like `GenSec`/`GenFfs`/`GenFv` and many sintermediate files are created along the build process.
+Now you know how modular is flash image build. `build` tool that we use actually delegates many tasks to the simple utilities like `GenSec`/`GenFfs`/`GenFv` and many intermediate files are created along the build process.
 
 # `EFI_SECTION_USER_INTERFACE`
 
@@ -371,7 +393,12 @@ File Type:        0x02  EFI_FV_FILETYPE_FREEFORM
 There are a total of 1 files in this FV
 ```
 
-Just in case, I want to point out, that like the rest of section, this section has a slightly different format in case of a section size above 16MB. Here and after we would inspect only "small" sections. For the "large" section format consult PI specification.
+Intermidiate file for this section would have `*.ui` extension:
+```
+Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.ui -C
+00000000  0e 00 00 15 4d 00 79 00  55 00 49 00 00 00        |....M.y.U.I...|
+0000000e
+```
 
 # `EFI_SECTION_VERSION`
 
@@ -436,6 +463,15 @@ File Type:        0x02  EFI_FV_FILETYPE_FREEFORM
   Version String:  MyVersion
 There are a total of 1 files in this FV
 ```
+
+Intermidiate file for this section would have `*.ver` extension:
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.ver -C
+00000000  1a 00 00 14 2a 00 4d 00  79 00 56 00 65 00 72 00  |....*.M.y.V.e.r.|
+00000010  73 00 69 00 6f 00 6e 00  00 00                    |s.i.o.n...|
+0000001a
+```
+
 # `EFI_SECTION_FREEFORM_SUBTYPE_GUID`
 
 `EFI_SECTION_FREEFORM_SUBTYPE_GUID` section is very similar to raw, except that its header contains GUID value to describe the data inside the section.
@@ -473,7 +509,7 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
 }
 ```
 
-Here is how VolInfo output looks like in this case:
+Here is how `VolInfo` output looks like in this case:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -503,6 +539,14 @@ File Type:        0x02  EFI_FV_FILETYPE_FREEFORM
 There are a total of 1 files in this FV
 ```
 
+Intermidiate file for this section would have `*.guid` extension:
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.guid -C
+00000000  1b 00 00 18 30 ce 1f cf  81 b1 6a 4d b8 60 35 4c  |....0.....jM.`5L|
+00000010  92 2e 5c 3e 68 65 6c 6c  6f 21 0a                 |..\>hello!.|
+0000001b
+```
+
 # `EFI_SECTION_PE32`/`EFI_SECTION_PIC`/`EFI_SECTION_COMPATIBILITY16`/`EFI_SECTION_TE`
 
 Next there is a couple of sections for executable images. Most often you would use `EFI_SECTION_PE32` and include `.efi` code as your data. But nevertheless here is some info about all of the sections from the caption.
@@ -527,11 +571,18 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
   SECTION PE32 = $(WORKDIR)/hello.txt
 }
 ```
-VolInfo display for the section:
+`VolInfo` display for the section:
 ```
 ------------------------------------------------------------
   Type:  EFI_SECTION_PE32
   Size:  0x0000000B
+```
+
+The section file extension is "*.pe32":
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.pe32 -C
+00000000  0b 00 00 10 68 65 6c 6c  6f 21 0a                 |....hello!.|
+0000000b
 ```
 
 ## `EFI_SECTION_PIC`
@@ -552,11 +603,19 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
   SECTION PIC = $(WORKDIR)/hello.txt
 }
 ```
-VolInfo output for the section:
+
+`VolInfo` output for the section:
 ```
 ------------------------------------------------------------
   Type:  EFI_SECTION_PIC
   Size:  0x0000000B
+```
+
+The section file extension is "*.pic":
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.pic -C
+00000000  0b 00 00 11 68 65 6c 6c  6f 21 0a                 |....hello!.|
+0000000b
 ```
 
 ## `EFI_SECTION_COMPATIBILITY16`
@@ -581,11 +640,18 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
   SECTION COMPAT16 = $(WORKDIR)/hello.txt
 }
 ```
-VolInfo output for the section:
+`VolInfo` output for the section:
 ```
 ------------------------------------------------------------
   Type:  EFI_SECTION_COMPATIBILITY16
   Size:  0x0000000B
+```
+
+The section file extension is "*.com16":
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.com16 -C
+00000000  0b 00 00 16 68 65 6c 6c  6f 21 0a                 |....hello!.|
+0000000b
 ```
 
 ## `EFI_SECTION_TE`
@@ -613,7 +679,9 @@ You would find that in this case build actually checks the file content. Build f
 ```
 DOS header signature was not found in /<...>/hello.txt image.
 ```
-But if you would use correct file, the VolInfo would show you `EFI_SECTION_TE` section.
+But if you would use correct file, the `VolInfo` would show you `EFI_SECTION_TE` section.
+
+The section file extension is "*.te":
 
 # `EFI_SECTION_COMPRESSION`
 
@@ -651,7 +719,7 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
 }
 ```
 
-VolInfo would parse it like this:
+`VolInfo` would parse it like this:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -718,39 +786,25 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
 
 In this case section would just work as a section aggregator.
 
-For the proof compare the hexdump output from the compression section with `PI_STD` argument (or without any arguments):
+For the proof compare the `hexdump` output from the compression section with `PI_STD` argument (or without any arguments):
 ```
-$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
-00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-00000010  78 e5 8c 8c 3d 8a 1c 4f  99 35 89 61 85 c3 2d d3  |x...=..O.5.a..-.|
-00000020  00 05 00 00 00 00 00 00  5f 46 56 48 00 08 04 00  |........_FVH....|
-00000030  48 00 cd e3 00 00 00 02  00 05 00 00 01 00 00 00  |H...............|
-00000040  00 00 00 00 00 00 00 00  f0 9c ed f6 c1 cd a1 40  |...............@|
-00000050  99 09 ac 6a 2f 43 5e 23  33 aa 02 00 42 00 00 f8  |...j/C^#3...B...|
-00000060  2a 00 00 01 23 00 00 00  01 19 00 00 00 23 00 00  |*...#........#..|
-00000070  00 00 0d 3a 51 8d 45 7d  6a 6a 52 e1 7e 0c 86 0b  |...:Q.E}jjR.~...|
-00000080  92 10 25 86 35 27 6d 1e  c0 00 ff ff ff ff ff ff  |..%.5'm.........|
-00000090  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-00000500
+$ hexdump -C Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.com
+00000000  2a 00 00 01 23 00 00 00  01 19 00 00 00 23 00 00  |*...#........#..|
+00000010  00 00 0d 3a 51 8d 45 7d  6a 6a 52 e1 7e 0c 86 0b  |...:Q.E}jjR.~...|
+00000020  92 10 25 86 35 27 6d 1e  c0 00                    |..%.5'm...|
+0000002a
 ```
 And with the `PI_NONE` argument:
 ```
-$ hexdump /<...>/edk2/Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv -C
-00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
-00000010  78 e5 8c 8c 3d 8a 1c 4f  99 35 89 61 85 c3 2d d3  |x...=..O.5.a..-.|
-00000020  00 05 00 00 00 00 00 00  5f 46 56 48 00 08 04 00  |........_FVH....|
-00000030  48 00 cd e3 00 00 00 02  00 05 00 00 01 00 00 00  |H...............|
-00000040  00 00 00 00 00 00 00 00  f0 9c ed f6 c1 cd a1 40  |...............@|
-00000050  99 09 ac 6a 2f 43 5e 23  31 aa 02 00 44 00 00 f8  |...j/C^#1...D...|
-00000060  2c 00 00 01 23 00 00 00  00 0b 00 00 19 68 65 6c  |,...#........hel|
-00000070  6c 6f 21 0a 00 0b 00 00  19 68 65 6c 6c 6f 21 0a  |lo!......hello!.|
-00000080  00 0b 00 00 19 68 65 6c  6c 6f 21 0a ff ff ff ff  |.....hello!.....|
-00000090  ff ff ff ff ff ff ff ff  ff ff ff ff ff ff ff ff  |................|
-*
-00000500
+$ hexdump -C Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.com
+00000000  2c 00 00 01 23 00 00 00  00 0b 00 00 19 68 65 6c  |,...#........hel|
+00000010  6c 6f 21 0a 00 0b 00 00  19 68 65 6c 6c 6f 21 0a  |lo!......hello!.|
+00000020  00 0b 00 00 19 68 65 6c  6c 6f 21 0a              |.....hello!.|
+0000002c
 ```
-In the second case you can clearly see the `hello!` strings from out `hello.txt` file.
+In the second case you can clearly see the `hello!` strings from our `hello.txt` file.
+
+As you might have guessed already the extenstion of a file for this section is "*.com".
 
 # `EFI_SECTION_GUID_DEFINED`
 
@@ -841,7 +895,18 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
   }
 }
 ```
-The VolInfo output would look like this:
+
+The `hexdump` of this section would look like this:
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.guided -C
+00000000  39 00 00 02 ad 80 12 a3  1e 48 b6 41 95 e8 12 7f  |9........H.A....|
+00000010  4c 98 47 79 18 00 01 00  19 00 00 00 23 00 00 00  |L.Gy........#...|
+00000020  00 0d 3a 51 8d 45 7d 6a  6a 52 e1 7e 0c 86 0b 92  |..:Q.E}jjR.~....|
+00000030  10 09 61 8d 49 db 47 b0  00                       |..a.I.G..|
+00000039
+```
+
+And the `VolInfo` output for the FV would look like this:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -894,7 +959,17 @@ FILE FREEFORM = f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23 {
   }
 }
 ```
-The section would be processed by the `fc1bcdb0-7d31-49aa-936a-a4600d9dd083` tool, which correspond to the `GenCrc32` tool. For the proof look at the VolInfo output:
+The section would be processed by the `fc1bcdb0-7d31-49aa-936a-a4600d9dd083` tool, which correspond to the `GenCrc32` tool. For the proof look at hexdump:
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1.guided -C
+00000000  3f 00 00 02 b0 cd 1b fc  31 7d aa 49 93 6a a4 60  |?.......1}.I.j.`|
+00000010  0d 9d d0 83 1c 00 02 00  84 3e 2b 76 0b 00 00 19  |.........>+v....|
+00000020  68 65 6c 6c 6f 21 0a 00  0b 00 00 19 68 65 6c 6c  |hello!......hell|
+00000030  6f 21 0a 00 0b 00 00 19  68 65 6c 6c 6f 21 0a     |o!......hello!.|
+0000003f
+```
+
+Or `VolInfo` output:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -974,6 +1049,8 @@ This doesn't change `DataOffset`, but changes `Attributes`. If you wull look to 
 Attributes:             0x0002
 ```
 
+As you might have guessed already the extenstion of a file for this section is "*.guided".
+
 # `EFI_SECTION_FIRMWARE_VOLUME_IMAGE`
 
 With the help of `EFI_SECTION_FIRMWARE_VOLUME_IMAGE` section we can include full Firmware Volumes (FV's) into the sections:
@@ -1022,7 +1099,7 @@ FILE FREEFORM = dc070116-d211-4ab1-a657-e0b6c64b2643 {
 }
 ```
 
-Here is VolInfo output for this case:
+Here is `VolInfo` output for this case:
 ```
 $ VolInfo Build/UefiLessonsPkg/RELEASE_GCC5/FV/SIMPLEVOLUME.Fv
 VolInfo Version 1.0 Build Developer Build based on Revision: Unknown
@@ -1065,6 +1142,20 @@ File Type:        0x02  EFI_FV_FILETYPE_FREEFORM
 There are a total of 1 files in the child FV
 \------------ Firmware Volume section end -----------------/
 There are a total of 1 files in this FV
+```
+
+The section file extension is "*fv.sec":
+```
+$ hexdump Build/UefiLessonsPkg/RELEASE_GCC5/FV/Ffs/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SIMPLEVOLUME/f6ed9cf0-cdc1-40a1-9909-ac6a2f435e23SEC1fv.sec -C
+00000000  74 00 00 17 00 00 00 00  00 00 00 00 00 00 00 00  |t...............|
+00000010  00 00 00 00 78 e5 8c 8c  3d 8a 1c 4f 99 35 89 61  |....x...=..O.5.a|
+00000020  85 c3 2d d3 70 00 00 00  00 00 00 00 5f 46 56 48  |..-.p......._FVH|
+00000030  00 08 04 00 48 00 ed ec  00 00 00 02 70 00 00 00  |....H.......p...|
+00000040  01 00 00 00 00 00 00 00  00 00 00 00 16 01 07 dc  |................|
+00000050  11 d2 b1 4a a6 57 e0 b6  c6 4b 26 43 f6 aa 02 00  |...J.W...K&C....|
+00000060  23 00 00 f8 0b 00 00 19  68 65 6c 6c 6f 21 0a ff  |#.......hello!..|
+00000070  ff ff ff ff                                       |....|
+00000074
 ```
 
 # `EFI_SECTION_DISPOSABLE`
@@ -1112,4 +1203,6 @@ typedef EFI_COMMON_SECTION_HEADER EFI_DXE_DEPEX_SECTION;
 Description
 The DXE dependency expression section is a leaf section that contains a dependency expression that is used to determine the dispatch order for a DXE driver. See the Platform Initialization Driver Execution Environment Core Interface Specification for details regarding the format of the dependency expression.
 ```
+
+The section file extension for these sections is "*.dpx"
 
