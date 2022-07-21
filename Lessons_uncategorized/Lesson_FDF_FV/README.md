@@ -122,46 +122,6 @@ The data inside the file is formatted with respect to the `EFI_FFS_FILE_HEADER.T
 | EFI_FV_FILETYPE_FFS_PAD | 0xF0 | Pad File For FFS |
 
 
-Almost each type of file consists of sections, with each section prepended with a header `EFI_COMMON_SECTION_HEADER` ([https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Pi/PiFirmwareFile.h)):
-```
-EFI_COMMON_SECTION_HEADER
-
-Summary:
-Defines the common header for all the section types
-
-Prototype:
-typedef struct {
- UINT8 Size[3];
- EFI_SECTION_TYPE Type;
-} EFI_COMMON_SECTION_HEADER;
-
-Parameters:
-Size	A 24-bit unsigned integer that contains the total size of the section in bytes, including the EFI_COMMON_SECTION_HEADER
-Type	Declares the section type
-
-Description:
-The type EFI_COMMON_SECTION_HEADER defines the common header for all the section types
-```
-
-Specification defines following sections:
-| Name | Value | Description |
-| ---- | ----- | ----------- |
-| EFI_SECTION_COMPRESSION | 0x01 | Encapsulation section where other sections are compressed |
-| EFI_SECTION_GUID_DEFINED | 0x02 | Encapsulation section where other sections have format defined by a GUID |
-| EFI_SECTION_DISPOSABLE | 0x03 | Encapsulation section used during the build process but not required for execution |
-| EFI_SECTION_PE32 | 0x10 | PE32+ Executable image |
-| EFI_SECTION_PIC | 0x11 | Position-Independent Code |
-| EFI_SECTION_TE | 0x12 | Terse Executable image |
-| EFI_SECTION_DXE_DEPEX | 0x13 | DXE Dependency Expression |
-| EFI_SECTION_VERSION | 0x14 | Version, Text and Numeric |
-| EFI_SECTION_USER_INTERFACE | 0x15 | User-Friendly name of the driver |
-| EFI_SECTION_COMPATIBILITY16 | 0x16 | DOS-style 16-bit EXE |
-| EFI_SECTION_FIRMWARE_VOLUME_IMAGE | 0x17 | PI Firmware Volume image |
-| EFI_SECTION_FREEFORM_SUBTYPE_GUID | 0x18 | Raw data with GUID in header to define format |
-| EFI_SECTION_RAW | 0x19 | Raw data |
-| EFI_SECTION_PEI_DEPEX | 0x1b | PEI Dependency Expression |
-| EFI_SECTION_MM_DEPEX | 0x1c | Leaf section type for determining the dispatch order for an MM Traditional driver in MM Traditional Mode or MM Standaline driver in MM Standalone Mode |
-
 # Create simple Firmware Volume
 
 Now let's try to create the most simple firmware volume which would contain one binary file. Here is code for this structure (`UefiLessonsPkg/UefiLessonsPkg.fdf`):
