@@ -386,7 +386,7 @@ FvNameGuid           = <GUID>
 # Example:
 # FvNameGuid         = 763BED0D-DE9F-48F5-81F1-3E90E1B1A015
 ```
-This attribute would lead to the creation of a file of type `EFI_FV_FILETYPE_FFS_PAD` (padding file) with a GUID value in its data. This file would be placed first in the FV.
+This attribute would lead to the creation of a file of type `EFI_FV_FILETYPE_FFS_PAD` (padding file) with a GUID value in its data. This file would be placed first in the FV. We would investigate this file when we would talk about different file types.
 
 # Links
 
