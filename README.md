@@ -81,6 +81,10 @@ _____
 
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF): Intro to FDF file format. Flash Device Image `[FD]` sections: flash chip defines and regions definition. OVMF image FDF file analysis.
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV/README.md): Firmware Volume (`FV`), FFS, files. Create simple FV with `RAW` files
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_2/README.md): File sections - Part 1: `FREEFORM` file and `RAW` section type. FV build process (`GenSec`/`GenFfs`/`GenFv` tools)
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_3/README.md): File sections - Part 2: Other leaf sections: `USER_INTERFACE`/`VERSION`/`FREEFORM_SUBTYPE_GUID`/`PE32`/`PIC`/`COMPATIBILITY16`/`TE`/`DISPOSABLE`/`PEI_DEPEX`/`DXE_DEPEX`
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_4/README.md): File sections - Part 3: Encapsulation sections: `COMPRESSION`/`GUID_DEFINED`/`FIRMWARE_VOLUME_IMAGE`
 _____
 
 # Learning links
