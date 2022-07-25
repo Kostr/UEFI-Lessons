@@ -86,6 +86,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_3/README.md): File sections - Part 2: Other leaf sections: `USER_INTERFACE`/`VERSION`/`FREEFORM_SUBTYPE_GUID`/`PE32`/`PIC`/`COMPATIBILITY16`/`TE`/`DISPOSABLE`/`PEI_DEPEX`/`DXE_DEPEX`
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_4/README.md): File sections - Part 3: Encapsulation sections: `COMPRESSION`/`GUID_DEFINED`/`FIRMWARE_VOLUME_IMAGE`
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_5/README.md): File types
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_6/README.md): `A priori` files. `APRIORI PEI`/`APRIORI DXE` syntax
 _____
 
 # Learning links
