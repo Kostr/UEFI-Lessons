@@ -430,3 +430,22 @@ File Type:        0x01  EFI_FV_FILETYPE_RAW
 There are a total of 1 files in this FV
 ```
 
+# Override for binary modules
+
+In case you use override for a binary module:
+```
+INF RuleOverride=MyOverride UefiLessonsPkg/BinaryModule/BinaryModule.inf
+```
+You only need to provide one rule that matches override name, without the `BINARY` clause:
+```
+[Rule.Common.USER_APPLICATION.MyOverride]
+```
+
+# `USER_DEFINED` module type
+
+In the example above we've used `MODULE_TYPE = UEFI_APPLICATION` in our module. Often modules that should produce non-standard files in FFS use `MODULE_TYPE = USER_DEFINED` type.
+
+# Links
+
+- [https://edk2-docs.gitbook.io/edk-ii-inf-specification/3_edk_ii_inf_file_format/315_-binaries-_section](https://edk2-docs.gitbook.io/edk-ii-inf-specification/3_edk_ii_inf_file_format/315_-binaries-_section)
+
