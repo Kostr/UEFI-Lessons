@@ -88,6 +88,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_5/README.md): File types
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_6/README.md): `A priori` files. `APRIORI PEI`/`APRIORI DXE` syntax
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_7/README.md): Include modules to FDF via INF files. `Rule` sections
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_8/README.md): Binary modules. `[Binaries]` section and `[Rule.<...>.BINARY]` rules
 _____
 
 # Learning links
