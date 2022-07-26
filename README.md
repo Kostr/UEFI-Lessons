@@ -87,6 +87,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_4/README.md): File sections - Part 3: Encapsulation sections: `COMPRESSION`/`GUID_DEFINED`/`FIRMWARE_VOLUME_IMAGE`
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_5/README.md): File types
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_6/README.md): `A priori` files. `APRIORI PEI`/`APRIORI DXE` syntax
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_7/README.md): Include modules to FDF via INF files. `Rule` sections
 _____
 
 # Learning links
