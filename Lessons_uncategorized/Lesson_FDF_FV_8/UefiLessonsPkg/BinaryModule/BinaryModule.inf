@@ -1,0 +1,12 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = BinaryModule
+  FILE_GUID                      = a580fb82-9d1f-480b-ba42-17273d861c95
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+[Binaries]
+  PE32|Shell.efi
+  RAW|hello.txt
+  RAW|world.txt
+
