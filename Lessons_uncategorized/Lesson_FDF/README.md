@@ -350,7 +350,8 @@ For example:
 0x500|0x600
 gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress | gEfiMyTokenSpaceGuid.PcdFlashRegionSize
 ```
-This way the build system will automatically override the PCDs with the provided values. Off course these PCDs `gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress` and `gEfiMyTokenSpaceGuid.PcdFlashRegionSize` must be defined in the DEC file.
+This way the build system will automatically override the respective PCDs. Off course these PCDs `gEfiMyTokenSpaceGuid.PcdFlashRegionBaseAddress` and `gEfiMyTokenSpaceGuid.PcdFlashRegionSize` must be defined in the DEC file. The first `<Offset>` PCD would be overriden with a respect to `FD.<...>].BaseAddress` value, i.e. it would be assigned to the `([FD.<...>].BaseAddress + <Offset>)` value.
+
 They can be of types `PcdsFixedAtBuild` or `PcdsPatchableInModule`, but not dynamic!
 
 Another thing that we would want to add to our region definition is a region type:
