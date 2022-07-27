@@ -89,6 +89,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_6/README.md): `A priori` files. `APRIORI PEI`/`APRIORI DXE` syntax
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_7/README.md): Include modules to FDF via INF files. `Rule` sections
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_8/README.md): Binary modules. `[Binaries]` section and `[Rule.<...>.BINARY]` rules
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_9/README.md): `OVMF` flash image structure. Working with FD image regions via memory-mapped flash
 _____
 
 # Learning links
