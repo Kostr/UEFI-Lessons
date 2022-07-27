@@ -25,7 +25,6 @@ Let's start with the second task. Create `DisplayHIIByGuid` UEFI Shell applicati
   MdePkg/MdePkg.dec
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
   UefiLib
   ShellCEntryLib
 ```

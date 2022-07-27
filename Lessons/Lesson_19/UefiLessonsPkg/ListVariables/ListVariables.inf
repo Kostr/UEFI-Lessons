@@ -19,7 +19,6 @@
   MdePkg/MdePkg.dec
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
   UefiLib
   ShellCEntryLib
 

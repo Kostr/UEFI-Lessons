@@ -32,13 +32,12 @@ With the necessary modifications the INF file would look like this:
   MdePkg/MdePkg.dec
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
   UefiLib
   ShellCEntryLib
 ```
 Main changes:
 - `ENTRY_POINT = ShellCEntryLib` is added to the `[Defines]` section
-- `ShellCEntryLib` is added to the `[LibraryClasses]` section
+- `ShellCEntryLib` is added to the `[LibraryClasses]` section instead of `UefiApplicationEntryPoint`
 
 In the end it works this way. Shell C library is the main UEFI app with the standard entry point:
 ```

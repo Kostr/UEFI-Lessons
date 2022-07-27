@@ -132,7 +132,6 @@ Once again as we would parse command shell arguments it is better to create a sh
   ShellPkg/ShellPkg.dec
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
   UefiLib
   ShellCEntryLib
   ShellLib

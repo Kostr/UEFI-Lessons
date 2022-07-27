@@ -172,7 +172,6 @@ INTN EFIAPI ShellAppMain(IN UINTN Argc, IN CHAR16 **Argv)
   MdePkg/MdePkg.dec
 
 [LibraryClasses]
-  UefiApplicationEntryPoint
   UefiLib
   ShellCEntryLib
 ```
