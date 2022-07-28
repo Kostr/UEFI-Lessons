@@ -4,6 +4,8 @@
 
 [createNewApp.sh](createNewApp.sh) - create new UEFI_APPLICATION by name
 
+[createNewShellApp.sh](createNewShellApp.sh) - create new UEFI_APPLICATION with shell entry point by name
+
 [createNewDriver.sh](createNewDriver.sh) - create new UEFI_DRIVER by name
 
 - Replace GUIDs in log file:
