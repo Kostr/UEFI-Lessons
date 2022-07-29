@@ -82,6 +82,7 @@
   UefiLessonsPkg/HIIFormCheckbox/HIIFormCheckbox.inf
   UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
   UefiLessonsPkg/HIIFormLabel/HIIFormLabel.inf
+  UefiLessonsPkg/FfsFile/FfsFile.inf
 
 [PcdsFixedAtBuild]
   gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44

@@ -1,0 +1,21 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = FfsFile
+  FILE_GUID                      = a60ea21e-f679-4896-b4b0-85f77e150b83
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  FfsFile.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  ShellCEntryLib
+  UefiLib
+
+[Protocols]
+  gEfiFirmwareVolume2ProtocolGuid
+
