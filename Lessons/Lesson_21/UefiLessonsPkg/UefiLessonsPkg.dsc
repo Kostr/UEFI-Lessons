@@ -43,5 +43,5 @@
   UefiLessonsPkg/PCDLesson/PCDLesson.inf
 
 [PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32Override|44
 
