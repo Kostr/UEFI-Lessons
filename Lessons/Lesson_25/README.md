@@ -302,6 +302,153 @@ PcdDynamicExInt32=77777777
 ```
 And QEMU re-launch takes things to the start.
 
+# `DumpDynPcd`
+
+The `MdeModulePkg` contains an application to dump Dynamic PCD information at runtime - [https://github.com/tianocore/edk2/tree/master/MdeModulePkg/Application/DumpDynPcd](https://github.com/tianocore/edk2/tree/master/MdeModulePkg/Application/DumpDynPcd).
+
+To build it use this command:
+```
+$ build --platform=MdeModulePkg/MdeModulePkg.dsc --module=MdeModulePkg/Application/DumpDynPcd/DumpDynPcd.inf --arch=X64 --buildtarget=RELEASE --tagname=GCC5
+```
+
+Copy result to the shared disk:
+```
+$ cp Build/MdeModule/RELEASE_GCC5/X64/DumpDynPcd.efi ~/UEFI_disk/
+```
+
+If you'll execute this program under UEFI shell, you'll get the output similar to the one that we get from the `parse_pcd_db` program:
+```
+FS0:\> DumpDynPcd.efi
+Current system SKU ID: 0x0
+
+Default Token Space
+  Token = 0x00000001 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+Default Token Space
+  Token = 0x00000002 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7EF4000
+
+Default Token Space
+  Token = 0x00000003 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000004 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000005 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000006 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+Default Token Space
+  Token = 0x00000007 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000008 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000009 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x1
+
+Default Token Space
+  Token = 0x0000000A - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+Default Token Space
+  Token = 0x0000000B - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x1237
+
+Default Token Space
+  Token = 0x0000000C - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0xC000
+
+Default Token Space
+  Token = 0x0000000D - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x4000
+
+Default Token Space
+  Token = 0x0000000E - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x80000000
+
+Default Token Space
+  Token = 0x0000000F - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7C000000
+
+Default Token Space
+  Token = 0x00000010 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x800000000
+
+Default Token Space
+  Token = 0x00000011 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x800000000
+
+Default Token Space
+  Token = 0x00000012 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+Default Token Space
+  Token = 0x00000013 - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x8
+
+Default Token Space
+  Token = 0x00000017 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xFFC42000
+
+Default Token Space
+  Token = 0x00000018 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xFFC41000
+
+Default Token Space
+  Token = 0x00000019 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0xFFC00000
+
+Default Token Space
+  Token = 0x0000001A - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7B6E000
+
+Default Token Space
+  Token = 0x0000001B - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+Default Token Space
+  Token = 0x0000001C - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x280
+
+Default Token Space
+  Token = 0x0000001D - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x1E0
+
+Default Token Space
+  Token = 0x0000001E - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x0
+
+Default Token Space
+  Token = 0x0000001F - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x208
+
+Default Token Space
+  Token = 0x00000020 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+Default Token Space
+  Token = 0x00000021 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x320
+
+Default Token Space
+  Token = 0x00000022 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x258
+
+Default Token Space
+  Token = 0x00000023 - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000024 - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x1
+
+Default Token Space
+  Token = 0x00000025 - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x1
+
+Default Token Space
+  Token = 0x00000026 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xCAFECAFE
+
+Default Token Space
+  Token = 0x00000027 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+Default Token Space
+  Token = 0x00000028 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+Default Token Space
+  Token = 0x00000029 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+A1AFF049-FDEB-442A-B320-13AB4CB72BBC
+  Token = 0x00030005 - Type = POINTER:DYNAMICEX - Size = 0x1
+  00000000: 00                                               *.*
+
+A1AFF049-FDEB-442A-B320-13AB4CB72BBC
+  Token = 0x00030004 - Type = UINT16:DYNAMICEX  - Size = 0x2 - Value = 0x0
+
+A1AFF049-FDEB-442A-B320-13AB4CB72BBC
+  Token = 0x00030006 - Type = UINT64:DYNAMICEX  - Size = 0x8 - Value = 0x0
+
+150CAB53-AD47-4385-B5DD-BCFC76BACAF0
+  Token = 0xAF35F3B2 - Type = UINT32:DYNAMICEX  - Size = 0x4 - Value = 0xBABEBABE
+```
+
 # Summary
 
 Here are all the PCD functions. You can find their definition in the [https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Library/PcdLib.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Library/PcdLib.h):
