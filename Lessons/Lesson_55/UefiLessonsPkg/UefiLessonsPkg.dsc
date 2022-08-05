@@ -73,6 +73,3 @@
   UefiLessonsPkg/HIIAddLocalization/HIIAddLocalization.inf
   UefiLessonsPkg/AddNewLanguage/AddNewLanguage.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

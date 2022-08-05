@@ -1,0 +1,71 @@
+##
+# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = PCDLesson
+  FILE_GUID                      = 8c1a6b71-0c4b-4497-aaad-07404edf142c
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = UefiMain
+
+[Sources]
+  PCDLesson.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
+[LibraryClasses]
+  UefiApplicationEntryPoint
+  UefiLib
+
+[FixedPcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt8
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt16
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt64
+  gUefiLessonsPkgTokenSpaceGuid.PcdBool
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_2
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_3
+  gUefiLessonsPkgTokenSpaceGuid.PcdAsciiStr
+  gUefiLessonsPkgTokenSpaceGuid.PcdUCS2Str
+  gUefiLessonsPkgTokenSpaceGuid.PcdArray
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidInBytes
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuid
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidByPCD
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidByEfiGuid
+  gUefiLessonsPkgTokenSpaceGuid.PcdDevicePath
+  gUefiLessonsPkgTokenSpaceGuid.PcdIntCasts
+  gUefiLessonsPkgTokenSpaceGuid.PcdWithLabels
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayExt
+  gUefiLessonsPkgTokenSpaceGuid.PcdCustomStruct
+  gUefiLessonsPkgTokenSpaceGuid.PcdCustomStruct_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_2
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_3
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_4
+
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32Override|43
+
+  gUefiLessonsPkgTokenSpaceGuid.Region1Offset
+  gUefiLessonsPkgTokenSpaceGuid.Region1Size
+
+[FeaturePcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdFeatureFlag
+
+[PatchPcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdPatchableInt32
+
+[Pcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdDynamicInt32
+
+[PcdEx]
+  gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32
+

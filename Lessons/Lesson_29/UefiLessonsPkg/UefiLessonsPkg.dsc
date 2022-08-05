@@ -51,6 +51,3 @@
   UefiLessonsPkg/AcpiInfo/AcpiInfo.inf
   UefiLessonsPkg/SaveBGRT/SaveBGRT.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

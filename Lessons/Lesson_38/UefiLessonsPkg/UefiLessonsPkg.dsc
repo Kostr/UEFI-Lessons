@@ -68,6 +68,3 @@
   UefiLessonsPkg/SimpleClassProtocol/SimpleClassProtocol.inf
   UefiLessonsPkg/SimpleClassUser/SimpleClassUser.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

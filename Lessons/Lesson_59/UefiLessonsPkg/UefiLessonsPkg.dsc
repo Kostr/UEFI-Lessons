@@ -77,6 +77,3 @@
   UefiLessonsPkg/HIIStaticFormDriver/HIIStaticFormDriver.inf
   UefiLessonsPkg/DisplayHIIByGuid/DisplayHIIByGuid.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

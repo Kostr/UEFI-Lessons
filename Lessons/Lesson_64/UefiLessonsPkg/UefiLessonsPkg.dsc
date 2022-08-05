@@ -81,6 +81,3 @@
   UefiLessonsPkg/DevicePath/DevicePath.inf
   UefiLessonsPkg/HIIFormCheckbox/HIIFormCheckbox.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

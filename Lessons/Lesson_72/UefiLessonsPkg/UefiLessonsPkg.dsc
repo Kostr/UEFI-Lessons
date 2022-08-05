@@ -83,6 +83,3 @@
   UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
   UefiLessonsPkg/HIIFormLabel/HIIFormLabel.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

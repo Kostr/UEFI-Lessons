@@ -631,6 +631,12 @@ typedef struct {
 #endif
 ```
 
+Add the `Include` folder to the DEC file:
+```
+[Includes]
+  Include
+```
+
 You can use the created `CustomStruct` structure type and initialize its values via this sytnax:
 ```
 gUefiLessonsPkgTokenSpaceGuid.PcdCustomStruct|{0}|CustomStruct|0x535D4CB5 {

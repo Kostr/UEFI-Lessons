@@ -60,6 +60,3 @@
   UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
   UefiLessonsPkg/SimpleLibraryUser/SimpleLibraryUser.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

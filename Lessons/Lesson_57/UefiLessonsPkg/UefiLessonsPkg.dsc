@@ -74,6 +74,3 @@
   UefiLessonsPkg/AddNewLanguage/AddNewLanguage.inf
   UefiLessonsPkg/HIISimpleForm/HIISimpleForm.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

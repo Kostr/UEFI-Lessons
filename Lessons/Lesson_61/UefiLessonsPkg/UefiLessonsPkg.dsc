@@ -79,6 +79,3 @@
   UefiLessonsPkg/SetVariableExample/SetVariableExample.inf
   UefiLessonsPkg/UpdateDmpstoreDump/UpdateDmpstoreDump.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

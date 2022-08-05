@@ -68,6 +68,3 @@
   UefiLessonsPkg/HIIStringsC/HIIStringsC.inf
   UefiLessonsPkg/HIIStringsUNI/HIIStringsUNI.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

@@ -11,10 +11,13 @@
   PLATFORM_NAME                  = UefiLessonsPkg
   SKUID_IDENTIFIER               = DEFAULT
   SUPPORTED_ARCHITECTURES        = X64
-  BUILD_TARGETS                  = RELEASE
+  BUILD_TARGETS                  = DEBUG|RELEASE
+  FLASH_DEFINITION               = UefiLessonsPkg/UefiLessonsPkg.fdf
 
 
 [LibraryClasses]
+  #HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
+  #DxeServicesLib|MdePkg/Library/DxeServicesLib/DxeServicesLib.inf
   UefiApplicationEntryPoint|MdePkg/Library/UefiApplicationEntryPoint/UefiApplicationEntryPoint.inf
   UefiBootServicesTableLib|MdePkg/Library/UefiBootServicesTableLib/UefiBootServicesTableLib.inf
   DebugLib|MdePkg/Library/UefiDebugLibConOut/UefiDebugLibConOut.inf
@@ -31,7 +34,7 @@
   UefiRuntimeServicesTableLib|MdePkg/Library/UefiRuntimeServicesTableLib/UefiRuntimeServicesTableLib.inf
   ShellCEntryLib|ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.inf
   ShellLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
-  FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf  
+  FileHandleLib|MdePkg/Library/UefiFileHandleLib/UefiFileHandleLib.inf
   HiiLib|MdeModulePkg/Library/UefiHiiLib/UefiHiiLib.inf
   SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
   UefiHiiServicesLib|MdeModulePkg/Library/UefiHiiServicesLib/UefiHiiServicesLib.inf
@@ -39,8 +42,10 @@
   #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibrary/SimpleLibrary.inf
   #SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructor/SimpleLibraryWithConstructor.inf
   SimpleLibrary|UefiLessonsPkg/Library/SimpleLibraryWithConstructorAndDestructor/SimpleLibraryWithConstructorAndDestructor.inf
+  #PeimEntryPoint|MdePkg/Library/PeimEntryPoint/PeimEntryPoint.inf
 
 [Components]
+  #MdeModulePkg/Universal/PCD/Dxe/Pcd.inf
   UefiLessonsPkg/SimplestApp/SimplestApp.inf
   UefiLessonsPkg/HelloWorld/HelloWorld.inf
   UefiLessonsPkg/ImageHandle/ImageHandle.inf
@@ -71,4 +76,23 @@
   UefiLessonsPkg/HIIStringsMan/HIIStringsMan.inf
   UefiLessonsPkg/HIIAddRussianFont/HIIAddRussianFont.inf
   UefiLessonsPkg/HIIAddLocalization/HIIAddLocalization.inf
+  UefiLessonsPkg/AddNewLanguage/AddNewLanguage.inf
+  UefiLessonsPkg/HIISimpleForm/HIISimpleForm.inf
+  #UefiLessonsPkg/HIIStaticForm/HIIStaticForm.inf
+  UefiLessonsPkg/HIIStaticFormDriver/HIIStaticFormDriver.inf
+  UefiLessonsPkg/DisplayHIIByGuid/DisplayHIIByGuid.inf
+  UefiLessonsPkg/SetVariableExample/SetVariableExample.inf
+  UefiLessonsPkg/UpdateDmpstoreDump/UpdateDmpstoreDump.inf
+  UefiLessonsPkg/HIIFormCheckbox/HIIFormCheckbox.inf
+  UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
+  UefiLessonsPkg/HIIFormVarstore/HIIFormVarstore.inf
+  UefiLessonsPkg/HIIFormLabel/HIIFormLabel.inf
+  #UefiLessonsPkg/SimplePeiModule/SimplePeiModule.inf
+  UefiLessonsPkg/SimpleDxeDriver/SimpleDxeDriver.inf
+  #UefiLessonsPkg/BinaryModule/BinaryModule.inf
+  #UefiLessonsPkg/FlashAccessRaw/FlashAccessRaw.inf
+  UefiLessonsPkg/FfsFile/FfsFile.inf
+
+[PcdsFixedAtBuild]
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32Override|44
 

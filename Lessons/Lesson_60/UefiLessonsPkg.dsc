@@ -78,6 +78,3 @@
   UefiLessonsPkg/DisplayHIIByGuid/DisplayHIIByGuid.inf
   UefiLessonsPkg/SetVariableExample/SetVariableExample.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

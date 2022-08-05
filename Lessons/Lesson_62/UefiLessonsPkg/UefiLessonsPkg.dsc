@@ -80,6 +80,3 @@
   UefiLessonsPkg/UpdateDmpstoreDump/UpdateDmpstoreDump.inf
   UefiLessonsPkg/DevicePath/DevicePath.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

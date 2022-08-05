@@ -75,6 +75,3 @@
   UefiLessonsPkg/HIISimpleForm/HIISimpleForm.inf
   UefiLessonsPkg/HIIStaticForm/HIIStaticForm.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

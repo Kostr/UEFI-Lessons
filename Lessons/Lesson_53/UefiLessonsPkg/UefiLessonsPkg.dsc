@@ -71,6 +71,3 @@
   UefiLessonsPkg/HIIStringsMan/HIIStringsMan.inf
   UefiLessonsPkg/HIIAddRussianFont/HIIAddRussianFont.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-

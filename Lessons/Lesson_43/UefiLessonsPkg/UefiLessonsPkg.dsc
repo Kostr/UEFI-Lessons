@@ -66,6 +66,3 @@
   UefiLessonsPkg/HotKeyDriver/HotKeyDriver.inf
   UefiLessonsPkg/ShowHII/ShowHII.inf
 
-[PcdsFixedAtBuild]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|44
-
