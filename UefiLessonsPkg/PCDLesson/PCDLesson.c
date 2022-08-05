@@ -7,6 +7,7 @@
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 
+#include <Library/DevicePathLib.h>
 #include <Library/PcdLib.h>
 
 EFI_STATUS
@@ -16,34 +17,52 @@ UefiMain (
   IN EFI_SYSTEM_TABLE  *SystemTable
   )
 {
-  Print(L"PcdMyVar32=%d\n", FixedPcdGet32(PcdMyVar32));
-  Print(L"PcdMyVar32_1=%d\n", FixedPcdGet32(PcdMyVar32_1));
-  Print(L"PcdMyVar32_2=%d\n", FixedPcdGet32(PcdMyVar32_2));
+  Print(L"PcdInt8=0x%x\n", FixedPcdGet8(PcdInt8));
+  Print(L"PcdInt16=0x%x\n", FixedPcdGet16(PcdInt16));
+  Print(L"PcdInt32=0x%x\n", FixedPcdGet32(PcdInt32));
+  Print(L"PcdInt64=0x%x\n", FixedPcdGet64(PcdInt64));
+  Print(L"PcdBool=0x%x\n", FixedPcdGetBool(PcdBool));
+  Print(L"PcdInt8=0x%x\n", PcdGet8(PcdInt8));
+  Print(L"PcdInt16=0x%x\n", PcdGet16(PcdInt16));
+  Print(L"PcdInt32=0x%x\n", PcdGet32(PcdInt32));
+  Print(L"PcdInt64=0x%x\n", PcdGet64(PcdInt64));
+  Print(L"PcdIntBool=0x%x\n", PcdGetBool(PcdBool));
 
-  Print(L"PcdMyVar32=%d\n", PcdGet32(PcdMyVar32));
+  Print(L"PcdAsciiStr=%a\n", FixedPcdGetPtr(PcdAsciiStr));
+  Print(L"PcdAsciiStrSize=%d\n", FixedPcdGetSize(PcdAsciiStr));
+  Print(L"PcdUCS2Str=%s\n", PcdGetPtr(PcdUCS2Str));
+  Print(L"PcdUCS2StrSize=%d\n", PcdGetSize(PcdUCS2Str));
 
-  Print(L"PcdMyPatchableVar32=%d\n", PcdGet32(PcdMyPatchableVar32));
-  EFI_STATUS Status = PcdSet32S(PcdMyPatchableVar32, 44);
+  for (UINTN i=0; i<FixedPcdGetSize(PcdArray); i++) {
+    Print(L"PcdArray[%d]=0x%02x\n", i, ((UINT8*)FixedPcdGetPtr(PcdArray))[i]);
+  }
+
+  Print(L"PcdGuidInBytes=%g\n", *(EFI_GUID*)FixedPcdGetPtr(PcdGuidInBytes));
+  Print(L"PcdGuid=%g\n", *(EFI_GUID*)FixedPcdGetPtr(PcdGuid));
+
+  Print(L"PcdDevicePath: %s\n", ConvertDevicePathToText((EFI_DEVICE_PATH_PROTOCOL*) FixedPcdGetPtr(PcdDevicePath), FALSE, FALSE));
+//-------
+  Print(L"PcdInt32Override=%d\n", FixedPcdGet32(PcdInt32Override));
+//-------
+  Print(L"PcdFeatureFlag=%d\n", FeaturePcdGet(PcdFeatureFlag));
+  Print(L"PcdFeatureFlag=%d\n", PcdGetBool(PcdFeatureFlag));
+  Print(L"PcdBool=%d\n", FixedPcdGetBool(PcdBool));
+  Print(L"PcdBool=%d\n", PcdGetBool(PcdBool));
+//-------
+  Print(L"PcdPatchableInt32=0x%x\n", PatchPcdGet32(PcdPatchableInt32));
+  Print(L"PcdPatchableInt32=0x%x\n", PcdGet32(PcdPatchableInt32));
+  PatchPcdSet32(PcdPatchableInt32, 43);
+  Print(L"PcdPatchableInt32=%d\n", PatchPcdGet32(PcdPatchableInt32));
+  EFI_STATUS Status = PcdSet32S(PcdPatchableInt32, 44);
   Print(L"Status=%r\n", Status);
-  Print(L"PcdMyPatchableVar32=%d\n", PcdGet32(PcdMyPatchableVar32));
-  PatchPcdSet32(PcdMyPatchableVar32, 45);
-  Print(L"PcdMyPatchableVar32=%d\n", PatchPcdGet32(PcdMyPatchableVar32));
+  Print(L"PcdPatchableInt32=%d\n", PatchPcdGet32(PcdPatchableInt32));
+//-------
+  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+  PcdSet32S(PcdDynamicInt32, 0xBEEFBEEF);
+  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
 
-
-  Print(L"PcdMyFeatureFlagVar=%d\n", FeaturePcdGet(PcdMyFeatureFlagVar));
-  Print(L"PcdMyFeatureFlagVar=%d\n", PcdGetBool(PcdMyFeatureFlagVar));
-  Print(L"PcdMyVarBool=%d\n", FixedPcdGetBool(PcdMyVarBool));
-  Print(L"PcdMyVarBool=%d\n", PcdGetBool(PcdMyVarBool));
-  
-
-
-
-  Print(L"PcdMyDynamicExVar32=%x\n", PcdGet32(PcdMyDynamicExVar32));
-  PcdSet32S(PcdMyDynamicExVar32, 52);
-  Print(L"PcdMyDynamicExVar32=%x\n", PcdGet32(PcdMyDynamicExVar32));
-
-  Print(L"PcdMyDynamicVar32=%x\n", PcdGet32(PcdMyDynamicVar32));
-  PcdSet32S(PcdMyDynamicVar32, 52);
-  Print(L"PcdMyDynamicVar32=%x\n", PcdGet32(PcdMyDynamicVar32));
+  Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
+  PcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32, 0x77777777);
+  Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
   return EFI_SUCCESS;
 }

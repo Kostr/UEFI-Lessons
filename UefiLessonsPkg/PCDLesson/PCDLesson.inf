@@ -24,22 +24,48 @@
   UefiLib
 
 [FixedPcd]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32 
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_1|43 
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVar32_2|43 
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyVarBool 
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt8
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt16
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt64
+  gUefiLessonsPkgTokenSpaceGuid.PcdBool
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_2
+  gUefiLessonsPkgTokenSpaceGuid.PcdExpression_3
+  gUefiLessonsPkgTokenSpaceGuid.PcdAsciiStr
+  gUefiLessonsPkgTokenSpaceGuid.PcdUCS2Str
+  gUefiLessonsPkgTokenSpaceGuid.PcdArray
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidInBytes
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuid
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidByPCD
+  gUefiLessonsPkgTokenSpaceGuid.PcdGuidByEfiGuid
+  gUefiLessonsPkgTokenSpaceGuid.PcdDevicePath
+  gUefiLessonsPkgTokenSpaceGuid.PcdIntCasts
+  gUefiLessonsPkgTokenSpaceGuid.PcdWithLabels
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayExt
+  gUefiLessonsPkgTokenSpaceGuid.PcdCustomStruct
+  gUefiLessonsPkgTokenSpaceGuid.PcdCustomStruct_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_2
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_3
+  gUefiLessonsPkgTokenSpaceGuid.PcdArrayWithFixedSize_4
 
-[PatchPcd]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyPatchableVar32 
+  gUefiLessonsPkgTokenSpaceGuid.PcdInt32Override|43
+
+  gUefiLessonsPkgTokenSpaceGuid.Region1Offset
+  gUefiLessonsPkgTokenSpaceGuid.Region1Size
 
 [FeaturePcd]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyFeatureFlagVar
+  gUefiLessonsPkgTokenSpaceGuid.PcdFeatureFlag
+
+[PatchPcd]
+  gUefiLessonsPkgTokenSpaceGuid.PcdPatchableInt32
 
 [Pcd]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicVar32_1
+  gUefiLessonsPkgTokenSpaceGuid.PcdDynamicInt32
 
 [PcdEx]
-  gUefiLessonsPkgTokenSpaceGuid.PcdMyDynamicExVar32
-
+  gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32
 
