@@ -302,6 +302,780 @@ PcdDynamicExInt32=77777777
 ```
 And QEMU re-launch takes things to the start.
 
+# Using Dynamic API functions to access Dynamic Ex PCDs
+
+It is important to notice that the `PcdGet32`/`PcdSet32S` functions are not specific Dynamic API functions. These functons are generic API that can be used with all types of PCD including the Dynamic Ex PCDs. For an example add this code to our application:
+```
+Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+PcdSet32S(PcdDynamicExInt32, 0x88888888);
+Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+```
+
+If you are interested how it works check `Build/OvmfX64/RELEASE_GCC5/X64/UefiLessonsPkg/PCDLesson/PCDLesson/DEBUG/AutoGen.h`:
+```
+#define _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32  2939548594U
+#define _PCD_TOKEN_PcdDynamicExInt32  _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32
+#define _PCD_GET_MODE_32_PcdDynamicExInt32  LibPcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32)
+#define _PCD_GET_MODE_SIZE_PcdDynamicExInt32 LibPcdGetExSize(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32)
+#define _PCD_SET_MODE_32_PcdDynamicExInt32(Value)  LibPcdSetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32, (Value))
+#define _PCD_SET_MODE_32_S_PcdDynamicExInt32(Value)  LibPcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32, (Value))
+```
+and remember `PcdGet32`/`PcdSet32S` definitions:
+```
+#define PcdGet32(TokenName)  _PCD_GET_MODE_32_##TokenName
+#define PcdSet32S(TokenName, Value)  _PCD_SET_MODE_32_S_##TokenName    ((Value))
+```
+
+The code can be unravelled like this:
+```
+PcdGet32(PcdDynamicExInt32) -> _PCD_GET_MODE_32_PcdDynamicExInt32 -> LibPcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32)
+PcdSet32S(PcdDynamicExInt32, 0x88888888) -> _PCD_SET_MODE_32_S_PcdDynamicExInt32 ((0x88888888)) -> LibPcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32, (0x88888888))
+```
+
+You can rebuild our application and verify that it still works:
+```
+FS0:\> PCDLesson.efi
+...
+PcdDynamicExInt32=BABEBABE
+PcdDynamicExInt32=77777777
+PcdDynamicExInt32=77777777
+PcdDynamicExInt32=88888888
+```
+
+# `PCD_DYNAMIC_AS_DYNAMICEX`
+
+EDK2 has an easy way to change all the Dynamic PCDs to Dynamic Ex type. For that all you need to do is to ad a special define to the platform DSC file.
+
+To check it, add this code to the `OvmfPkg/OvmfPkgX64.dsc` file:
+```
+[Defines]
+  ...
+  PCD_DYNAMIC_AS_DYNAMICEX = TRUE
+```
+
+When you'll rebuild OVMF, you could notice that setting this define will lead to significant ammount of recompilation.
+
+After the build check the PCD DB files:
+```
+$ ./parse_pcd_db \
+  --peidb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Pei/Pcd/OUTPUT/PEIPcdDataBase.raw" \
+  --dxedb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Dxe/Pcd/OUTPUT/DXEPcdDataBase.raw"
+
+PEI PCD DB
+LocalTokenNumberTable:
+
+1:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x01100000
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+2:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x40000008
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+3:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030007
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+4:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030008
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+5:
+Token type = String
+Datum type = Pointer
+DynamicEx Token = 0x00030005
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+CurrentSize = 1
+MaxSize     = 1
+Value:
+00                                               | .
+
+6:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x30001047
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+7:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x00030004
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+8:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x0001006f
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+9:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030006
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+10:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x00000001
+DynamicEx GUID  = 0d3fb176-9569-4d51-a3ef7d61c64feaba [gEfiSecurityPkgTokenSpaceGuid]
+0 - unitialized
+
+11:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x00000008
+DynamicEx GUID  = ac05bf33-995a-4ed4-aab8ef7ae80f5cb0 [gUefiCpuPkgTokenSpaceGuid]
+0 - unitialized
+
+12:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x00000002
+DynamicEx GUID  = ac05bf33-995a-4ed4-aab8ef7ae80f5cb0 [gUefiCpuPkgTokenSpaceGuid]
+Value:
+0x00000040 (=64)
+
+13:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x60000016
+DynamicEx GUID  = ac05bf33-995a-4ed4-aab8ef7ae80f5cb0 [gUefiCpuPkgTokenSpaceGuid]
+0 - unitialized
+
+14:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x0000001b
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+15:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000022
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+16:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000023
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+17:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000024
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+18:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000025
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+19:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000026
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+20:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000027
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+Value:
+0x0000000800000000 (=34359738368)
+
+21:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x00000034
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+22:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x00000020
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+Value:
+0x0008 (=8)
+_____
+
+DXE PCD DB
+LocalTokenNumberTable:
+
+23:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x30000013
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+24:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x30000010
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+25:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x80000001
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+26:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030000
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+27:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030001
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+28:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x4000000b
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+Value:
+0x00000280 (=640)
+
+29:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x4000000c
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+Value:
+0x000001e0 (=480)
+
+30:
+Token type = Data
+Datum type = UINT8
+DynamicEx Token = 0x0001006a
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+31:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x00010055
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+Value:
+0x0208 (=520)
+
+32:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x00030003
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+0 - unitialized
+
+33:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x40000009
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+Value:
+0x00000320 (=800)
+
+34:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x4000000a
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+Value:
+0x00000258 (=600)
+
+35:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x0000002c
+DynamicEx GUID  = 914aebe7-4635-459b-aa1c11e219b03a10 [gEfiMdePkgTokenSpaceGuid]
+0 - unitialized
+
+36:
+Token type = Data
+Datum type = UINT8
+DynamicEx Token = 0x10000009
+DynamicEx GUID  = 40e064b2-0ae0-48b1-a07df8cf1e1a2310 [gEfiNetworkPkgTokenSpaceGuid]
+Value:
+0x01 (=1)
+
+37:
+Token type = Data
+Datum type = UINT8
+DynamicEx Token = 0x1000000a
+DynamicEx GUID  = 40e064b2-0ae0-48b1-a07df8cf1e1a2310 [gEfiNetworkPkgTokenSpaceGuid]
+Value:
+0x01 (=1)
+
+38:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0xaf35f3b2
+DynamicEx GUID  = 150cab53-ad47-4385-b5ddbcfc76bacaf0 [gUefiLessonsPkgTokenSpaceGuid]
+Value:
+0xbabebabe (=3133061822)
+
+39:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0x4f9259a3
+DynamicEx GUID  = 150cab53-ad47-4385-b5ddbcfc76bacaf0 [gUefiLessonsPkgTokenSpaceGuid]
+Value:
+0xcafecafe (=3405695742)
+
+40:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00000002
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+41:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x00000010
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+
+42:
+Token type = Data
+Datum type = UINT8 (Bool)
+DynamicEx Token = 0x00000021
+DynamicEx GUID  = 93bb96af-b9f2-4eb8-9462e0ba74564236 [gUefiOvmfPkgTokenSpaceGuid]
+0 - unitialized
+_____
+```
+
+As we already now, we can use `PcdGet32`/`PcdSet32S` functions to access Dynamic Ex PCDs. So we don't need to change anything in our modules because of this transition.
+
+Look at the generated file `Build/OvmfX64/RELEASE_GCC5/X64/UefiLessonsPkg/PCDLesson/PCDLesson/DEBUG/AutoGen.h`:
+```
+#define _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicInt32  1334991267U
+#define _PCD_TOKEN_PcdDynamicInt32  _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicInt32
+#define _PCD_GET_MODE_32_PcdDynamicInt32  LibPcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicInt32)
+#define _PCD_GET_MODE_SIZE_PcdDynamicInt32 LibPcdGetExSize(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicInt32)
+#define _PCD_SET_MODE_32_PcdDynamicInt32(Value)  LibPcdSetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicInt32, (Value))
+#define _PCD_SET_MODE_32_S_PcdDynamicInt32(Value)  LibPcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicInt32, (Value))
+
+#define _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32  2939548594U
+#define _PCD_TOKEN_PcdDynamicExInt32  _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32
+#define _PCD_GET_MODE_32_PcdDynamicExInt32  LibPcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32)
+#define _PCD_GET_MODE_SIZE_PcdDynamicExInt32 LibPcdGetExSize(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32)
+#define _PCD_SET_MODE_32_PcdDynamicExInt32(Value)  LibPcdSetEx32(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32, (Value))
+#define _PCD_SET_MODE_32_S_PcdDynamicExInt32(Value)  LibPcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, _PCD_TOKEN_PcdDynamicExInt32, (Value))
+
+#define COMPAREGUID(Guid1, Guid2) (BOOLEAN)(*(CONST UINT64*)Guid1 == *(CONST UINT64*)Guid2 && *((CONST UINT64*)Guid1 + 1) == *((CONST UINT64*)Guid2 + 1))
+
+#define __PCD_PcdDynamicInt32_ADDR_CMP(GuidPtr)  (\
+  (GuidPtr == &gUefiLessonsPkgTokenSpaceGuid) ? _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicInt32:0 \
+  )
+
+#define __PCD_PcdDynamicExInt32_ADDR_CMP(GuidPtr)  (\
+  (GuidPtr == &gUefiLessonsPkgTokenSpaceGuid) ? _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32:0 \
+  )
+
+#define __PCD_PcdDynamicInt32_VAL_CMP(GuidPtr)  (\
+  (GuidPtr == NULL) ? 0:\
+  COMPAREGUID (GuidPtr, &gUefiLessonsPkgTokenSpaceGuid) ? _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicInt32:0 \
+  )
+#define _PCD_TOKEN_EX_PcdDynamicInt32(GuidPtr)   __PCD_PcdDynamicInt32_ADDR_CMP(GuidPtr) ? __PCD_PcdDynamicInt32_ADDR_CMP(GuidPtr) : __PCD_PcdDynamicInt32_VAL_CMP(GuidPtr)
+
+#define __PCD_PcdDynamicExInt32_VAL_CMP(GuidPtr)  (\
+  (GuidPtr == NULL) ? 0:\
+  COMPAREGUID (GuidPtr, &gUefiLessonsPkgTokenSpaceGuid) ? _PCD_TOKEN_gUefiLessonsPkgTokenSpaceGuid_PcdDynamicExInt32:0 \
+  )
+#define _PCD_TOKEN_EX_PcdDynamicExInt32(GuidPtr)   __PCD_PcdDynamicExInt32_ADDR_CMP(GuidPtr) ? __PCD_PcdDynamicExInt32_ADDR_CMP(GuidPtr) : __PCD_PcdDynamicExInt32_VAL_CMP(GuidPtr)
+```
+Here you can see how both PCD defines in the end now call `LibPcdGetEx`/`LibPcdSetEx` functions.
+
+You can verify that OVMF still boots and our application still works as expected:
+```
+FS0:\> PCDLesson.efi
+...
+PcdDynamicInt32=0xCAFECAFE
+PcdDynamicInt32=0xBEEFBEEF
+PcdDynamicExInt32=BABEBABE
+PcdDynamicExInt32=77777777
+PcdDynamicExInt32=77777777
+PcdDynamicExInt32=88888888
+```
+
+# `PCD_INFO_GENERATION`
+
+There is another interesting platform level PCD define - `PCD_INFO_GENERATION`. Add this setting to the `OvmfPkg/OvmfPkgX64.dsc` (and remove `PCD_DYNAMIC_AS_DYNAMICEX = TRUE`):
+```
+[Defines]
+  ...
+  PCD_INFO_GENERATION = TRUE
+```
+
+Recompile OVMF and check PCD DB files:
+```
+$ ./parse_pcd_db \
+    --peidb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Pei/Pcd/OUTPUT/PEIPcdDataBase.raw" \
+    --dxedb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Dxe/Pcd/OUTPUT/DXEPcdDataBase.raw"
+
+PEI PCD DB
+LocalTokenNumberTable:
+
+1:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdAcpiS3Enable
+0 - unitialized
+
+2:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdEmuVariableNvStoreReserved
+0 - unitialized
+
+3:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdGhcbBase
+0 - unitialized
+
+4:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdGhcbSize
+0 - unitialized
+
+5:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdPteMemoryEncryptionAddressOrMask
+0 - unitialized
+
+6:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSetNxForStack
+0 - unitialized
+
+7:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiSecurityPkgTokenSpaceGuid
+PcdName = PcdOptionRomImageVerificationPolicy
+0 - unitialized
+
+8:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gUefiCpuPkgTokenSpaceGuid
+PcdName = PcdCpuBootLogicalProcessorNumber
+0 - unitialized
+
+9:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gUefiCpuPkgTokenSpaceGuid
+PcdName = PcdCpuMaxLogicalProcessorNumber
+Value:
+0x00000040 (=64)
+
+10:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gUefiCpuPkgTokenSpaceGuid
+PcdName = PcdSevEsIsEnabled
+0 - unitialized
+
+11:
+Token type = Data
+Datum type = UINT16
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdOvmfHostBridgePciDevId
+0 - unitialized
+
+12:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciIoBase
+0 - unitialized
+
+13:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciIoSize
+0 - unitialized
+
+14:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciMmio32Base
+0 - unitialized
+
+15:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciMmio32Size
+0 - unitialized
+
+16:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciMmio64Base
+0 - unitialized
+
+17:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdPciMmio64Size
+Value:
+0x0000000800000000 (=34359738368)
+
+18:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdQ35SmramAtDefaultSmbase
+0 - unitialized
+
+19:
+Token type = Data
+Datum type = UINT16
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdQ35TsegMbytes
+Value:
+0x0008 (=8)
+
+20:
+Token type = String
+Datum type = Pointer
+DynamicEx Token = 0x00030005
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdNvStoreDefaultValueBuffer
+CurrentSize = 1
+MaxSize     = 1
+Value:
+00                                               | .
+
+21:
+Token type = Data
+Datum type = UINT16
+DynamicEx Token = 0x00030004
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSetNvStoreDefaultId
+0 - unitialized
+
+22:
+Token type = Data
+Datum type = UINT64
+DynamicEx Token = 0x00030006
+DynamicEx GUID  = a1aff049-fdeb-442a-b32013ab4cb72bbc [gEfiMdeModulePkgTokenSpaceGuid]
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdVpdBaseAddress64
+0 - unitialized
+_____
+
+DXE PCD DB
+LocalTokenNumberTable:
+
+23:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdFlashNvStorageFtwSpareBase
+0 - unitialized
+
+24:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdFlashNvStorageFtwWorkingBase
+0 - unitialized
+
+25:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdFlashNvStorageVariableBase64
+0 - unitialized
+
+26:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdS3BootScriptTablePrivateDataPtr
+0 - unitialized
+
+27:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdS3BootScriptTablePrivateSmmDataPtr
+0 - unitialized
+
+28:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSetupVideoHorizontalResolution
+Value:
+0x00000280 (=640)
+
+29:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSetupVideoVerticalResolution
+Value:
+0x000001e0 (=480)
+
+30:
+Token type = Data
+Datum type = UINT8
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSmbiosDocRev
+0 - unitialized
+
+31:
+Token type = Data
+Datum type = UINT16
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdSmbiosVersion
+Value:
+0x0208 (=520)
+
+32:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdTestKeyUsed
+0 - unitialized
+
+33:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdVideoHorizontalResolution
+Value:
+0x00000320 (=800)
+
+34:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gEfiMdeModulePkgTokenSpaceGuid
+PcdName = PcdVideoVerticalResolution
+Value:
+0x00000258 (=600)
+
+35:
+Token type = Data
+Datum type = UINT16
+TokenSpaceName = gEfiMdePkgTokenSpaceGuid
+PcdName = PcdPlatformBootTimeOut
+0 - unitialized
+
+36:
+Token type = Data
+Datum type = UINT8
+TokenSpaceName = gEfiNetworkPkgTokenSpaceGuid
+PcdName = PcdIPv4PXESupport
+Value:
+0x01 (=1)
+
+37:
+Token type = Data
+Datum type = UINT8
+TokenSpaceName = gEfiNetworkPkgTokenSpaceGuid
+PcdName = PcdIPv6PXESupport
+Value:
+0x01 (=1)
+
+38:
+Token type = Data
+Datum type = UINT32
+TokenSpaceName = gUefiLessonsPkgTokenSpaceGuid
+PcdName = PcdDynamicInt32
+Value:
+0xcafecafe (=3405695742)
+
+39:
+Token type = Data
+Datum type = UINT64
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdEmuVariableEvent
+0 - unitialized
+
+40:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdOvmfFlashVariablesEnable
+0 - unitialized
+
+41:
+Token type = Data
+Datum type = UINT8 (Bool)
+TokenSpaceName = gUefiOvmfPkgTokenSpaceGuid
+PcdName = PcdQemuSmbiosValidated
+0 - unitialized
+
+42:
+Token type = Data
+Datum type = UINT32
+DynamicEx Token = 0xaf35f3b2
+DynamicEx GUID  = 150cab53-ad47-4385-b5ddbcfc76bacaf0 [gUefiLessonsPkgTokenSpaceGuid]
+TokenSpaceName = gUefiLessonsPkgTokenSpaceGuid
+PcdName = PcdDynamicExInt32
+Value:
+0xbabebabe (=3133061822)
+_____
+```
+
+Now every token has `TokenSpaceName`/`PcdName` fields. They are present because PCD Database now fills its `PcdNameTable` part that in the usual build is empty. With this information it is much easier to understand the databse content.
+
 # `DumpDynPcd`
 
 The `MdeModulePkg` contains an application to dump Dynamic PCD information at runtime - [https://github.com/tianocore/edk2/tree/master/MdeModulePkg/Application/DumpDynPcd](https://github.com/tianocore/edk2/tree/master/MdeModulePkg/Application/DumpDynPcd).
@@ -446,6 +1220,148 @@ A1AFF049-FDEB-442A-B320-13AB4CB72BBC
   Token = 0x00030006 - Type = UINT64:DYNAMICEX  - Size = 0x8 - Value = 0x0
 
 150CAB53-AD47-4385-B5DD-BCFC76BACAF0
+  Token = 0xAF35F3B2 - Type = UINT32:DYNAMICEX  - Size = 0x4 - Value = 0xBABEBABE
+```
+
+If the platfrom was generated with the `PCD_INFO_GENERATION = TRUE` define, this program would also display PCD name information:
+```
+FS0:\> DumpDynPcd.efi
+Current system SKU ID: 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiS3Enable
+  Token = 0x00000001 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdEmuVariableNvStoreReserved
+  Token = 0x00000002 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7EF4000
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdGhcbBase
+  Token = 0x00000003 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdGhcbSize
+  Token = 0x00000004 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdPteMemoryEncryptionAddressOrMask
+  Token = 0x00000005 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSetNxForStack
+  Token = 0x00000006 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+gEfiSecurityPkgTokenSpaceGuid.PcdOptionRomImageVerificationPolicy
+  Token = 0x00000007 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x0
+
+gUefiCpuPkgTokenSpaceGuid.PcdCpuBootLogicalProcessorNumber
+  Token = 0x00000008 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x0
+
+gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber
+  Token = 0x00000009 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x1
+
+gUefiCpuPkgTokenSpaceGuid.PcdSevEsIsEnabled
+  Token = 0x0000000A - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+gUefiOvmfPkgTokenSpaceGuid.PcdOvmfHostBridgePciDevId
+  Token = 0x0000000B - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x1237
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciIoBase
+  Token = 0x0000000C - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0xC000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciIoSize
+  Token = 0x0000000D - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x4000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciMmio32Base
+  Token = 0x0000000E - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x80000000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciMmio32Size
+  Token = 0x0000000F - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7C000000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciMmio64Base
+  Token = 0x00000010 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x800000000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdPciMmio64Size
+  Token = 0x00000011 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x800000000
+
+gUefiOvmfPkgTokenSpaceGuid.PcdQ35SmramAtDefaultSmbase
+  Token = 0x00000012 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+gUefiOvmfPkgTokenSpaceGuid.PcdQ35TsegMbytes
+  Token = 0x00000013 - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x8
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwSpareBase
+  Token = 0x00000017 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xFFC42000
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageFtwWorkingBase
+  Token = 0x00000018 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xFFC41000
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64
+  Token = 0x00000019 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0xFFC00000
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdS3BootScriptTablePrivateDataPtr
+  Token = 0x0000001A - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x7B6E000
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdS3BootScriptTablePrivateSmmDataPtr
+  Token = 0x0000001B - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoHorizontalResolution
+  Token = 0x0000001C - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x280
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSetupVideoVerticalResolution
+  Token = 0x0000001D - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x1E0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosDocRev
+  Token = 0x0000001E - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSmbiosVersion
+  Token = 0x0000001F - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x208
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdTestKeyUsed
+  Token = 0x00000020 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = FALSE
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdVideoHorizontalResolution
+  Token = 0x00000021 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x320
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdVideoVerticalResolution
+  Token = 0x00000022 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0x258
+
+gEfiMdePkgTokenSpaceGuid.PcdPlatformBootTimeOut
+  Token = 0x00000023 - Type = UINT16:DYNAMIC    - Size = 0x2 - Value = 0x0
+
+gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport
+  Token = 0x00000024 - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x1
+
+gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport
+  Token = 0x00000025 - Type = UINT8:DYNAMIC     - Size = 0x1 - Value = 0x1
+
+gUefiLessonsPkgTokenSpaceGuid.PcdDynamicInt32
+  Token = 0x00000026 - Type = UINT32:DYNAMIC    - Size = 0x4 - Value = 0xCAFECAFE
+
+gUefiOvmfPkgTokenSpaceGuid.PcdEmuVariableEvent
+  Token = 0x00000027 - Type = UINT64:DYNAMIC    - Size = 0x8 - Value = 0x0
+
+gUefiOvmfPkgTokenSpaceGuid.PcdOvmfFlashVariablesEnable
+  Token = 0x00000028 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+gUefiOvmfPkgTokenSpaceGuid.PcdQemuSmbiosValidated
+  Token = 0x00000029 - Type = BOOLEAN:DYNAMIC   - Size = 0x1 - Value = TRUE
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdNvStoreDefaultValueBuffer
+  Token = 0x00030005 - Type = POINTER:DYNAMICEX - Size = 0x1
+  00000000: 00                                               *.*
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdSetNvStoreDefaultId
+  Token = 0x00030004 - Type = UINT16:DYNAMICEX  - Size = 0x2 - Value = 0x0
+
+gEfiMdeModulePkgTokenSpaceGuid.PcdVpdBaseAddress64
+  Token = 0x00030006 - Type = UINT64:DYNAMICEX  - Size = 0x8 - Value = 0x0
+
+gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32
+  Token = 0xAF35F3B2 - Type = UINT32:DYNAMICEX  - Size = 0x4 - Value = 0xBABEBABE
+```
+
+In this case it is also possible to access individual PCDs by name:
+```
+FS0:\> DumpDynPcd.efi gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32
+Current system SKU ID: 0x0
+
+gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32
   Token = 0xAF35F3B2 - Type = UINT32:DYNAMICEX  - Size = 0x4 - Value = 0xBABEBABE
 ```
 
