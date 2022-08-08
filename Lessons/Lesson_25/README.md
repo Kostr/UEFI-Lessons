@@ -278,9 +278,9 @@ Now let's try to access the PCD, this is done via `PcdGetEx32`/`PcdSetEx32S` fun
 ```
 As you can see, API in this case a little bit different. The `Guid` in these defines is a pointer to the GUID, so we need to use `&gUefiLessonsPkgTokenSpaceGuid` in our case. Here is the code:
 ```
-Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
+Print(L"PcdDynamicExInt32=0x%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
 PcdSet32S(gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32, 0x77777777);
-Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
+Print(L"PcdDynamicExInt32=0x%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
 ```
 We don't need to do anything to import `gUefiLessonsPkgTokenSpaceGuid` as it is already in its `AutoGen.c` file:
 ```
@@ -309,15 +309,15 @@ The behaviour is similar to the Dynamic PCD. For the first time you'll get initi
 ```
 FS0:\> PCDLesson.efi
 ...
-PcdDynamicExInt32=BABEBABE
-PcdDynamicExInt32=77777777
+PcdDynamicExInt32=0xBABEBABE
+PcdDynamicExInt32=0x77777777
 ```
 But since the program updates PCD, at the next launches it would start with the updated value:
 ```
 FS0:\> PCDLesson.efi
 ...
-PcdDynamicExInt32=77777777
-PcdDynamicExInt32=77777777
+PcdDynamicExInt32=0x77777777
+PcdDynamicExInt32=0x77777777
 ```
 And QEMU re-launch takes things to the start.
 
@@ -325,9 +325,9 @@ And QEMU re-launch takes things to the start.
 
 It is important to notice that the `PcdGet32`/`PcdSet32S` functions are not specific Dynamic API functions. These functons are generic API that can be used with all types of PCD including the Dynamic Ex PCDs. For an example add this code to our application:
 ```
-Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+Print(L"PcdDynamicExInt32=0x%x\n", PcdGet32(PcdDynamicExInt32));
 PcdSet32S(PcdDynamicExInt32, 0x88888888);
-Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+Print(L"PcdDynamicExInt32=0x%x\n", PcdGet32(PcdDynamicExInt32));
 ```
 
 If you are interested how it works check `Build/OvmfX64/RELEASE_GCC5/X64/UefiLessonsPkg/PCDLesson/PCDLesson/DEBUG/AutoGen.h`:
@@ -355,10 +355,10 @@ You can rebuild our application and verify that it still works:
 ```
 FS0:\> PCDLesson.efi
 ...
-PcdDynamicExInt32=BABEBABE
-PcdDynamicExInt32=77777777
-PcdDynamicExInt32=77777777
-PcdDynamicExInt32=88888888
+PcdDynamicExInt32=0xBABEBABE
+PcdDynamicExInt32=0x77777777
+PcdDynamicExInt32=0x77777777
+PcdDynamicExInt32=0x88888888
 ```
 
 # `PCD_DYNAMIC_AS_DYNAMICEX`
@@ -746,10 +746,10 @@ FS0:\> PCDLesson.efi
 ...
 PcdDynamicInt32=0xCAFECAFE
 PcdDynamicInt32=0xBEEFBEEF
-PcdDynamicExInt32=BABEBABE
-PcdDynamicExInt32=77777777
-PcdDynamicExInt32=77777777
-PcdDynamicExInt32=88888888
+PcdDynamicExInt32=0xBABEBABE
+PcdDynamicExInt32=0x77777777
+PcdDynamicExInt32=0x77777777
+PcdDynamicExInt32=0x88888888
 ```
 
 # `PCD_INFO_GENERATION`

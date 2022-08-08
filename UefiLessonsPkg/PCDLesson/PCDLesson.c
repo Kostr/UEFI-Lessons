@@ -65,12 +65,12 @@ UefiMain (
     Print(L"PcdDynamicInt32 token is unassigned\n");
   }
 
-  Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
+  Print(L"PcdDynamicExInt32=0x%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
   PcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32, 0x77777777);
-  Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
+  Print(L"PcdDynamicExInt32=0x%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
 
-  Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+  Print(L"PcdDynamicExInt32=0x%x\n", PcdGet32(PcdDynamicExInt32));
   PcdSet32S(PcdDynamicExInt32, 0x88888888);
-  Print(L"PcdDynamicExInt32=%x\n", PcdGet32(PcdDynamicExInt32));
+  Print(L"PcdDynamicExInt32=0x%x\n", PcdGet32(PcdDynamicExInt32));
   return EFI_SUCCESS;
 }
