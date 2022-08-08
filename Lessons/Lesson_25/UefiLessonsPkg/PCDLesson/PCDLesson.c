@@ -57,9 +57,13 @@ UefiMain (
   Print(L"Status=%r\n", Status);
   Print(L"PcdPatchableInt32=%d\n", PatchPcdGet32(PcdPatchableInt32));
 //-------
-  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
-  PcdSet32S(PcdDynamicInt32, 0xBEEFBEEF);
-  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+  if (PcdToken(PcdDynamicInt32)) {
+    Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+    PcdSet32S(PcdDynamicInt32, 0xBEEFBEEF);
+    Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+  } else {
+    Print(L"PcdDynamicInt32 token is unassigned\n");
+  }
 
   Print(L"PcdDynamicExInt32=%x\n", PcdGetEx32(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32));
   PcdSetEx32S(&gUefiLessonsPkgTokenSpaceGuid, PcdDynamicExInt32, 0x77777777);

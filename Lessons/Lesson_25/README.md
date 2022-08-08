@@ -144,6 +144,25 @@ PcdDynamicInt32=0xCAFECAFE
 PcdDynamicInt32=0xBEEFBEEF
 ```
 
+As we don't always use our application as a part of Ovmf package it would be better to guard the `PcdDynamicInt32` access for cases when local tokan is unassigned.
+
+We can do it with a help of a `PcdToken` macro:
+```
+#define PcdToken(TokenName)  _PCD_TOKEN_##TokenName
+```
+
+Code usage as simple as this:
+```
+if (PcdToken(PcdDynamicInt32)) {
+  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+  PcdSet32S(PcdDynamicInt32, 0xBEEFBEEF);
+  Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
+} else {
+  Print(L"PcdDynamicInt32 token is unassigned\n");
+}
+```
+At least now if you accidently copy `Build/UefiLessonsPkg/RELEASE_GCC5/X64/PCDLesson.efi` instead of `Build/OvmfX64/RELEASE_GCC5/X64/PCDLesson.efi` the application won't break the OVMF.
+
 # Dynamic Ex PCD
 
 Suppose we already have the necessary PCD in the PCD Database. And we want to access it via application from the UEFI Shell.
