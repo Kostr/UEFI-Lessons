@@ -83,6 +83,7 @@
   UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
   UefiLessonsPkg/HIIFormLabel/HIIFormLabel.inf
   UefiLessonsPkg/FfsFile/FfsFile.inf
+  UefiLessonsPkg/SetSku/SetSku.inf
 
 [PcdsFixedAtBuild]
   gUefiLessonsPkgTokenSpaceGuid.PcdInt8|0x88|UINT8|0x3B81CDF1

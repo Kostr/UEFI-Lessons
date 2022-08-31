@@ -1,0 +1,17 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SetSku
+  FILE_GUID                      = 8cb96f21-d1dc-4f4a-8064-c3a5b556f73a
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  SetSku.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  ShellCEntryLib
+  UefiLib

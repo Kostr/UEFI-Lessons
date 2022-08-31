@@ -80,6 +80,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 _____
 
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
+- [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF): Intro to FDF file format. Flash Device Image `[FD]` sections: flash chip defines and regions definition. OVMF image FDF file analysis.
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV/README.md): Firmware Volume (`FV`), FFS, files. Create simple FV with `RAW` files
