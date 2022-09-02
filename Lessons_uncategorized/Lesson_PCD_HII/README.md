@@ -23,12 +23,12 @@ So far we've worked only with `Default` PCDs. Initial values for these PCDs are 
 
 Now let's try to investigate `Hii` PCDs.
 
-For this storage method PCD are declared this way:
+For this storage method PCDs are declared this way:
 ```
 <TokenGuid>.<TokenName>|<EFI Var Name>|<EFI Var GUID>|<Offset in EFI Var>[|<Override value>[|<EFI Var attributes>]]
 ```
 
-For example let's use this code in the DSC file
+For example let's use this code in the DSC file:
 ```
 [PcdsDynamicHii]
   gUefiLessonsPkgTokenSpaceGuid.PcdDynamicInt32|L"MyHiiVar"|gUefiLessonsPkgTokenSpaceGuid|0x5|0x11111111|BS,RT
@@ -36,10 +36,10 @@ For example let's use this code in the DSC file
 [PcdsDynamicExHii]
   gUefiLessonsPkgTokenSpaceGuid.PcdDynamicExInt32|L"MyExHiiVar"|gUefiLessonsPkgTokenSpaceGuid|0x7|0x22222222|BS
 ```
-Here we've used the same GUID for the EFI var as we use for the PCD token space, but this is not mondatory.
+Here we've used the same GUID for the EFI var that we use for the PCD token space, but you should know that it is not mandatory.
 
-Now additionaly correct PCDLesson application, so it would only get these PCDs, without any modifications:
-```
+Now additionaly correct `PCDLesson` application, so it would only get these PCDs, without any modifications:
+```cpp
 if (PcdToken(PcdDynamicInt32)) {
   Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
 } else {
@@ -100,6 +100,8 @@ Value:
 0x22222222 (=572662306)
 ```
 
+You can see that now our PCDs are encoded completely differently in the PCD database.
+
 Now launch OVMF. You can check `DumpDynPcd.efi` output, but it doesn't show anything specific about the PCD storage methood:
 ```
 FS0:\> DumpDynPcd.efi
@@ -117,7 +119,7 @@ FS0:\> dmpstore -guid 150cab53-ad47-4385-b5dd-bcfc76bacaf0
 dmpstore: No matching variables found. Guid 150CAB53-AD47-4385-B5DD-BCFC76BACAF0
 ```
 
-So out PCDs didn't create any variables.
+So our PCDs didn't create any EFI variables.
 
 Let's execute our `PCDLesson.efi` application that right now only use `PcdGet*` functions:
 ```
@@ -133,10 +135,10 @@ FS0:\> dmpstore -guid 150cab53-ad47-4385-b5dd-bcfc76bacaf0
 dmpstore: No matching variables found. Guid 150CAB53-AD47-4385-B5DD-BCFC76BACAF0
 ```
 
-The point of this is that simple `PcdGet*` doesn't work with EFI variable interface if there is no EFI variable beforehand. In this case `PcdGet*` simply returns default value from the PCD Database.
+The point of this is that `PcdGet*` doesn't work with the EFI variable interface if there is no EFI variable beforehand. In this case `PcdGet*` simply returns default value from the PCD Database.
 
-Now let's return the `PcdSet*` code to out `PCDLesson.efi` application:
-```
+Now let's return the `PcdSet*` code to our `PCDLesson.efi` application:
+```cpp
 if (PcdToken(PcdDynamicInt32)) {
   Print(L"PcdDynamicInt32=0x%x\n", PcdGet32(PcdDynamicInt32));
   Status = PcdSet32S(PcdDynamicInt32, 0xBEEFBEEF);
@@ -183,7 +185,7 @@ Variable RT+BS '150CAB53-AD47-4385-B5DD-BCFC76BACAF0:MyHiiVar' DataSize = 0x09
 
 As you can see the `PcdSet*` statements have created EFI variables that were not present before. The variables were created with a minimal possible size = `Offset in EFI Var` + `sizeof(value)`.
 In our case it is `5 + 4 = 9 = 0x09` and `7 + 4 = 11 = 0x0B`.
-You can see how all the field from the PCD statement in the DSC are transformed to the EFI variable settings.
+You can see how all the fields from the PCD statement in the DSC are transformed to the EFI variable settings.
 
 # `Non-volatile` variables
 
@@ -230,7 +232,7 @@ Variable NV+RT+BS '150CAB53-AD47-4385-B5DD-BCFC76BACAF0:MyHiiVar' DataSize = 0x0
   00000000: 00 00 00 00 00 EF BE EF-BE                       *.........*
 ```
 
-As you can see now it is present from the start. And `PcdGet*`/`PcdSet*` functions successfully use it:
+As you can see now the EFI variables are present from the start. And `PcdGet*`/`PcdSet*` functions successfully use their content:
 ```
 FS0:\> PCDLesson.efi
 ...
@@ -247,7 +249,7 @@ So the PCD default values are used only if there is no EFI variable. If the acco
 
 # Simplified override
 
-It is possible to omit EFI variable attributes or value override in the PCD desclaration. For example:
+It is possible to omit EFI variable attributes or value override in the PCD declaration. For example:
 ```
 [PcdsDynamicHii]
   gUefiLessonsPkgTokenSpaceGuid.PcdDynamicInt32|L"MyHiiVar"|gUefiLessonsPkgTokenSpaceGuid|0x5
