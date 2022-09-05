@@ -78,7 +78,6 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 72](Lessons/Lesson_72): Dynamically add elements to HII forms with a help of a `label` keyword
 - [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
 _____
-- [Lesson XX](Lessons_uncategorized/Lesson_PCD_HII): PCD storage methods: `Hii` PCDs (`[PcdsDynamicHii]`/`[PcdsDynamicExHii]`)
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
@@ -93,6 +92,8 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_8/README.md): Binary modules. `[Binaries]` section and `[Rule.<...>.BINARY]` rules
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_9/README.md): `OVMF` flash image structure. Working with FD image regions via memory-mapped flash
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_10/README.md): Using `EFI_FIRMWARE_VOLUME2_PROTOCOL` to read files from FFS
+- [Lesson XX](Lessons_uncategorized/Lesson_PCD_HII): PCD storage methods: `Hii` PCDs (`[PcdsDynamicHii]`/`[PcdsDynamicExHii]`)
+- [Lesson XX](Lessons_uncategorized/Lesson_PCD_VPD): PCD storage methods: `VPD` PCDs (`[PcdsDynamicVpd]`/`[PcdsDynamicExVpd]`)
 _____
 
 # Learning links
