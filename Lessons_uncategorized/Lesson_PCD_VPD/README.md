@@ -4,7 +4,7 @@ VPD stands for "Vital Product Data". In this context it is a read-only file in t
 
 To mark dynamic PCDs as VPD PCDs, you have to list them under `[PcdsDynamicVpd]`/`[PcdsDynamicExVpd]` sections in the DSC file. The format of the PCDs of this kind looks like this:
 ```
-<TokenGuid>.<TokenName>|<VPD offset>[|<Override value>|]
+<TokenGuid>.<TokenName>|<VPD offset>[|<Override value>]
 ```
 
 For example add this override for the PCDs from the `PCDLesson` application to the `OvmfPkg/OvmfPkgX64.dsc` file:
@@ -63,7 +63,7 @@ The used GUID corresponds to the GUID of the tool `VPDTOOL` defined in the `Conf
 
 Now the OVMF build should succeed.
 
-Check out PCD Database file with the `parse_pcd_db` application:
+Check out PCD Database files with the `parse_pcd_db` application:
 ```
 $ parse_pcd_db \
   --peidb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Pei/Pcd/OUTPUT/PEIPcdDataBase.raw" \
@@ -90,7 +90,9 @@ Size = 4
 Provide VPD file to print actual data
 ```
 
-As you can see the actual PCD values are not encoded in the PCD Database itself. The database PCD records contain only the offsets to the VPD file. The VPD itself created as a separate binary in a build folder. You can check it with the `hexdump` and see that it contains PCD values:
+As you can see the actual PCD values are not encoded in the PCD Database itself. The database PCD records contain only the offsets inside the VPD file.
+
+The VPD itself created as a separate binary in a build folder. You can check it with the `hexdump` and see that it contains our PCD values:
 ```
 $ hexdump -C Build/OvmfX64/RELEASE_GCC5/FV/8C3D856A-9BE6-468E-850A-24F7A8D38E08.bin
 00000000  00 00 00 00 00 00 00 44  44 44 44 00 00 00 00 00  |.......DDDD.....|
@@ -98,7 +100,7 @@ $ hexdump -C Build/OvmfX64/RELEASE_GCC5/FV/8C3D856A-9BE6-468E-850A-24F7A8D38E08.
 00000014
 ```
 
-`parse_pcd_db` application supports setting the VPD file via the command line:
+`parse_pcd_db` application supports setting the VPD file via the command line, so you could see the actual PCD values:
 ```
 $ parse_pcd_db \
   --peidb "Build/OvmfX64/RELEASE_GCC5/X64/MdeModulePkg/Universal/PCD/Pei/Pcd/OUTPUT/PEIPcdDataBase.raw" \
@@ -122,11 +124,7 @@ Datum type = UINT32
 DynamicEx Token = 0xaf35f3b2
 DynamicEx GUID  = 150cab53-ad47-4385-b5ddbcfc76bacaf0 [gUefiLessonsPkgTokenSpaceGuid]
 VPD offset = 0x00000010 (=16)
-
-tum type = UINT32
-VPD offset = 0x00000007 (=7)
-Size = 4
-Provide VPD file to print actual data
+Value:
 0x55555555 (=1431655765)
 ```
 
@@ -151,7 +149,7 @@ GetWorker (
 }
 ```
 
-In this case `VpdHead->Offset` is an offset that is aquired from the PCD Database file. The `mVpdBaseAddress` variable is a start address of the VPD file in memory. This variable is set in the module initialization code [https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.c](https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.c):
+In this case `VpdHead->Offset` is an offset that is acquired from the PCD token. So it is a value from the PCD Database. The other variable `mVpdBaseAddress` is a start address of the VPD file in memory. This variable is set in the module initialization code [https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.c](https://github.com/tianocore/edk2/blob/master/MdeModulePkg/Universal/PCD/Dxe/Pcd.c):
 ```cpp
 EFI_STATUS
 EFIAPI
