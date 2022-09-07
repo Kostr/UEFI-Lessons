@@ -94,6 +94,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_10/README.md): Using `EFI_FIRMWARE_VOLUME2_PROTOCOL` to read files from FFS
 - [Lesson XX](Lessons_uncategorized/Lesson_PCD_HII): PCD storage methods: `Hii` PCDs (`[PcdsDynamicHii]`/`[PcdsDynamicExHii]`)
 - [Lesson XX](Lessons_uncategorized/Lesson_PCD_VPD): PCD storage methods: `VPD` PCDs (`[PcdsDynamicVpd]`/`[PcdsDynamicExVpd]`)
+- [Lesson XX](Lessons_uncategorized/Lesson_NV_storage): How UEFI variables are stored in flash
 _____
 
 # Learning links
