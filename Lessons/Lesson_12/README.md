@@ -56,10 +56,10 @@ make
 
 If we try to boot this kernel with:
 ```
-qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd
-                   -drive format=raw,file=fat:rw:~/UEFI_disk
-                   -nographic
-                   -kernel ~/buildroot/output/images/bzImage
+qemu-system-x86_64 -drive if=pflash,format=raw,file=Build/OvmfX64/RELEASE_GCC5/FV/OVMF.fd \
+                   -drive format=raw,file=fat:rw:~/UEFI_disk \
+                   -nographic \
+                   -kernel ~/buildroot/output/images/bzImage \
                    -append "console=ttyS0"
 ```
 
