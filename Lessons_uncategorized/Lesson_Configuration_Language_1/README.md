@@ -2,7 +2,7 @@ The communication between the `FormBrowser` application and the HII subsystem is
 
 In a way it is similar to how a real internet browser uses HTTP GET/POST requests "language" to accesses a web server.
 
-And as you might know in case of the HTTP you could use something like `curl` to issue requests directly from CLI instead of using a window browser application.
+And as you might know in case of the HTTP you could just use something like `curl` to issue requests directly from CLI instead of using a window browser application.
 There is no predefined command in the UEFI shell that would allow you to issue `UEFI Configuration Language` requests directly without launching a form browser, so let's create such application.
 
 In other words our application would use this `UEFI Configuration Language` to talk with the HII subsystem directly. Our goal is to read and write HII form elements directly from the UEFI Shell CLI.
@@ -141,11 +141,11 @@ FS0:\> HIIConfig.efi dump
 Full configuration for the HII Database (Size = 42018):
 GUID=1cc53572800cab4c87ac3b084a6304b1&NAME=004d00610069006e0046006f0072006d00530074006100740065&PATH=01041400dfc5dcd907405e4390988970935504b27fff0400&OFFSET=0000&WIDTH=0020&VALUE=00000000000000000000000000000000000000000000007400650073006e0055&OFFSET=0020&WIDTH=0004&VALUE=00000000&GUID=1cc53572800cab4c87ac3b084a6304b1&
 ```
-Here is you first peak to the `UEFI Configuration language`.
+Here is your first peak into the `UEFI Configuration language`.
 
 But something is wrong, can you see what?
 
-The string lenght of the response above is 42018, but the actual printed string is a way shorter than that. If you'll try to measure it, you'll see that it has exactly 320 symbols. Why is that?
+The string length of the response above is 42018, but the actual printed string is a way shorter than that. If you'll try to measure it, you'll see that it has exactly 320 symbols. Why is that?
 
 This is happening because the maximum printable number of characters in the `Print()` statement is limited by the `gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize` PCD. Check its definition in the [https://github.com/tianocore/edk2/blob/master/MdePkg/MdePkg.dec](https://github.com/tianocore/edk2/blob/master/MdePkg/MdePkg.dec):
 ```
@@ -163,7 +163,7 @@ Anyway, to bypass this limit we can use the `gST->ConOut->OutputString` function
 + gST->ConOut->OutputString(gST->ConOut, Results);
 ```
 
-Now you can see the full output. Here I've truncated the bunch of zeros in part in the middle of the output. But even with this the output is very long:
+Now you can see the full output. To make it more readable here I've truncated a bunch of zeros in the middle of the output. But even with this the output is very long:
 ```
 Full configuration for the HII Database (Size = 42018):
 GUID=1cc53572800cab4c87ac3b084a6304b1&NAME=004d00610069006e0046006f0072006d00530074006100740065&PATH=01041400dfc5dcd907405e4390988970935504b27fff0400&OFFSET=0
@@ -213,16 +213,10 @@ IDTH=0001&VALUE=00&OFFSET=1023&WIDTH=0001&VALUE=00&OFFSET=1024&WIDTH=0001&VALUE=
 &WIDTH=0001&VALUE=00&OFFSET=1028&WIDTH=0001&VALUE=00&OFFSET=1029&WIDTH=0001&VALUE=00&OFFSET=102a&WIDTH=0001&VALUE=00&OFFSET=102b&WIDTH=0001&VALUE=00
 ```
 
-It is almost impossible to find something in such output, so let's prettify it. For this we will write custom function `PrintConfigString`:
+Let's investigate the output above. As you can see the resulting string consists of pairs `<key>=<data>` delimited by the `&` character. And there only 7 keys in the whole output. Here are their meaning:
 ```
-- gST->ConOut->OutputString(gST->ConOut, Result);
-+ PrintConfigString(Result);
-```
-
-Before writing this function let's investigate the output above. As you can see the resulting string consists of pairs `<key>=<data>` delimited by the `&` character. And there only 6 keys in the whole output. Here are their meaning:
-```
-GUID   - guid of the FormSet
-NAME   - name of the variable storage inside the FormSet
+GUID   - guid of the variable storage
+NAME   - name of the variable storage
 PATH   - device path
 ALTCFG - alternative configurations
 OFFSET - offset of the variable inside the storage
@@ -230,54 +224,8 @@ WIDTH  - size of the variable inside the storage
 VALUE  - value of the variable inside the storage
 ```
 
-They are combined like this:
-- The combination `GUID=<...>&NAME=<...>&PATH=<...>` is like a header for some storage configuration
-- Sometimes the header above can include `ALTCFG` at the end: `GUID=<...>&NAME=<...>&PATH=<...>&ALTCFG=<...>`
-- After the storage configuration header there are configuration elements. Every element is encoded via the `OFFSET=<...>&WIDTH=<...>&VALUE=<...>` configuration
-
-
-Now back to our pretty print task. In our `PrintConfigString` function we would split the configuration string by the keyword separator `&` and use another `PrintConfigSubString` function to print each `<key>=<data>` pair:
-```
-VOID PrintConfigString(
-  IN EFI_STRING ConfigString
-  )
-{
-  UINTN StartIndex=0;
-  for (UINTN i=0; ConfigString[i] != 0; i++) {
-    if (ConfigString[i] == L'&') {
-      ConfigString[i] = 0;
-      PrintConfigSubString(&ConfigString[StartIndex]);
-      StartIndex = i+1;
-    }
-  }
-  PrintConfigSubString(&ConfigString[StartIndex]);
-}
-```
-
-Here is how our `PrintConfigSubString` function would look like:
-```
-VOID PrintConfigSubString(
-  IN EFI_STRING ConfigString
-  )
-{
-  EFI_STATUS Status;
-  if (StrStr(ConfigString, L"GUID=")) {
-    <...>						// display the full string and actual guid
-  } else if (StrStr(ConfigString, L"NAME=")) {
-    <...>                                               // display the full string and actual name
-  } else if (StrStr(ConfigString, L"PATH=")) {
-    <...>
-  } else if (StrStr(ConfigString, L"VALUE=")) {
-    <...>                                               // display the full string and actual value
-  } else if (StrStr(ConfigString, L"OFFSET=") || StrStr(ConfigString, L"WIDTH=")) {
-    Print(L"%s  ", ConfigString);                       // don't print '\n', so we could see the "OFFSET=<...>  WIDTH=<...>  VALUE=<...>" on the same string
-  } else {
-    Print(L"%s\n", ConfigString);
-  }
-}
-```
-
-If the string starts with a `GUID=`/`NAME=`/`PATH=` we will parse the data and display actual GUID/Name/DevicePath in a readable standard format. If the string starts with `VALUE=` we would display its data as a hex buffer similar to hexdump.
-
-
+They are used like this:
+- The combination `GUID=<...>&NAME=<...>&PATH=<...>` is like a header for some storage configuration,
+- Sometimes the header above can include `ALTCFG` at the end: `GUID=<...>&NAME=<...>&PATH=<...>&ALTCFG=<...>`. If it is included it means that the data after the header corresponds to some `default` configuration. There are 2 predefined defaults: Standard default (=0000) and Manufacture Default (=0001). The output for these defaults is always present, even if they are not declared explicitly in the VFR code. But there can be more ALTCFG's in the ouput if you'll declare alternative defaultstores in VFR,
+- After the storage configuration header there are configuration elements. Every element is encoded via the `OFFSET=<...>&WIDTH=<...>&VALUE=<...>` combination, which means that the data in the storage at OFFSET with the byte length WIDTH is equal to VALUE.
 

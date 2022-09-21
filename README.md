@@ -78,6 +78,8 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 72](Lessons/Lesson_72): Dynamically add elements to HII forms with a help of a `label` keyword
 - [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
 _____
+- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_1): UEFI Configuration language. Dump current HII Database settings with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.ExportConfig()` function
+_____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
