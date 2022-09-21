@@ -79,6 +79,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_1): UEFI Configuration language. Dump current HII Database settings with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.ExportConfig()` function
+- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_2): UEFI Configuration language. Create a function to prettify configuration string data 
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
