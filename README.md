@@ -83,6 +83,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_3): UEFI Configuration language. Extract individual form element configurations with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.ExtractConfig()` function
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_4): UEFI Configuration language. Explore `ExtractConfig` request syntax on custom forms
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_5): UEFI Configuration language. Change form data with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.RouteConfig()` function
+- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_6): UEFI Configuration language. Keyword handler protocol. Get keyword values with the `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.GetData()` function
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
