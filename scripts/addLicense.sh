@@ -1,12 +1,12 @@
 ##
-# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+# Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
 #
 # SPDX-License-Identifier: MIT
 ##
 
 COPYRIGHT_C="\
 /*
- * Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+ * Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
  *
  * SPDX-License-Identifier: MIT
  */
@@ -14,7 +14,7 @@ COPYRIGHT_C="\
 
 COPYRIGHT_UNI="\
 //
-// Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+// Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
 //
 // SPDX-License-Identifier: MIT
 //
@@ -22,7 +22,7 @@ COPYRIGHT_UNI="\
 
 COPYRIGHT_META="\
 ##
-# Copyright (c) 2021, Konstantin Aladyshev <aladyshev22@gmail.com>
+# Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
 #
 # SPDX-License-Identifier: MIT
 ##
