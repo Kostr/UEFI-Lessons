@@ -82,6 +82,9 @@
   UefiLessonsPkg/HIIFormCheckbox/HIIFormCheckbox.inf
   UefiLessonsPkg/HIIFormDataElements/HIIFormDataElements.inf
   UefiLessonsPkg/HIIFormLabel/HIIFormLabel.inf
+  UefiLessonsPkg/HIIConfig/HIIConfig.inf
+  UefiLessonsPkg/HIIKeyword/HIIKeyword.inf
+  UefiLessonsPkg/HIIFormDataElementsWithKeywords/HIIFormDataElementsWithKeywords.inf
   UefiLessonsPkg/FfsFile/FfsFile.inf
   UefiLessonsPkg/SetSku/SetSku.inf
 

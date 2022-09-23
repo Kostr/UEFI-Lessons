@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIKeyword
+  FILE_GUID                      = a9ec2c65-7a2b-41b8-bab0-fb4ad8ecfdde
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  HIIKeyword.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  ShellCEntryLib
+  UefiLib
+
+[Protocols]
+  gEfiConfigKeywordHandlerProtocolGuid
+
+[Pcd]
+  gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize
+

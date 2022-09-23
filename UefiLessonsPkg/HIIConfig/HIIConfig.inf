@@ -1,0 +1,27 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIConfig
+  FILE_GUID                      = 417bf8bf-05b6-4cb5-b6e1-ed41c1fc971d
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  HIIConfig.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  ShellCEntryLib
+  UefiLib
+  DevicePathLib
+  HiiLib
+
+[Protocols]
+  gEfiHiiConfigRoutingProtocolGuid
+
+[Pcd]
+  gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize
+

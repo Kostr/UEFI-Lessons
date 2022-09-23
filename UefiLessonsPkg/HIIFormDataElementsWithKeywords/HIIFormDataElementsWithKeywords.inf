@@ -1,0 +1,24 @@
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIFormDataElementsWithKeywords
+  FILE_GUID                      = 162201c9-1208-4567-bab6-e9d32ae90e84
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HIIFormDataElementsWithKeywordsEntryPoint
+  UNLOAD_IMAGE                   = HIIFormDataElementsWithKeywordsUnload
+
+[Sources]
+  HIIFormDataElementsWithKeywords.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  HiiLib
+
