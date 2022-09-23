@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 #include <Library/UefiBootServicesTableLib.h>
 #include <Library/UefiLib.h>
 
