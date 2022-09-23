@@ -215,7 +215,18 @@ Variable NV+BS 'EF2ACC91-7B50-4AB9-AB67-2B04F8BC135E:CheckboxValue' DataSize = 0
 
 ```
 
-If you want to, you can issue route requests to our `HIIFormDataElements.efi` form storage, just remember two things:
+If you want to, you can issue route requests to our `HIIFormDataElements.efi` form storage, just remember these things:
 - like with the `extract` case it is not mandatory for the OFFSET/WIDTH to be on element boundaries,
 - don't forget to pay attention to the byte order in the `VALUE=` string and to the order of bytes in the actual form elemet. The order is reversed. So you will need to pass string element data backbards (i.e `VALUE=<o><l><l><e><H>`).
+- changing element via `RouteConfig()` call can bypass some VFR limitations. For example even if numeric element has `minimum` and `maximum` attributes set like this:
+```
+numeric
+  ...
+  minimum = 0,
+  maximum = 10,
+  ...
+endnumric
+```
+it would still possible to set a value outside of these limits.
+
 
