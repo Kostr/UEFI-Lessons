@@ -1,0 +1,30 @@
+##
+# Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIFormDataElementsWithDefaultsSet
+  FILE_GUID                      = 162201c9-1208-4567-bab6-e9d32ae90e84
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HIIFormDataElementsWithDefaultsSetEntryPoint
+  UNLOAD_IMAGE                   = HIIFormDataElementsWithDefaultsSetUnload
+
+[Sources]
+  HIIFormDataElementsWithDefaultsSet.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  UefiLessonsPkg/UefiLessonsPkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  HiiLib
+

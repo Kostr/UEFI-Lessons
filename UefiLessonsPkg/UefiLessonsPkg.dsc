@@ -85,6 +85,7 @@
   UefiLessonsPkg/HIIConfig/HIIConfig.inf
   UefiLessonsPkg/HIIKeyword/HIIKeyword.inf
   UefiLessonsPkg/HIIFormDataElementsWithKeywords/HIIFormDataElementsWithKeywords.inf
+  UefiLessonsPkg/HIIFormDataElementsWithDefaultsSet/HIIFormDataElementsWithDefaultsSet.inf
   UefiLessonsPkg/FfsFile/FfsFile.inf
   UefiLessonsPkg/SetSku/SetSku.inf
 

@@ -33,7 +33,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 28](Lessons/Lesson_28): Get ACPI tables and save them to files with a help of `EFI_SHELL_PROTOCOL`
 - [Lesson 29](Lessons/Lesson_29): Use `EFI_ACPI_SDT_PROTOCOL` and `ShellLib` to save a BMP image from the ACPI BGRT table
 - [Lesson 30](Lessons/Lesson_30): Find all PCI root bridges in the system with a help of `LocateHandleBuffer`/`OpenProtocol` functions and use
-`EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL` to get all PCI functions in the system.
+`EFI_PCI_ROOT_BRIDGE_IO_PROTOCOL` to get all PCI functions in the system
 - [Lesson 31](Lessons/Lesson_31): Search `pci.ids` database to get PCI Vendor/Device information with a help of `ShellLib`/`PrintLib` functions
 - [Lesson 32](Lessons/Lesson_32): Show PCI Option ROM images with the help of `EFI_PCI_IO_PROTOCOL` protocol
 - [Lesson 33](Lessons/Lesson_33): Use `EfiRom` utility for parsing and creation of PCI Option ROM images 
@@ -44,7 +44,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 38](Lessons/Lesson_38): Create and use your custom protocol. `InstallMultipleProtocolInterfaces` and `UninstallMultipleProtocolInterfaces` functions
 - [Lesson 39](Lessons/Lesson_39): Create a driver that adds hot key functionality with a help of `RegisterKeyNotify`/`UnregisterKeyNotify` functions
 - [Lesson 40](Lessons/Lesson_40): `Key####` NVRAM variables
-- [Lesson 41](Lessons/Lesson_41): `DEBUG` print statement internals. `EFI_D_*` log levels and all the PCDs for the `DEBUG` statement control. Getting and parsing OVMF boot log.
+- [Lesson 41](Lessons/Lesson_41): `DEBUG` print statement internals. `EFI_D_*` log levels and all the PCDs for the `DEBUG` statement control. Getting and parsing OVMF boot log
 - [Lesson 42](Lessons/Lesson_42): Debug your drivers/applications and OVMF itself with GDB
 - [Lesson 43](Lessons/Lesson_43): Intro to the HII. Create an application to display HII database content 
 - [Lesson 44](Lessons/Lesson_44): HII database internals 
@@ -84,12 +84,13 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_4): UEFI Configuration language. Explore `ExtractConfig` request syntax on custom forms
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_5): UEFI Configuration language. Change form data with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.RouteConfig()` function
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_6): UEFI Configuration language. Keyword handler protocol. Get keyword values with the `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.GetData()` function
-- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_7): UEFI Configuration language. Keyword handler protocol. Add keywords to you Form elements. Use `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.SetData()` function to chage data referred by keywords.
+- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_7): UEFI Configuration language. Keyword handler protocol. Add keywords to you Form elements. Use `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.SetData()` function to chage data referred by keywords
+- [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_8): Use `HiiSetToDefaults` function to set form elements to their default values non-interactively
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
-- [Lesson XX](Lessons_uncategorized/Lesson_FDF): Intro to FDF file format. Flash Device Image `[FD]` sections: flash chip defines and regions definition. OVMF image FDF file analysis.
+- [Lesson XX](Lessons_uncategorized/Lesson_FDF): Intro to FDF file format. Flash Device Image `[FD]` sections: flash chip defines and regions definition. OVMF image FDF file analysis
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV/README.md): Firmware Volume (`FV`), FFS, files. Create simple FV with `RAW` files
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_2/README.md): File sections - Part 1: `FREEFORM` file and `RAW` section type. FV build process (`GenSec`/`GenFfs`/`GenFv` tools)
 - [Lesson XX](Lessons_uncategorized/Lesson_FDF_FV_3/README.md): File sections - Part 2: Other leaf sections: `USER_INTERFACE`/`VERSION`/`FREEFORM_SUBTYPE_GUID`/`PE32`/`PIC`/`COMPATIBILITY16`/`TE`/`DISPOSABLE`/`PEI_DEPEX`/`DXE_DEPEX`
