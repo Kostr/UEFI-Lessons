@@ -86,6 +86,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_6): UEFI Configuration language. Keyword handler protocol. Get keyword values with the `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.GetData()` function
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_7): UEFI Configuration language. Keyword handler protocol. Add keywords to you Form elements. Use `EFI_CONFIG_KEYWORD_HANDLER_PROTOCOL.SetData()` function to chage data referred by keywords
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_8): Use `HiiSetToDefaults` function to set form elements to their default values non-interactively
+- [Lesson XX](Lessons_uncategorized/Lesson_Varstore_1): Create a driver with `Buffer Storage` - Part 1: `varstore` element and `EFI_HII_CONFIG_ACCESS_PROTOCOL`
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
