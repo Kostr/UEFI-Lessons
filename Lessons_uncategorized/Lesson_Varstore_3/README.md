@@ -152,9 +152,11 @@ FS0:\> load HIIFormDataElementsVarstore.efi
 ```
 
 Check the form browser. Now our form is filled with zeros rather than default values. We didn't give any data to our `VARIABLE_STRUCTURE FormStorage` variable, so it is expected output:
+
 ![1](1.png?raw=true "1")
 
 And now if you'll try to set the checkbox element and submit a form, you'll see that submit also works fine:
+
 ![2](2.png?raw=true "2")
 
 As in our case the `VARIABLE_STRUCTURE FormStorage` is a simple local driver variable the changes are pesistent only in the context of a current boot. If you'll reboot QEMU, you'll start from 0 values in the storage again.
@@ -188,7 +190,8 @@ HIIFormDataElementsVarstoreEntryPoint (
 ```
 
 With that our form will start with the manufacture default values:
-![5](5.png?raw=true "5")
+
+![3](3.png?raw=true "3")
 
 
 # Checking the form with `HIIConfig.efi`
