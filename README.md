@@ -88,6 +88,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_8): Use `HiiSetToDefaults` function to set form elements to their default values non-interactively
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_1): Create a driver with `Buffer Storage` - Part 1: `varstore` element and `EFI_HII_CONFIG_ACCESS_PROTOCOL`
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_2): Create a driver with `Buffer Storage` - Part 2: Investigate when and how `ExtractConfig`/`RouteConfig`/`Callback` functions are called
+- [Lesson XX](Lessons_uncategorized/Lesson_Varstore_3): Create a driver with `Buffer Storage` - Part 3: Use `BlockToConfig()`/`ConfigToBlock()` functions to handle configuration requests
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
