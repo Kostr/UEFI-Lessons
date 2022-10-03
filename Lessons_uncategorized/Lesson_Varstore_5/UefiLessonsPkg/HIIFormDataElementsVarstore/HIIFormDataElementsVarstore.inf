@@ -1,0 +1,34 @@
+##
+# Copyright (c) 2022, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HIIFormDataElementsVarstore
+  FILE_GUID                      = 162201c9-1208-4567-bab6-e9d32ae90e84
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HIIFormDataElementsVarstoreEntryPoint
+  UNLOAD_IMAGE                   = HIIFormDataElementsVarstoreUnload
+
+[Sources]
+  HIIFormDataElementsVarstore.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  HiiLib
+  DebugLib
+  UefiHiiServicesLib
+
+[Protocols]
+  gEfiHiiConfigAccessProtocolGuid
+

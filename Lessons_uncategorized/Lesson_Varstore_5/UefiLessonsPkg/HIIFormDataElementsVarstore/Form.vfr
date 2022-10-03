@@ -1,0 +1,107 @@
+#include <Uefi/UefiMultiPhase.h>
+#include "Data.h"
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+
+  varstore VARIABLE_STRUCTURE,
+    name  = FormData,
+    guid  = STORAGE_GUID;
+
+  defaultstore StandardDefault,
+    prompt      = STRING_TOKEN(STANDARD_DEFAULT_PROMPT),
+    attribute   = 0x0000;
+
+  defaultstore ManufactureDefault,
+    prompt      = STRING_TOKEN(MFG_DEFAULT_PROMPT),
+    attribute   = 0x0001;
+
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+    checkbox
+      varid = FormData.CheckboxValue,
+      questionid = 0x5555,
+      prompt = STRING_TOKEN(CHECKBOX_PROMPT),
+      help = STRING_TOKEN(CHECKBOX_HELP),
+      flags = INTERACTIVE,
+      default = TRUE, defaultstore = StandardDefault,
+      default = FALSE, defaultstore = ManufactureDefault,
+    endcheckbox;
+
+    numeric
+      name = NumericQuestion,
+      varid = FormData.NumericValue,
+      questionid = 0x4444,
+      prompt = STRING_TOKEN(NUMERIC_PROMPT),
+      help = STRING_TOKEN(NUMERIC_HELP),
+      flags = NUMERIC_SIZE_2 | DISPLAY_UINT_HEX | INTERACTIVE,
+      minimum = 0,
+      maximum = 10,
+      step = 1,
+      default = 7, defaultstore = StandardDefault,
+      default = 8, defaultstore = ManufactureDefault,
+    endnumeric;
+
+    string
+      name = StringQuestion,
+      varid = FormData.StringValue,
+      prompt = STRING_TOKEN(STRING_PROMPT),
+      help = STRING_TOKEN(STRING_HELP),
+      flags = INTERACTIVE,
+      minsize = 5,
+      maxsize = 10,
+      default = STRING_TOKEN(STRING_DEFAULT), defaultstore = StandardDefault,
+      default = STRING_TOKEN(STRING_PROMPT), defaultstore = ManufactureDefault,
+    endstring;
+
+    date
+      varid = FormData.DateValue,
+      prompt = STRING_TOKEN(DATE_PROMPT),
+      help = STRING_TOKEN(DATE_HELP),
+      default = 2021/05/22,
+    enddate;
+
+    time
+      varid = FormData.TimeValue,
+      prompt = STRING_TOKEN(TIME_PROMPT),
+      help = STRING_TOKEN(TIME_HELP),
+      default = 23:55:33,
+    endtime;
+
+    oneof
+      name = OneOfQuestion,
+      varid = FormData.OneOfValue,
+      prompt = STRING_TOKEN(ONEOF_PROMPT),
+      help = STRING_TOKEN(ONEOF_HELP),
+      option text = STRING_TOKEN(ONEOF_OPTION1), value = 0x00, flags = 0;
+      option text = STRING_TOKEN(ONEOF_OPTION2), value = 0x33, flags = MANUFACTURING;
+      option text = STRING_TOKEN(ONEOF_OPTION3), value = 0x55, flags = DEFAULT;
+    endoneof;
+
+    orderedlist
+      varid = FormData.OrderedListValue,
+      prompt = STRING_TOKEN(ORDERED_LIST_PROMPT),
+      help = STRING_TOKEN(ORDERED_LIST_HELP),
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION1), value = 0x0A, flags = 0;
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION2), value = 0x0B, flags = 0;
+      option text = STRING_TOKEN(ORDERED_LIST_OPTION3), value = 0x0C, flags = 0;
+      default = {0x0c, 0x0b, 0x0a},
+    endlist;
+
+    resetbutton
+      defaultstore = StandardDefault,
+      prompt   = STRING_TOKEN(BTN_STANDARD_DEFAULT_PROMPT),
+      help     = STRING_TOKEN(BTN_STANDARD_DEFAULT_HELP),
+    endresetbutton;
+
+    resetbutton
+      defaultstore = ManufactureDefault,
+      prompt   = STRING_TOKEN(BTN_MFG_DEFAULT_PROMPT),
+      help     = STRING_TOKEN(BTN_MFG_DEFAULT_HELP),
+    endresetbutton;
+  endform;
+endformset;

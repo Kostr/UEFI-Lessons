@@ -14,7 +14,7 @@ The `EFI_IFR_FLAG_CALLBACK` is one of the flags for the `EFI_IFR_QUESTION_HEADER
 #define EFI_IFR_FLAG_RECONNECT_REQUIRED  0x40
 #define EFI_IFR_FLAG_OPTIONS_ONLY        0x80
 ```
-The `EFI_IFR_QUESTION_HEADER` is a structure present in the IFR code of all our data elements:
+The `EFI_IFR_QUESTION_HEADER` in turn is a structure present in the IFR code of all our data elements:
 ```
 EFI_IFR_CHECKBOX     - checkbox
 EFI_IFR_NUMERIC      - numeric
@@ -79,7 +79,7 @@ Action. Depending on the action, the browser may also pass the question value us
 Upon return, the callback function may specify the desired browser action.
 ```
 
-To better understand when and how this function is called let's add a debug statement that would print incoming arguments like we did with `RouteConfig()` and `ExtractConfig()`. But for that we need to understand this arguments first.
+To better understand when and how this function is called let's add a debug statement that would print incoming arguments like we did with `RouteConfig()` and `ExtractConfig()`. But first let's try to understand what all these arguments mean.
 
 ## `EFI_BROWSER_ACTION Action`
 
@@ -87,18 +87,18 @@ This argument describes an operation that is currently performed by the browser.
 ```cpp
 typedef UINTN EFI_BROWSER_ACTION;
 
-#define EFI_BROWSER_ACTION_CHANGING               0
-#define EFI_BROWSER_ACTION_CHANGED                1
-#define EFI_BROWSER_ACTION_RETRIEVE               2
-#define EFI_BROWSER_ACTION_FORM_OPEN              3
-#define EFI_BROWSER_ACTION_FORM_CLOSE             4
-#define EFI_BROWSER_ACTION_SUBMITTED              5
-#define EFI_BROWSER_ACTION_DEFAULT_STANDARD       0x1000
-#define EFI_BROWSER_ACTION_DEFAULT_MANUFACTURING  0x1001
-#define EFI_BROWSER_ACTION_DEFAULT_SAFE           0x1002
-#define EFI_BROWSER_ACTION_DEFAULT_PLATFORM       0x2000
-#define EFI_BROWSER_ACTION_DEFAULT_HARDWARE       0x3000
-#define EFI_BROWSER_ACTION_DEFAULT_FIRMWARE       0x4000
+#define EFI_BROWSER_ACTION_CHANGING               0		// Called after the user have changed the element value, but before the browser updated display
+#define EFI_BROWSER_ACTION_CHANGED                1		// Called after the user have changed the element value, after the browser updated display
+#define EFI_BROWSER_ACTION_RETRIEVE               2		// Called after the browser has read the value, but before displayed it
+#define EFI_BROWSER_ACTION_FORM_OPEN              3		// Called on form open before retrieve
+#define EFI_BROWSER_ACTION_FORM_CLOSE             4		// Called on form exit
+#define EFI_BROWSER_ACTION_SUBMITTED              5		// Called after submit
+#define EFI_BROWSER_ACTION_DEFAULT_STANDARD       0x1000	// Called on setting standard default (default value is equal 0x0000)
+#define EFI_BROWSER_ACTION_DEFAULT_MANUFACTURING  0x1001	// Called on setting manufacture default (default value is equal 0x0001)
+#define EFI_BROWSER_ACTION_DEFAULT_SAFE           0x1002	// Called on setting safe defaults (default value is equal 0x0002)
+#define EFI_BROWSER_ACTION_DEFAULT_PLATFORM       0x2000	// Called on setting platform defaults (default values in range 0x4000-0x7fff)
+#define EFI_BROWSER_ACTION_DEFAULT_HARDWARE       0x3000	// Called on setting hardware defaults (default values in range 0x8000-0xbfff)
+#define EFI_BROWSER_ACTION_DEFAULT_FIRMWARE       0x4000	// Called on setting firmware defaults (default values in range 0xc000-0xffff)
 ```
 On each of these operations the Form Browser calls `Callback()` function for each of the form elements with the `EFI_IFR_FLAG_CALLBACK` flag.
 
@@ -145,12 +145,13 @@ typedef UINT16  EFI_QUESTION_ID;
 ```
 It is just a `UINT16` value identificator to indicate for which of the form elements the `Callback()` function is called.
 
+It is possible to explicitly set values for question id's of your form elements with the VFR `questionid` keyword. If you don't do it, the `VfrCompiler` will implicitly assign unique question identifiers to all the form elements without it. The numbering in this case starts from `0x0001`.
 
 ## `UINT8 Type` and `EFI_IFR_TYPE_VALUE *Value`
 
 The Form Browser also sends an actual form element data to the `Callback()` function.
 
-But each element store the data in it's own type. Therefore the Form Browser in one argument send the type of value [https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Uefi/UefiInternalFormRepresentation.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Uefi/UefiInternalFormRepresentation.h):
+But each element store the data in it's own type. Therefore the Form Browser in one argument sends the type of value [https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Uefi/UefiInternalFormRepresentation.h](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Uefi/UefiInternalFormRepresentation.h):
 ```
 //
 // Types of the option's value.
@@ -169,7 +170,7 @@ But each element store the data in it's own type. Therefore the Form Browser in 
 #define EFI_IFR_TYPE_BUFFER       0x0B
 #define EFI_IFR_TYPE_REF          0x0C
 ```
-In in another argument the actual value as a union type:
+And in in another argument it sends the actual value as a union type:
 ```
 typedef union {
   UINT8            u8;
@@ -185,8 +186,7 @@ typedef union {
 } EFI_IFR_TYPE_VALUE;
 ```
 
-Therefore to get the value we first look at the `UINT8 Type` argument and then use the necessary type on the `EFI_IFR_TYPE_VALUE` union.
-
+Therefore to get the actual value we first look at the `UINT8 Type` argument and then use the necessary type on the `EFI_IFR_TYPE_VALUE` union. Below I've written two functions: `TypeToStr` simply prints a type of the callback element, and `DebugCallbackValue` prints an element value based on it's type:
 ```cpp
 EFI_STRING TypeToStr(UINT8 Type)
 {
@@ -279,7 +279,7 @@ Callback (
 }
 ```
 
-Besides the `Callback()` let's add the `DEBUG` statements to the `RouteConfig()` and `ExtractConfig()` function as well. This way we will know the order of how the Form Browser calls out functions:
+Besides the `Callback()` let's add the `DEBUG` statements to the `RouteConfig()` and `ExtractConfig()` functions as well. This way we will know the order of how the Form Browser calls our functions:
 ```
 STATIC
 EFI_STATUS
@@ -311,7 +311,10 @@ ExtractConfig (
 }
 ```
 
-# Experiment
+Now it is time to test our driver. Build our driver, copy it to the shared folder and run QEMU with debug log. For the last operation you can use the first stage of the `run_gdb_ovmf.sh` script:
+```
+./run_gdb_ovmf.sh -1
+```
 
 Load our driver to the UEFI shell.
 ```
@@ -333,7 +336,7 @@ Change the numeric element value to 3:
 Callback: Action=EFI_BROWSER_ACTION_CHANGING, QuestionId=0x0002, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
 Callback: Action=EFI_BROWSER_ACTION_CHANGED, QuestionId=0x0002, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
 ```
-As you see here the Form Browser doesn't call `ExtractConfig`/`RouteConfig` functions. It is the only situation when it is happening like that.
+As you know, in this case the Form Browser doesn't call `ExtractConfig`/`RouteConfig` functions. But as you see you still have control in that case since the `Callback()` code is called.
 
 Submit the form with updated value:
 ```
@@ -358,19 +361,21 @@ Exit without submit
 Callback: Action=EFI_BROWSER_ACTION_CHANGED, QuestionId=0x0002, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
 Callback: Action=EFI_BROWSER_ACTION_FORM_CLOSE, QuestionId=0x0002, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
 ```
-Here you see that 2 callbacks were executed. As another experiment enter the form again, set manufacture defaults and submit them. And only then exit our form. This way the exit action would print only the `EFI_BROWSER_ACTION_FORM_CLOSE` callback:
+Here you see that 2 callbacks were executed: `EFI_BROWSER_ACTION_CHANGED` and `EFI_BROWSER_ACTION_FORM_CLOSE`. As another experiment enter the form again, set manufacture defaults and submit them. And only then exit our form. This way the exit action would print only the `EFI_BROWSER_ACTION_FORM_CLOSE` callback:
 ```
 Callback: Action=EFI_BROWSER_ACTION_FORM_CLOSE, QuestionId=0x0002, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=8
 ```
-So the `EFI_BROWSER_ACTION_CHANGED` in this case is called only if an element has unsubmitted chanegs.
+So the `EFI_BROWSER_ACTION_CHANGED` in this case is called only if an element has unsubmitted changes.
 
 
 # `QuestionId` and the order of callbacks
 
-In the last example the `QuestionId` for our element was set implicitly by the `VfrCompiler`. But it is possible to set it yourself with a help of a `quiestionid` keyword.
+In the last example the `QuestionId` for our element was set implicitly by the `VfrCompiler`. But as we've mentioned it earlier it is possible to set it yourself with a help of a `quiestionid` keyword.
 
 For another experiment let's add `INTERACTIVE` flag to the `checkbox` and `string` elements. But set the `quiestionid` explicitly only for the `checkbox` and `numeric` elements:
 ```
+...
+
 checkbox
   varid = FormData.CheckboxValue,
   questionid = 0x5555,
@@ -406,6 +411,8 @@ string
   default = STRING_TOKEN(STRING_DEFAULT), defaultstore = StandardDefault,
   default = STRING_TOKEN(STRING_PROMPT), defaultstore = ManufactureDefault,
 endstring
+
+...
 ```
 
 This would give us this output on the form open:
@@ -418,10 +425,11 @@ Callback: Action=EFI_BROWSER_ACTION_RETRIEVE, QuestionId=0x5555, Type=EFI_IFR_TY
 Callback: Action=EFI_BROWSER_ACTION_RETRIEVE, QuestionId=0x4444, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=8
 Callback: Action=EFI_BROWSER_ACTION_RETRIEVE, QuestionId=0x0001, Type=EFI_IFR_TYPE_STRING, Value=String pro
 ```
-As you see here each action is called on every interactive form element. This is true for all other cases when the action affects all the form elements.
-The calls in this case are happening not by the order of QuestionId's, but in the order of element placement in the VFR. Also as we've said it before, the `VfrCompiler` implicitly assigns `QuestionId`'s to all the form elements which don't have any explicit define for that. Even to those which don't have any `INTERACTIVE` flag. The implicit assignments start from the `0x0001` value, and this is the value that our `string` element got.
+As you see here each action is called on every interactive form element. This is true for all other cases when the action affects all the form elements. This includes all the actions except `EFI_BROWSER_ACTION_CHANGING` and `EFI_BROWSER_ACTION_CHANGED`.
 
-If we change `numeric` element value to 3, only `numeric` callback will be executed
+Another thing to point out is that the calls in the output above are happening not by the order of `QuestionId`'s, but in the order of element placement in the VFR. Also as we've said it before, the `VfrCompiler` implicitly assigns `QuestionId`'s to all the form elements which don't have any explicit setting for that. Even to those which don't have any `INTERACTIVE` flag. The implicit assignment starts from the `0x0001` value, and this is the value that our `string` element got.
+
+Now if we change the `numeric` element value to 3, only `numeric` callback will be executed:
 ```
 Callback: Action=EFI_BROWSER_ACTION_CHANGING, QuestionId=0x4444, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
 Callback: Action=EFI_BROWSER_ACTION_CHANGED, QuestionId=0x4444, Type=EFI_IFR_TYPE_NUM_SIZE_16, Value=3
@@ -434,5 +442,5 @@ Callback: Action=EFI_BROWSER_ACTION_FORM_CLOSE, QuestionId=0x4444, Type=EFI_IFR_
 Callback: Action=EFI_BROWSER_ACTION_FORM_CLOSE, QuestionId=0x0001, Type=EFI_IFR_TYPE_STRING, Value=String pro
 ```
 
-I hope all of these experiment have got you some understanding about when and how the `Callback()` function is executed.
+I hope all of these experiments have got you some understanding about when and how the `Callback()` function is executed.
 

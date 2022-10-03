@@ -90,6 +90,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_2): Create a driver with `Buffer Storage` - Part 2: Investigate when and how `ExtractConfig`/`RouteConfig`/`Callback` functions are called
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_3): Create a driver with `Buffer Storage` - Part 3: Use `BlockToConfig()`/`ConfigToBlock()` functions to handle configuration requests
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_4): Create a driver with `Buffer Storage` - Part 4: Make `ExtractConfig()` function compatible with UEFI specification
+- [Lesson XX](Lessons_uncategorized/Lesson_Varstore_5): Investigate when and how the Form Browser calls `EFI_HII_CONFIG_ROUTING_PROTOCOL.Callback()` function
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
