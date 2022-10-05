@@ -8,6 +8,10 @@
 
 [createNewDriver.sh](createNewDriver.sh) - create new UEFI_DRIVER by name
 
+[createNewHIIEfivarstoreDriver.sh](createNewHIIEfivarstoreDriver.sh) - create new UEFI_DRIVER with Form and EFI storage by name
+
+[createNewHIIVarstoreDriver.sh](createNewHIIVarstoreDriver.sh) - create new UEFI_DRIVER with Form and Buffer storage by name
+
 - Replace GUIDs in log file:
 
 [replace_guids.py](replace_guids.py) - script that translates GUIDs in 'debug.log' file to readable strings
@@ -29,3 +33,7 @@
 - PCD:
 
 [genToken.sh](genToken.sh) - script to generate random 4-byte token for PCD
+
+- GUID:
+
+[guidgen.sh](guidgen.sh) - script to generate new GUID in both standard and C-style formats
