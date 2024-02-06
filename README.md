@@ -92,6 +92,8 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_4): Create a driver with `Buffer Storage` - Part 4: Make `ExtractConfig()` function compatible with UEFI specification
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_5): Investigate when and how the Form Browser calls `EFI_HII_CONFIG_ROUTING_PROTOCOL.Callback()` function
 _____
+- [Lesson XX](Lessons_uncategorized/Lesson_Hidden_BIOS_settings): Changing hidden BIOS settings. Using `IFRExtractor` utility to extract UEFI IFR data into human-readable text
+_____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_Build_tools): Build tools configuration via `Conf/tools_def.txt` file and `[BuildOptions]` section usage in INF and DSC files
