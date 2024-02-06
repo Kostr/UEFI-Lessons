@@ -1,0 +1,28 @@
+//
+// Copyright (c) 2024, Konstantin Aladyshev <aladyshev22@gmail.com>
+//
+// SPDX-License-Identifier: MIT
+//
+
+#langdef en-US "English"
+
+#string FORMSET_TITLE            #language en-US  "Formset with hidden settings"
+#string FORMSET_HELP             #language en-US  "Formset with hidden settings"
+#string FORMID1_TITLE            #language en-US  "Form with hidden settings"
+#string CHECKBOX_PROMPT          #language en-US  "Show varstore settings"
+#string CHECKBOX_HELP            #language en-US  "Show varstore settings"
+#string NUMERIC_PROMPT           #language en-US  "Numeric prompt"
+#string NUMERIC_HELP             #language en-US  "Numeric help"
+#string ONEOF_PROMPT             #language en-US  "OneOf list prompt"
+#string ONEOF_HELP               #language en-US  "OneOf list help"
+#string ONEOF_OPTION1            #language en-US  "OneOf list option 1"
+#string ONEOF_OPTION2            #language en-US  "OneOf list option 2"
+#string ONEOF_OPTION3            #language en-US  "OneOf list option 3"
+#string STRING_DEFAULT           #language en-US  "String default"
+#string CHECKBOX_EFI_PROMPT      #language en-US  "Enable efivarstorage settings"
+#string CHECKBOX_EFI_HELP        #language en-US  "Enable efivarstorage settings"
+#string NUMERIC_EFI_PROMPT       #language en-US  "Numeric EFI prompt"
+#string NUMERIC_EFI_HELP         #language en-US  "Numeric EFI help"
+#string ONEOF_EFI_PROMPT         #language en-US  "OneOf list EFI prompt"
+#string ONEOF_EFI_HELP           #language en-US  "OneOf list EFI help"
+#string STANDARD_DEFAULT_PROMPT  #language en-US  "Standard default"

@@ -1,0 +1,20 @@
+//
+// Copyright (c) 2024, Konstantin Aladyshev <aladyshev22@gmail.com>
+//
+// SPDX-License-Identifier: MIT
+//
+
+#langdef en-US "English"
+
+#string STR_HELP        #language en-US ""
+".TH ShowHIIext 0 "Show HII database packages"\r\n"
+".SH NAME\r\n"
+"Shows packages installed into the HII database.\r\n"
+".SH SYNOPSIS\r\n"
+"\r\n"
+"SHOWHIIEXT [-b] [save [<index>]]\r\n"
+".SH OPTIONS\r\n"
+"\r\n"
+"  -b            - Display one screen at a time\r\n"
+"  save          - Save all package lists as files\r\n"
+"  save <index>  - Save package list with index <index> as a file\r\n"

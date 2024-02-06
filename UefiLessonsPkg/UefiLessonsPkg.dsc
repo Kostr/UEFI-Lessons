@@ -89,6 +89,8 @@
   UefiLessonsPkg/HIIFormDataElementsVarstore/HIIFormDataElementsVarstore.inf
   UefiLessonsPkg/FfsFile/FfsFile.inf
   UefiLessonsPkg/SetSku/SetSku.inf
+  UefiLessonsPkg/HiddenSettings/HiddenSettings.inf
+  UefiLessonsPkg/ShowHIIext/ShowHIIext.inf
 
 #[PcdsFixedAtBuild]
 #  gUefiLessonsPkgTokenSpaceGuid.PcdInt8|0x88|UINT8|0x3B81CDF1

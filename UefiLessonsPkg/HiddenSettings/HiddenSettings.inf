@@ -1,0 +1,32 @@
+##
+# Copyright (c) 2024, Konstantin Aladyshev <aladyshev22@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+##
+
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = HiddenSettings
+  FILE_GUID                      = 269d7962-badc-44da-815a-4af4f293f3e0
+  MODULE_TYPE                    = UEFI_DRIVER
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = HiddenSettingsEntryPoint
+  UNLOAD_IMAGE                   = HiddenSettingsUnload
+
+[Sources]
+  HiddenSettings.c
+  Strings.uni
+  Form.vfr
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+
+[LibraryClasses]
+  UefiDriverEntryPoint
+  UefiLib
+  UefiHiiServicesLib
+  HiiLib
+
+[Protocols]
+  gEfiHiiConfigAccessProtocolGuid

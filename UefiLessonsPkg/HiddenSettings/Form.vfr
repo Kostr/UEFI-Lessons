@@ -1,0 +1,93 @@
+#include <Uefi/UefiMultiPhase.h>
+#include "Data.h"
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+
+  varstore VARIABLE_STRUCTURE,
+    name  = FormData,
+    guid  = STORAGE_GUID;
+
+  efivarstore VARIABLE_STRUCTURE,
+    attribute = EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_NON_VOLATILE,
+    name  = FormEfiData,
+    guid  = STORAGE_EFI_GUID;
+
+  defaultstore StandardDefault,
+    prompt      = STRING_TOKEN(STANDARD_DEFAULT_PROMPT),
+    attribute   = 0x0000;
+
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+suppressif TRUE;
+    checkbox
+      varid = FormData.CheckboxValue,
+      prompt = STRING_TOKEN(CHECKBOX_PROMPT),
+      help = STRING_TOKEN(CHECKBOX_HELP),
+      default = FALSE, defaultstore = StandardDefault,
+    endcheckbox;
+endif;
+
+suppressif ideqval FormData.CheckboxValue == 0;
+    numeric
+      name = NumericQuestion,
+      varid = FormData.NumericValue,
+      prompt = STRING_TOKEN(NUMERIC_PROMPT),
+      help = STRING_TOKEN(NUMERIC_HELP),
+      flags = NUMERIC_SIZE_2 | DISPLAY_UINT_HEX,
+      minimum = 0,
+      maximum = 10,
+      step = 1,
+      default = 5, defaultstore = StandardDefault,
+    endnumeric;
+
+    oneof
+      name = OneOfQuestion,
+      varid = FormData.OneOfValue,
+      prompt = STRING_TOKEN(ONEOF_PROMPT),
+      help = STRING_TOKEN(ONEOF_HELP),
+      option text = STRING_TOKEN(ONEOF_OPTION1), value = 0x00, flags = 0;
+      option text = STRING_TOKEN(ONEOF_OPTION2), value = 0x33, flags = DEFAULT;
+      option text = STRING_TOKEN(ONEOF_OPTION3), value = 0x55, flags = 0;
+    endoneof;
+endif;
+
+grayoutif TRUE;
+    checkbox
+      varid = FormEfiData.CheckboxValue,
+      prompt = STRING_TOKEN(CHECKBOX_EFI_PROMPT),
+      help = STRING_TOKEN(CHECKBOX_EFI_HELP),
+      default = FALSE, defaultstore = StandardDefault,
+    endcheckbox;
+endif;
+
+grayoutif ideqval FormEfiData.CheckboxValue == 0;
+    numeric
+      name = NumericEfiQuestion,
+      varid = FormEfiData.NumericValue,
+      prompt = STRING_TOKEN(NUMERIC_EFI_PROMPT),
+      help = STRING_TOKEN(NUMERIC_EFI_HELP),
+      flags = NUMERIC_SIZE_2 | DISPLAY_UINT_HEX,
+      minimum = 0,
+      maximum = 10,
+      step = 1,
+      default = 6, defaultstore = StandardDefault,
+    endnumeric;
+
+    oneof
+      name = OneOfEfiQuestion,
+      varid = FormEfiData.OneOfValue,
+      prompt = STRING_TOKEN(ONEOF_EFI_PROMPT),
+      help = STRING_TOKEN(ONEOF_EFI_HELP),
+      option text = STRING_TOKEN(ONEOF_OPTION1), value = 0x00, flags = 0;
+      option text = STRING_TOKEN(ONEOF_OPTION2), value = 0x33, flags = 0;
+      option text = STRING_TOKEN(ONEOF_OPTION3), value = 0x55, flags = DEFAULT;
+    endoneof;
+endif;
+
+  endform;
+endformset;
