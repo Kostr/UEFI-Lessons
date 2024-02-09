@@ -253,17 +253,21 @@ As you remember the first callback call that is executed in our case was:
 Callback: Action=EFI_BROWSER_ACTION_FORM_OPEN, QuestionId=0x5555, Type=EFI_IFR_TYPE_BOOLEAN, Value=0
 ```
 Here is how it looks now in a form of a popup message. As you can see it is printed by the browser before even drawing our form:
+
 ![popup1](popup1.png?raw=true "popup1")
 
 There is not much different in style between the `EfiHiiPopupStyleInfo`/`EfiHiiPopupStyleWarning`/`EfiHiiPopupStyleError`. This just changes the popup header.
 
 For example here is the same popup with a style `EfiHiiPopupStyleWarning`:
+
 ![popup2](popup2.png?raw=true "popup2")
 
 And with the style `EfiHiiPopupStyleError`:
+
 ![popup3](popup3.png?raw=true "popup3")
 
 Changing the popup type between the `EfiHiiPopupTypeOk`/`EfiHiiPopupTypeOkCancel`/`EfiHiiPopupTypeYesNo`/`EfiHiiPopupTypeYesNoCancel` modifies the user selection options in the bottom of the window. For example here is how `EfiHiiPopupTypeOkCancel` look like:
+
 ![popup4](popup4.png?raw=true "popup4")
 
 I hope you can imagine how `EfiHiiPopupTypeYesNo`/`EfiHiiPopupTypeYesNoCancel` look like. In case you need to check what the option user pressed, you just check the return argument `EFI_HII_POPUP_SELECTION UserSelection`.
@@ -386,6 +390,7 @@ VOID PopupCallbackInfo(EFI_BROWSER_ACTION Action, EFI_QUESTION_ID QuestionId, UI
 }
 ```
 This is how a popup would look like in this case:
+
 ![popup5](popup5.png?raw=true "popup5")
 
 You can compare the style of this popup with the window from the `EFI_HII_POPUP_PROTOCOL.CreatePopup()`.
