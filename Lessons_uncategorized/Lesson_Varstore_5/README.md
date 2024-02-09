@@ -444,3 +444,28 @@ Callback: Action=EFI_BROWSER_ACTION_FORM_CLOSE, QuestionId=0x0001, Type=EFI_IFR_
 
 I hope all of these experiments have got you some understanding about when and how the `Callback()` function is executed.
 
+To finish this lesson here is a logic diagram for an individual numeric element with the current value of 8:
+```
+  Open form (even before the form is displayed)
+EFI_BROWSER_ACTION_FORM_OPEN (Value=0)
+EFI_BROWSER_ACTION_RETRIEVE  (Value=8)
+    |
+    -------------------------------------------------
+    |                                               |
+  Change value from 8 to 8                        Close form
+EFI_BROWSER_ACTION_CHANGING   (Value=8)         EFI_BROWSER_ACTION_FORM_CLOSE (Value=8)
+    |
+    -------------------------------------------------
+    |                                               |
+  Change value from 8 to 9                        Close form
+EFI_BROWSER_ACTION_CHANGING   (Value=9)         EFI_BROWSER_ACTION_FORM_CLOSE (Value=8)
+EFI_BROWSER_ACTION_CHANGED    (Value=9)
+    |
+    -------------------------------------------------------------------------------------------------
+    |                                               |                                               |
+  Submit                                          Close form with sumbit                          Close form without submit
+EFI_BROWSER_ACTION_SUBMITTED  (Value=9)         EFI_BROWSER_ACTION_SUBMITTED  (Value=9)         EFI_BROWSER_ACTION_CHANGED    (Value=8)
+    |                                           EFI_BROWSER_ACTION_FORM_CLOSE (Value=9)         EFI_BROWSER_ACTION_FORM_CLOSE (Value=8)
+  Close
+EFI_BROWSER_ACTION_FORM_CLOSE (Value=9)
+```
