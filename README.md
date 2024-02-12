@@ -78,6 +78,7 @@ These series of lessons are intendend to get you started with UEFI programming i
 - [Lesson 72](Lessons/Lesson_72): Dynamically add elements to HII forms with a help of a `label` keyword
 - [Lesson 73](Lessons/Lesson_73): Setting defaults for the VFR questions: `default`/`defaultstore`/`resetbutton` keywords
 _____
+- [Lesson XX](Lessons_uncategorized/Lesson_RegisterProtocolNotify): Register protocol installation callbacks with the `EFI_BOOT_SERVICES.RegisterProtocolNotify()` and `EfiCreateProtocolNotifyEvent` functions
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_1): UEFI Configuration language. Dump current HII Database settings with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.ExportConfig()` function
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_2): UEFI Configuration language. Create a function to prettify configuration string data 
 - [Lesson XX](Lessons_uncategorized/Lesson_Configuration_Language_3): UEFI Configuration language. Extract individual form element configurations with the `EFI_HII_CONFIG_ROUTING_PROTOCOL.ExtractConfig()` function
