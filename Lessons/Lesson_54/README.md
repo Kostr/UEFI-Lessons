@@ -123,8 +123,8 @@ UefiMain (
     EFI_STRING String = HiiGetString(*Handle, i, "en-US");
     if (String != NULL) {
       Print(L"ID=%d, %s\n", i, String);
+      FreePool(String);
     }
-    FreePool(String);
   }
   return EFI_SUCCESS;
 }
