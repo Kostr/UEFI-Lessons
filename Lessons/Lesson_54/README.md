@@ -119,7 +119,7 @@ UefiMain (
   EFI_GUID PackageGuid = {0xD9DCC5DF, 0x4007, 0x435E, {0x90, 0x98, 0x89, 0x70, 0x93, 0x55, 0x04, 0xB2 }};
   EFI_HII_HANDLE* Handle = HiiGetHiiHandles(&PackageGuid);
 
-  for (UINTN i=0; i<0xFFFF; i++) {
+  for (UINTN i=1; i<0xFFFF; i++) {
     EFI_STRING String = HiiGetString(*Handle, i, "en-US");
     if (String != NULL) {
       Print(L"ID=%d, %s\n", i, String);

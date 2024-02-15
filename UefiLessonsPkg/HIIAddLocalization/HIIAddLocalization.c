@@ -22,7 +22,7 @@ UefiMain (
   EFI_HII_HANDLE* Handle = HiiGetHiiHandles(&PackageGuid);
 
 /* *** If you add this: ***
-  for (UINTN i=0; i<0xFFFF; i++) {
+  for (UINTN i=1; i<0xFFFF; i++) {
     EFI_STRING String = HiiGetString(*Handle, i, "en-US");
     if (String != NULL) {
       Print(L"ID=%d, %s\n", i, String);
