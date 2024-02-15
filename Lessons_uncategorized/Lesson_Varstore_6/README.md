@@ -145,7 +145,10 @@ VOID CallbackValueToStr(UINT8 Type, EFI_IFR_TYPE_VALUE *Value, EFI_STRING* Value
       UnicodeSPrint(*ValueStr, ValueStrSize, L"%04d/%02d/%02d", Value->date.Year, Value->date.Month, Value->date.Day);
       break;
     case EFI_IFR_TYPE_STRING:
-      UnicodeSPrint(*ValueStr, ValueStrSize, L"%s", HiiGetString(mHiiHandle, Value->string, "en-US"));
+      if (Value->string)
+        UnicodeSPrint(*ValueStr, ValueStrSize, L"%s", HiiGetString(mHiiHandle, Value->string, "en-US"));
+      else
+        UnicodeSPrint(*ValueStr, ValueStrSize, L"NO STRING!");
       break;
     default:
       UnicodeSPrint(*ValueStr, ValueStrSize, L"Unknown");

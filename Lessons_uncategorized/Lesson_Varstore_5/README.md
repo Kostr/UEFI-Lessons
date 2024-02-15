@@ -247,7 +247,10 @@ VOID DebugCallbackValue(UINT8 Type, EFI_IFR_TYPE_VALUE *Value)
       DEBUG ((EFI_D_INFO, "%04d/%02d/%02d\n", Value->date.Year, Value->date.Month, Value->date.Day));
       break;
     case EFI_IFR_TYPE_STRING:
-      DEBUG ((EFI_D_INFO, "%s\n", HiiGetString(mHiiHandle, Value->string, "en-US") ));
+      if (Value->string)
+        DEBUG ((EFI_D_INFO, "%s\n", HiiGetString(mHiiHandle, Value->string, "en-US") ));
+      else
+        DEBUG ((EFI_D_INFO, "NO STRING!\n" ));
       break;
     default:
       DEBUG ((EFI_D_INFO, "Unknown\n" ));
