@@ -94,6 +94,7 @@
   UefiLessonsPkg/HiddenSettings/HiddenSettings.inf
   UefiLessonsPkg/ShowHIIext/ShowHIIext.inf
   UefiLessonsPkg/ProtocolEventDriver/ProtocolEventDriver.inf
+  UefiLessonsPkg/ShowStrings/ShowStrings.inf
 
 #[PcdsFixedAtBuild]
 #  gUefiLessonsPkgTokenSpaceGuid.PcdInt8|0x88|UINT8|0x3B81CDF1
