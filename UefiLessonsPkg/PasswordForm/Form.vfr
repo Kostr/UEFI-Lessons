@@ -1,0 +1,31 @@
+#include <Uefi/UefiMultiPhase.h>
+#include "Data.h"
+
+formset
+  guid     = FORMSET_GUID,
+  title    = STRING_TOKEN(FORMSET_TITLE),
+  help     = STRING_TOKEN(FORMSET_HELP),
+
+  varstore VARIABLE_STRUCTURE,
+    name  = FormData,
+    guid  = STORAGE_GUID;
+
+  defaultstore StandardDefault,
+    prompt      = STRING_TOKEN(STANDARD_DEFAULT_PROMPT),
+    attribute   = 0x0000;
+
+  form
+    formid = 1,
+    title = STRING_TOKEN(FORMID1_TITLE);
+
+    password
+      varid = FormData.Password,
+      prompt = STRING_TOKEN(PASSWORD_PROMPT),
+      help = STRING_TOKEN(PASSWORD_HELP),
+      flags = INTERACTIVE,
+      key = KEY_PASSWORD,
+      minsize = PASSWORD_MIN_LEN,
+      maxsize = PASSWORD_MAX_LEN,
+    endpassword;
+  endform;
+endformset;
