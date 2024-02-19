@@ -359,3 +359,4 @@ EFI_STATUS HandlePasswordInput(EFI_STRING Password)
 
 With the following code you can set initial password and also have a possibility update it via the Form Browser. 
 
+In the next lesson we would investigate why we shouldn't store password as a plain text in the storage and how we can make our password storage more secure.

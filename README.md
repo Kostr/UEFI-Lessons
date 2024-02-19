@@ -93,7 +93,8 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_4): Create a driver with `Buffer Storage` - Part 4: Make `ExtractConfig()` function compatible with UEFI specification
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_5): Investigate when and how the Form Browser calls `EFI_HII_CONFIG_ROUTING_PROTOCOL.Callback()` function
 - [Lesson XX](Lessons_uncategorized/Lesson_Varstore_6): Popup windows in edk2. Creating popups with the `EFI_HII_POPUP_PROTOCOL.CreatePopup()` and `CreatePopUp` functions
-- [Lesson XX](Lessons_uncategorized/Lesson_Password): The `password` VFR input element
+- [Lesson XX](Lessons_uncategorized/Lesson_Password): The `password` VFR input element - Part 1: Basic `Callback()` implementation to handle password element
+- [Lesson XX](Lessons_uncategorized/Lesson_Password_2): The `password` VFR input element - Part 2: Use `EFI_HASH2_PROTOCOL` to calculate password string hash
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Hidden_BIOS_settings): Changing hidden BIOS settings. Using `IFRExtractor` utility to extract UEFI IFR data into human-readable text
 _____
