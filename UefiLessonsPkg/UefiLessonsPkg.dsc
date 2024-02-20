@@ -96,6 +96,7 @@
   UefiLessonsPkg/ProtocolEventDriver/ProtocolEventDriver.inf
   UefiLessonsPkg/ShowStrings/ShowStrings.inf
   UefiLessonsPkg/PasswordForm/PasswordForm.inf
+  UefiLessonsPkg/PasswordFormWithHash/PasswordFormWithHash.inf
 
 #[PcdsFixedAtBuild]
 #  gUefiLessonsPkgTokenSpaceGuid.PcdInt8|0x88|UINT8|0x3B81CDF1

@@ -1,0 +1,9 @@
+#langdef en-US "English"
+
+#string FORMSET_TITLE            #language en-US  "Simple Formset"
+#string FORMSET_HELP             #language en-US  "This is a very simple formset"
+#string FORMID1_TITLE            #language en-US  "Simple Form"
+#string STANDARD_DEFAULT_PROMPT  #language en-US  "Standard default"
+#string MFG_DEFAULT_PROMPT       #language en-US  "Manufacture default"
+#string PASSWORD_PROMPT          #language en-US  "Password prompt"
+#string PASSWORD_HELP            #language en-US  "Password help"
