@@ -98,6 +98,7 @@
   UefiLessonsPkg/PasswordForm/PasswordForm.inf
   UefiLessonsPkg/PasswordFormWithHash/PasswordFormWithHash.inf
   UefiLessonsPkg/HIIFormCallbackDebug/HIIFormCallbackDebug.inf
+  UefiLessonsPkg/HIIFormCallbackDebug2/HIIFormCallbackDebug2.inf
 
 #[PcdsFixedAtBuild]
 #  gUefiLessonsPkgTokenSpaceGuid.PcdInt8|0x88|UINT8|0x3B81CDF1
