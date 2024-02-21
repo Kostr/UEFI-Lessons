@@ -1,4 +1,6 @@
-In all our experments the driver `Callback()` function was never called.
+The source code for this lesson is provided in the 'HIIFormCallbackDebug' driver which is based on our standard `varstore` HII driver.
+
+In all our earlier experiments with the `EFI_HII_CONFIG_ACCESS_PROTOCOL` functions the driver `Callback()` function was never called.
 
 This has happend because none of the driver form elements had `EFI_IFR_FLAG_CALLBACK` flag set.
 
@@ -321,7 +323,7 @@ Now it is time to test our driver. Build our driver, copy it to the shared folde
 
 Load our driver to the UEFI shell.
 ```
-FS0:\> load HIIFormDataElementsVarstore.efi
+FS0:\> load HIIFormCallbackDebug.efi
 ```
 
 The `Callback()` code is run only by the Form Browser. Therefore if we would issue requests with our `HIIConfig.efi` application, the `Callback()` would never run. So let's type `exit` to run the Form Browser.
