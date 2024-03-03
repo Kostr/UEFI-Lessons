@@ -98,6 +98,7 @@ _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Password_2): The `password` VFR input element - Part 2: Use `EFI_HASH2_PROTOCOL` to calculate password string hash
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_Hidden_BIOS_settings): Changing hidden BIOS settings. Using `IFRExtractor` utility to extract UEFI IFR data into human-readable text
+- [Lesson XX](Lessons_uncategorized/Lesson_Ghidra): Decompile UEFI modules with the help of `Ghidra` software and the `efiSeek` plugin
 _____
 - [Lesson XX](Lessons_uncategorized/Lesson_ARCH): Architecture specifier in section names
 - [Lesson XX](Lessons_uncategorized/Lesson_SKU): SKU specifier in section names
