@@ -456,7 +456,7 @@ EFI_STATUS ModuleEntryPoint(EFI_HANDLE ImageHandle,EFI_SYSTEM_TABLE *SystemTable
   EFI_GUID *SystemTable_00;
   undefined8 in_R9;
   void *local_20;
-  
+
   gImageHandle_136 = ImageHandle;
   if (ImageHandle == (EFI_HANDLE)0x0) {
     FUN_8000108b();
@@ -768,6 +768,353 @@ Here you can see the the compiler simply has inserted the `Print` statement from
 ```
 
 That is all. We've covered all the decompiler output. Once again you could see how heavily tail-call/inline optimizations are used by the compiler and how it optimizes all the empty functions.
+
+# SimpleShellApp
+
+Let's try to decompile some application with a Shell entry point. As a simple example we can use our `SimpleShellApp.efi` application. It has the following `*.c` file:
+```cpp
+INTN EFIAPI ShellAppMain(IN UINTN Argc, IN CHAR16 **Argv)
+{
+  gST->ConOut->OutputString(gST->ConOut, L"Hello again!\n");
+  Print(L"Bye!\n");
+
+  for (UINTN i=Argc; i>0; i--) {
+    Print(L"Arg[%d]=%s\n", Argc-i, Argv[Argc-i]);
+  }
+  return 0;
+}
+```
+
+And a following INF file:
+```
+[Defines]
+  INF_VERSION                    = 1.25
+  BASE_NAME                      = SimpleShellApp
+  FILE_GUID                      = 2afd1202-545e-4f8d-b8fb-bc179e84ddc8
+  MODULE_TYPE                    = UEFI_APPLICATION
+  VERSION_STRING                 = 1.0
+  ENTRY_POINT                    = ShellCEntryLib
+
+[Sources]
+  SimpleShellApp.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+
+[LibraryClasses]
+  UefiLib
+  ShellCEntryLib
+```
+
+The decompiler output for such module looks like this:
+```cpp
+EFI_STATUS ModuleEntryPoint(EFI_HANDLE ImageHandle,EFI_SYSTEM_TABLE *SystemTable)
+
+{
+  EFI_STATUS EVar1;
+  EFI_SYSTEM_TABLE *ImageHandle0;
+  EFI_SYSTEM_TABLE *SystemTable93;
+  EFI_SYSTEM_TABLE ***Interface;
+  EFI_HANDLE pvVar2;
+  EFI_SYSTEM_TABLE **local_28;
+  EFI_SYSTEM_TABLE **local_20;
+
+  gImageHandle_152 = ImageHandle;
+  if (ImageHandle == (EFI_HANDLE)0x0) {
+    FUN_8000108b();
+  }
+  gST_154 = SystemTable;
+  if (SystemTable == (EFI_SYSTEM_TABLE *)0x0) {
+    FUN_8000108b();
+  }
+  gBS_151 = SystemTable->BootServices;
+  if (gBS_151 == (EFI_BOOT_SERVICES *)0x0) {
+    FUN_8000108b();
+  }
+  gRS_153 = SystemTable->RuntimeServices;
+  if (gRS_153 == (EFI_RUNTIME_SERVICES *)0x0) {
+    FUN_8000108b();
+  }
+  Interface = &local_28;
+  local_28 = (EFI_SYSTEM_TABLE **)0x0;
+  local_20 = (EFI_SYSTEM_TABLE **)0x0;
+  pvVar2 = ImageHandle;
+  EVar1 = (*SystemTable->BootServices->OpenProtocol)
+                    (ImageHandle,&EFI_SHELL_PARAMETERS_PROTOCOL_GUID,Interface,ImageHandle,
+                     (EFI_HANDLE)0x0,2);
+  if ((longlong)EVar1 < 0) {
+    Interface = &local_20;
+    EVar1 = (*SystemTable->BootServices->OpenProtocol)
+                      (ImageHandle,&SHELL_INTERFACE_PROTOCOL_GUID,Interface,ImageHandle,
+                       (EFI_HANDLE)0x0,2);
+    if ((longlong)EVar1 < 0) {
+      FUN_8000108b();
+      return 0xffffffffffffffff;
+    }
+    SystemTable93 = local_20[2];
+    ImageHandle0 = local_20[3];
+  }
+  else {
+    ImageHandle0 = local_28[1];
+    SystemTable93 = *local_28;
+    ImageHandle = pvVar2;
+  }
+  EVar1 = FUN_8000140a(ImageHandle0,SystemTable93,Interface,ImageHandle);
+  return EVar1;
+}
+```
+
+Once again let's start from the entry point. In this case it is `ShellCEntryLib`. But if you'll look at its INF file you will see that it is just a wrapper around the `UefiApplicationEntryPoint`  [(`https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.inf`)](https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.inf).
+
+We've already investigated the `UefiApplicationEntryPoint` entry point and know that it calls all the library constructors at the beginning. So this decompiler output is produced from that part:
+```cpp
+gImageHandle_152 = ImageHandle;
+if (ImageHandle == (EFI_HANDLE)0x0) {
+  FUN_8000108b();
+}
+gST_154 = SystemTable;
+if (SystemTable == (EFI_SYSTEM_TABLE *)0x0) {
+  FUN_8000108b();
+}
+gBS_151 = SystemTable->BootServices;
+if (gBS_151 == (EFI_BOOT_SERVICES *)0x0) {
+  FUN_8000108b();
+}
+gRS_153 = SystemTable->RuntimeServices;
+if (gRS_153 == (EFI_RUNTIME_SERVICES *)0x0) {
+  FUN_8000108b();
+}
+```
+Nothing new here for us, so let's move next. In case you don't remember after the library constructors the `UefiApplicationEntryPoint` calls the `ProcessModuleEntryPointList` function.
+
+And if you'll look at the `Build/UefiLessonsPkg/RELEASE_GCC5/X64/UefiLessonsPkg/SimpleShellApp/SimpleShellApp/DEBUG/AutoGen.c` you will see how this call connects to the `ShellCEntryLib` entry point:
+```cpp
+EFI_STATUS
+EFIAPI
+ProcessModuleEntryPointList (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+
+{
+  return ShellCEntryLib (ImageHandle, SystemTable);
+}
+```
+
+The implementation of the `ShellCEntryLib` is provided in the [`ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.c`](https://github.com/tianocore/edk2/blob/master/ShellPkg/Library/UefiShellCEntryLib/UefiShellCEntryLib.c):
+```cpp
+EFI_STATUS
+EFIAPI
+ShellCEntryLib (
+  IN EFI_HANDLE        ImageHandle,
+  IN EFI_SYSTEM_TABLE  *SystemTable
+  )
+{
+  INTN                           ReturnFromMain;
+  EFI_SHELL_PARAMETERS_PROTOCOL  *EfiShellParametersProtocol;
+  EFI_SHELL_INTERFACE            *EfiShellInterface;
+  EFI_STATUS                     Status;
+
+  ReturnFromMain             = -1;
+  EfiShellParametersProtocol = NULL;
+  EfiShellInterface          = NULL;
+
+  Status = SystemTable->BootServices->OpenProtocol (
+                                        ImageHandle,
+                                        &gEfiShellParametersProtocolGuid,
+                                        (VOID **)&EfiShellParametersProtocol,
+                                        ImageHandle,
+                                        NULL,
+                                        EFI_OPEN_PROTOCOL_GET_PROTOCOL
+                                        );
+  if (!EFI_ERROR (Status)) {
+    //
+    // use shell 2.0 interface
+    //
+    ReturnFromMain = ShellAppMain (
+                       EfiShellParametersProtocol->Argc,
+                       EfiShellParametersProtocol->Argv
+                       );
+  } else {
+    //
+    // try to get shell 1.0 interface instead.
+    //
+    Status = SystemTable->BootServices->OpenProtocol (
+                                          ImageHandle,
+                                          &gEfiShellInterfaceGuid,
+                                          (VOID **)&EfiShellInterface,
+                                          ImageHandle,
+                                          NULL,
+                                          EFI_OPEN_PROTOCOL_GET_PROTOCOL
+                                          );
+    if (!EFI_ERROR (Status)) {
+      //
+      // use shell 1.0 interface
+      //
+      ReturnFromMain = ShellAppMain (
+                         EfiShellInterface->Argc,
+                         EfiShellInterface->Argv
+                         );
+    } else {
+      ASSERT (FALSE);
+    }
+  }
+
+  return ReturnFromMain;
+}
+```
+
+This looks similar to the decompiler output:
+```cpp
+EFI_STATUS EVar1;
+EFI_SYSTEM_TABLE *ImageHandle0;
+EFI_SYSTEM_TABLE *SystemTable93;
+EFI_SYSTEM_TABLE ***Interface;
+EFI_HANDLE pvVar2;
+EFI_SYSTEM_TABLE **local_28;
+EFI_SYSTEM_TABLE **local_20;
+
+...
+
+Interface = &local_28;
+local_28 = (EFI_SYSTEM_TABLE **)0x0;
+local_20 = (EFI_SYSTEM_TABLE **)0x0;
+pvVar2 = ImageHandle;
+EVar1 = (*SystemTable->BootServices->OpenProtocol)
+                  (ImageHandle,&EFI_SHELL_PARAMETERS_PROTOCOL_GUID,Interface,ImageHandle,
+                   (EFI_HANDLE)0x0,2);
+if ((longlong)EVar1 < 0) {
+  Interface = &local_20;
+  EVar1 = (*SystemTable->BootServices->OpenProtocol)
+                    (ImageHandle,&SHELL_INTERFACE_PROTOCOL_GUID,Interface,ImageHandle,
+                     (EFI_HANDLE)0x0,2);
+  if ((longlong)EVar1 < 0) {
+    FUN_8000108b();
+    return 0xffffffffffffffff;
+  }
+  SystemTable93 = local_20[2];
+  ImageHandle0 = local_20[3];
+}
+else {
+  ImageHandle0 = local_28[1];
+  SystemTable93 = *local_28;
+  ImageHandle = pvVar2;
+}
+EVar1 = FUN_8000140a(ImageHandle0,SystemTable93,Interface,ImageHandle);
+return EVar1;
+```
+
+If you'll compare this output with the original source code you can identify some decompiler flaws.
+
+For example it is pretty obvious that `local_28` should be the type of `EFI_SHELL_PARAMETERS_PROTOCOL*` and `local_20` should be the type of `EFI_SHELL_INTERFACE*`. But unfortunately Ghidra's `efiSeek` plugin is not aware of such types. Moreover for some reason it tends to insert `EFI_SYSTEM_TABLE*` where it can instead of something like `VOID*`. So don't get confused with the `EFI_SYSTEM_TABLE's` everywhere. The same is for the `ImageHandle` and `SystemTable`. The decompiler can give such prefixes to the variables totally unrelated to the `ImageHandle` or `SystemTable`. For example the `ImageHandle0` and `SystemTable93` in the output is just `UINTN Argc`/`CHAR16 **Argv` arguments for our console application. So sometimes it can even be beneficial to turn off the `efiSeek` plugin and work with just the native types:
+```cpp
+undefined8 entry(longlong param_1,longlong param_2)
+
+{
+  longlong lVar1;
+  longlong lVar2;
+  undefined8 uVar3;
+  ulonglong *puVar4;
+  longlong **pplVar5;
+  longlong *local_28;
+  longlong *local_20;
+
+  <...>
+
+  pplVar5 = &local_28;
+  local_28 = (longlong *)0x0;
+  local_20 = (longlong *)0x0;
+  lVar2 = param_1;
+  lVar1 = (**(code **)(*(longlong *)(param_2 + 0x60) + 0x118))
+                    (param_1,&DAT_00002150,pplVar5,param_1,0,2);
+  if (lVar1 < 0) {
+    pplVar5 = &local_20;
+    lVar2 = (**(code **)(*(longlong *)(param_2 + 0x60) + 0x118))(param_1,&.data,pplVar5,param_1,0,2)
+    ;
+    if (lVar2 < 0) {
+      FUN_0000108b();
+      return 0xffffffffffffffff;
+    }
+    lVar1 = local_20[2];
+    puVar4 = (ulonglong *)local_20[3];
+  }
+  else {
+    puVar4 = (ulonglong *)local_28[1];
+    lVar1 = *local_28;
+    param_1 = lVar2;
+  }
+  uVar3 = FUN_0000140a(puVar4,lVar1,pplVar5,param_1);
+  return uVar3;
+}
+```
+
+Another strange thing that you can notice is an array access like `local_20[3]`. To understand it don't think of `local_20` as a pointer to a protocol, but just a pointer to memory (aka `VOID*`). And replace array access with an offset, i.e.:
+```
+local_20[3]  =  (void*)local_20 + sizeof(void*)*3
+```
+
+To understand the origin of the actual offsets you need to look at the definitions of the [`EFI_SHELL_PARAMETERS_PROTOCOL`](https://github.com/tianocore/edk2/blob/master/MdePkg/Include/Protocol/ShellParameters.h) and [`EFI_SHELL_INTERFACE`(https://github.com/tianocore/edk2/blob/master/ShellPkg/Include/Protocol/EfiShellInterface.h):
+
+```cpp
+typedef struct _EFI_SHELL_PARAMETERS_PROTOCOL {
+  CHAR16               **Argv;
+  UINTN                Argc;
+  SHELL_FILE_HANDLE    StdIn;
+  SHELL_FILE_HANDLE    StdOut;
+  SHELL_FILE_HANDLE    StdErr;
+} EFI_SHELL_PARAMETERS_PROTOCOL;
+```
+```cpp
+typedef struct {
+  EFI_HANDLE                   ImageHandle;
+  EFI_LOADED_IMAGE_PROTOCOL    *Info;
+  CHAR16                       **Argv;
+  UINTN                        Argc;
+  CHAR16                       **RedirArgv;
+  UINTN                        RedirArgc;
+  EFI_FILE_PROTOCOL            *StdIn;
+  EFI_FILE_PROTOCOL            *StdOut;
+  EFI_FILE_PROTOCOL            *StdErr;
+  EFI_SHELL_ARG_INFO           *ArgInfo;
+  BOOLEAN                      EchoOn;
+} EFI_SHELL_INTERFACE;
+```
+If you'll look closely to these definition you'll see that these offsets is just a way to get to the `**Argv`/`Argc` fields.
+
+Finally let's click to the `FUN_8000140a` at the end of the decompiler output to jump to the code that actually looks like our program:
+```cpp
+undefined8
+FUN_8000140a(EFI_HANDLE ImageHandle0,EFI_SYSTEM_TABLE *SystemTable93,undefined8 param_3,
+            undefined8 param_4)
+
+{
+  wchar_t *SystemTable;
+  EFI_SYSTEM_TABLE *SystemTable_00;
+
+  SystemTable = u_Hello_again!_80001ba4;
+  (*gST_154->ConOut->OutputString)(gST_154->ConOut,(CHAR16 *)u_Hello_again!_80001ba4);
+  FUN_80001259((byte *)u_Bye!_80001bc0,(EFI_SYSTEM_TABLE *)SystemTable,param_3,param_4);
+  for (SystemTable_00 = (EFI_SYSTEM_TABLE *)0x0; (EFI_SYSTEM_TABLE *)ImageHandle0 != SystemTable_00;
+      SystemTable_00 = (EFI_SYSTEM_TABLE *)((longlong)&(SystemTable_00->Hdr).Signature + 1)) {
+    FUN_80001259((byte *)u_Arg[%d]=%s_80001bcc,SystemTable_00,
+                 (&(SystemTable93->Hdr).Signature)[(longlong)SystemTable_00],param_4);
+  }
+  return 0;
+}
+```
+
+Don't get shocked by the `for` condition statement:
+```cpp
+for (SystemTable_00 = (EFI_SYSTEM_TABLE *)0x0; (EFI_SYSTEM_TABLE *)ImageHandle0 != SystemTable_00; SystemTable_00 = (EFI_SYSTEM_TABLE *)((longlong)&(SystemTable_00->Hdr).Signature + 1))
+```
+This is once again have happend because the decompiler incorrectly guessed the `EFI_SYSTEM_TABLE` type.
+
+If you'll look at the same statement without the `efiSeek` analyzer it would make much more sense:
+```cpp
+for (puVar2 = (ulonglong *)0x0; param_1 != puVar2; puVar2 = (ulonglong *)((longlong)puVar2 + 1))
+```
+
+I hope this simple example gave you some idea about the decompiler flaws and possible complications that you can encounter on your reverse engeneering journey.
 
 # Alternative tools
 
