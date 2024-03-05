@@ -1116,6 +1116,37 @@ for (puVar2 = (ulonglong *)0x0; param_1 != puVar2; puVar2 = (ulonglong *)((longl
 
 I hope this simple example gave you some idea about the decompiler flaws and possible complications that you can encounter on your reverse engeneering journey.
 
+# OptionROM
+
+By default Ghidra is unable to debug OptionROMs. But this functionality can be added via the [ghidra-firmware-utils](https://github.com/al3xtjames/ghidra-firmware-utils) plugin.
+
+So let's try to download it and see it in action.
+
+The installation process is pretty similar to the `efiSeek` plugin installation. First we have to download and build plugin:
+```
+$ git clone https://github.com/al3xtjames/ghidra-firmware-utils.git
+$ cd ghidra-firmware-utils/
+$ GHIDRA_INSTALL_DIR=~/ghidra/ghidra_11.0.1_PUBLIC ./gradlew                                                  # set your path to the GHIDRA_INSTALL_DIR
+$ cp dist/ghidra_11.0.1_PUBLIC_20240305_ghidra-firmware-utils.zip ../ghidra_11.0.1_PUBLIC/Extensions/Ghidra/
+```
+Now re-launch Ghidra and go to the `File->Install Extensions` menu.
+
+`ghidra-firmware-utils` should be listed in the possible plugins:
+
+![ghidra-firmware-utils1](ghidra-firmware-utils1.png)
+
+Select it and click `OK` to install the plugin. After that restart Ghidra one more time.
+
+As a test example let's take `pc-bios/efi-pcnet.rom` OptionROM from the `qemu` build. If you import this file to Ghidra now you would be prompted with the following window:
+
+![ghidra-firmware-utils2](ghidra-firmware-utils2.png)
+
+Click `File System` to see the images inside the OptionROM:
+
+![ghidra-firmware-utils3](ghidra-firmware-utils3.png)
+
+As you can see both EFI and Legacy images were successfully parsed from the optionROM. And now you can debug which one you like. For that right click on the necessary image and select `Import` to add it to the project.
+
 # Alternative tools
 
 The most popular alternative framework for the reverse engeneering would probably be the [IDA Pro](https://hex-rays.com/ida-pro/). It also has some plugins that help to investigate UEFI modules. For example [efiXplorer](https://github.com/binarly-io/efiXplorer). The main disadvantage of the IDA Pro is that it is not free. That is why we've preferred Ghidra in our lessons. But if you are into reverse engeneering, you should probably check it out as well.
